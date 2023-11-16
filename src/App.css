@@ -1,3 +1,43 @@
+@font-face {
+  font-family: "SeoulNamsanM";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_two@1.0/SeoulNamsanM.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+* {
+  background-color: skyblue;
+  /* background-color: ; */
+  font-family: "SeoulNamsanM";
+}
+
+body {
+  background-image: url(./taxi_bg.jpg);
+  background-repeat: no-repeat;
+  background-position: top center;
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+.ment {
+  font-size: 20pt;
+}
+
+.d-grid gap-2 {
+  position: relative;
+}
+
+.startbtn {
+  position: absolute;
+  bottom: 5%;
+  width: 100%;
+}
+
+.logo {
+  width: 60%;
+  padding-top: 10%;
+}
+
 .App {
   text-align: center;
 }
@@ -32,6 +72,7 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
