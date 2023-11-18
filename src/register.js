@@ -34,14 +34,14 @@ function Sign_up() {
           <div key={`inline-${type}`} className="mb-3">
             <Form.Check
               inline
-              label="1"
+              label="남자"
               name="group1"
               type={type}
               id={`inline-${type}-1`}
             />
             <Form.Check
               inline
-              label="2"
+              label="여자"
               name="group1"
               type={type}
               id={`inline-${type}-2`}
