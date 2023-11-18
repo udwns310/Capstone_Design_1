@@ -11,6 +11,13 @@
   margin: 0px;
 }
 
+.mb-4 {
+  margin-top: 20px;
+}
+
+.lgbtn {
+  margin-top: 20px;
+}
 .start {
   opacity: 0;
 }
@@ -53,16 +60,6 @@ div {
   background-repeat: no-repeat;
   background-position: -300px;
   height: 101vh;
-}
-
-.login {
-  /* background-image: url("/public/img/taxi_bg.jpg"); */
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: -300px;
-  height: 101vh;
-  border: 1px solid white;
-  color: white;
 }
 
 @media (prefers-reduced-motion: no-preference) {
