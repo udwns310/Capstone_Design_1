@@ -3,8 +3,8 @@ import Button from "react-bootstrap/Button";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Routes, Route, Link } from "react-router-dom";
 import { useState, useEffect } from "react";
-import Sign_in from "./login.js";
-import Sign_up from "./register.js";
+import Login from "./pages/login.js";
+import Sign_up from "./components/register.js";
 
 function App() {
   return (
@@ -51,7 +51,7 @@ function App() {
         path="/signin"
         element={
           <div>
-            <Sign_in />
+            <Login />
           </div>
         }
       ></Route>
