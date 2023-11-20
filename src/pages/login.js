@@ -26,26 +26,14 @@ const Login = () => {
   const handlePwd = (e) => {
     setPassword(e.target.value);
   };
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // file + form field -> 짐을 싼다
-    let formData = new FormData();
-    formData.append("email", email);
-    formData.append("password", password);
+    const response = await axios.post("http://localhost:3001/text", {
+      data: [email, password],
+    });
 
-    // 보내자
-    axios({
-      url: "https://reqres.in/api/login",
-      method: "post",
-      data: formData,
-      headers: { "Content-Type": "multipart/form-data" },
-    })
-      .then(function a(response) {
-        console.log(response);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+    console.log("Email:", email);
+    console.log("Password:", password);
   };
 
   return (
