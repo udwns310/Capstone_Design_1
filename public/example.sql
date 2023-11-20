@@ -7,10 +7,10 @@ CREATE TABLE `profile` (
   `email` varchar(30) NOT NULL,
   `password` varchar(20) NOT NULL,
   `name` varchar(20) NOT NULL,
-  `sex` int(1) NOT NULL,
+  `gender` int(1) NOT NULL,
   `phoneNum` varchar(20) NOT NULL,
   `stdId` varchar(10) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`stdId`)
 );
 
 --
