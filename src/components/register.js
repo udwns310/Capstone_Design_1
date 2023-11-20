@@ -3,13 +3,10 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
 import axios from "axios";
-<<<<<<< Updated upstream
 import Card from "react-bootstrap/Card";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-=======
 import MyModal from '../components/modal';
->>>>>>> Stashed changes
 
 function Sign_up() {
   const [showModal, setShowModal] = useState(false);
@@ -57,22 +54,9 @@ function Sign_up() {
     if (!validatePhoneNumber(phoneNumber)) {
       handleShowModal();
       return;
-<<<<<<< Updated upstream
-    } else {
-      const response = await axios.post("http://localhost:3001/register", {
-        email: email,
-        password: password,
-        name: name,
-        gender: gender,
-        phoneNum: phoneNumber,
-        stdId: studentId,
-      });
-    }
-  };
-=======
     }
     else {
-        const response = await axios.post("http://localhost:3001/register", {
+        const response = await axios.post("http://localhost:3002/register", {
           email: email,
           password: password,
           name: name,
@@ -89,7 +73,6 @@ function Sign_up() {
         }
     };
   }
->>>>>>> Stashed changes
 
   // 전화번호 자동 하이픈 추가 함수
   const autoHyphen = (value) => {
@@ -191,7 +174,6 @@ function Sign_up() {
                 />
               </FloatingLabel>
 
-<<<<<<< Updated upstream
               <Button variant="outline-warning" type="submit">
                 {" "}
                 회원가입{" "}
@@ -201,14 +183,7 @@ function Sign_up() {
         </Col>
         <Col xs={1} md={3}></Col>
       </Row>
-=======
-        <Button variant="primary" type="submit">
-          {" "}
-          회원가입{" "}
-        </Button>
-      </form>
       <MyModal show={showModal} handleClose={handleCloseModal} title="회원가입 실패" message = "정확한 정보를 입력해 주세요"/>
->>>>>>> Stashed changes
     </div>
   );
 }
