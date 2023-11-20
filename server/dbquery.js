@@ -26,11 +26,16 @@ exports.login = function (req, res) {
     db.query('SELECT * FROM profile where email = ? AND password = ?',
         [post.email, post.password],
         function(error, result){
-            if(error) throw error;
-            if(result.length > 0){
-                console.log("nice");
+            if(error) {
+                res.status(500).json({ message: 'Internal Server Error' });
+                return;
             }
-            else console.log('bad');
+
+            if(result.length > 0){
+                res.json({ status: 'success', message: 'Login successful' });
+            } else {
+                res.json({ status: 'error', message: 'Login failed' });
+            }
         }
     )
 }

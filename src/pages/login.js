@@ -4,8 +4,14 @@ import Card from "react-bootstrap/Card";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import axios from "axios";
+import MyModal from '../components/modal';
 
 const Login = () => {
+  const [showModal, setShowModal] = useState(false);
+  
+  const handleShowModal = () => setShowModal(true);
+  const handleCloseModal = () => setShowModal(false);
+
   let [fade, setFade] = useState("");
 
   useEffect(() => {
@@ -29,11 +35,22 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    const response = await axios.post("http://localhost:3001/login", {
-      email: email,
-      password: password,
-    });
+    
+    try{
+      const response = await axios.post("http://localhost:3001/login", {
+        email: email,
+        password: password,
+      });
+  
+      if(response.data.status === "success"){
+        console.log("로그인 성공");
+      }
+      else {
+        handleShowModal();
+      }
+    } catch(error){
+      console.error("에러 발생", error);
+    }
   };
 
   return (
@@ -55,6 +72,7 @@ const Login = () => {
         </Col>
         <Col xs={1} md={3}></Col>
       </Row>
+      <MyModal show = {showModal} handleClose={handleCloseModal}/>
     </div>
   );
 };
