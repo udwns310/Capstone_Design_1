@@ -32,16 +32,19 @@ const Login = () => {
     let formData = new FormData();
     formData.append("email", email);
     formData.append("password", password);
-    console.log(formData);
+
     // 보내자
-    axios
-      .post("http://localhost:8080/", formData)
-      .then((res) => {
-        console.log(res.data);
-        alert("file upload success");
+    axios({
+      url: "https://reqres.in/api/login",
+      method: "post",
+      data: formData,
+      headers: { "Content-Type": "multipart/form-data" },
+    })
+      .then(function a(response) {
+        console.log(response);
       })
       .catch(function (error) {
-        alert("file upload fail");
+        console.log(error);
       });
   };
 
