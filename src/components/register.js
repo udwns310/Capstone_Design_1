@@ -54,7 +54,7 @@ function Sign_up() {
         name: name,
         gender: gender,
         phoneNum: phoneNumber,
-        stdid: studentId,
+        stdId: studentId,
       });
     };
   }

@@ -2,7 +2,6 @@
 -- Table structure for table `profile`
 --
 
-
 CREATE TABLE `profile` (
   `email` varchar(30) NOT NULL,
   `password` varchar(20) NOT NULL,
@@ -10,6 +9,7 @@ CREATE TABLE `profile` (
   `gender` int(1) NOT NULL,
   `phoneNum` varchar(20) NOT NULL,
   `stdId` varchar(10) NOT NULL,
+  `nickname` varchar(20),
   PRIMARY KEY (`stdId`)
 );
 
@@ -17,5 +17,4 @@ CREATE TABLE `profile` (
 -- Dumping data for table `profile`
 --
 
-INSERT INTO `profile` VALUES ('test@test.com','qwer1234','test',0,'01012345678', '20231111');
-
+INSERT INTO `profile` VALUES ('test@test.com','qwer1234','test',0,'010-1234-5678', '20231111', 'testNick');
