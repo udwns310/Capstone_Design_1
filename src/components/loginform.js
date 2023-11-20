@@ -41,7 +41,7 @@ function LoginForm(props) {
 
         <Button
           className="lgbtn"
-          variant="primary"
+          variant="outline-warning"
           type="submit"
           // onClick={props.handleSubmit}
         >

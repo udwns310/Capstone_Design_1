@@ -4,6 +4,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
 import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
 
 function Nickname(props) {
   let [fade, setFade] = useState("");
@@ -30,6 +31,7 @@ function Nickname(props) {
             >
               <Form.Control type="email" placeholder="Set your nickname" />
             </FloatingLabel>
+            <Button variant="outline-warning">다음</Button>{" "}
           </Card>
         </Col>
         <Col xs={1} md={3}></Col>

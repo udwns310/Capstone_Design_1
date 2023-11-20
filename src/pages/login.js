@@ -59,8 +59,8 @@ const Login = () => {
         <Col xs={1} md={3}></Col>
         <Col xs={10} md={6}>
           <Card body style={{ marginTop: "1rem", borderRadius: "10px" }}>
-            <h3>DongCar</h3>
-            <h5>Taxi Sharing Service</h5>
+            <h3>로그인</h3>
+            {/* <h5>Taxi Sharing Service</h5> */}
             <LoginForm
               email={email}
               password={password}
