@@ -5,6 +5,7 @@ import { Routes, Route, Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Login from "./pages/login.js";
 import Sign_up from "./components/register.js";
+import Nickname from "./pages/nickname.js";
 
 function App() {
   return (
@@ -60,6 +61,14 @@ function App() {
         element={
           <div>
             <Sign_up />
+          </div>
+        }
+      ></Route>
+      <Route
+        path="/nickname"
+        element={
+          <div>
+            <Nickname />
           </div>
         }
       ></Route>
