@@ -35,7 +35,7 @@ const Login = () => {
     console.log(formData);
     // 보내자
     axios
-      .post("http://localhost:3000/fileUpload", formData)
+      .post("http://localhost:8080/", formData)
       .then((res) => {
         console.log(res.data);
         alert("file upload success");
