@@ -3,6 +3,9 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
 import axios from "axios";
+import Card from "react-bootstrap/Card";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
 
 function Sign_up() {
   let [fade2, setFade2] = useState("");
@@ -45,9 +48,7 @@ function Sign_up() {
     if (!validatePhoneNumber(phoneNumber)) {
       console.log("전화번호 형식이 올바르지 않습니다.");
       return;
-    }
-
-    else {
+    } else {
       const response = await axios.post("http://localhost:3001/register", {
         email: email,
         password: password,
@@ -56,105 +57,120 @@ function Sign_up() {
         phoneNum: phoneNumber,
         stdId: studentId,
       });
-    };
-  }
+    }
+  };
 
   // 전화번호 자동 하이픈 추가 함수
   const autoHyphen = (value) => {
     return value
-      .replace(/[^0-9]/g, '')
+      .replace(/[^0-9]/g, "")
       .replace(/^(\d{0,3})(\d{0,4})(\d{0,4})$/g, "$1-$2-$3")
       .replace(/(\-{1,2})$/g, "");
-  }
+  };
 
   // 전화번호 유효성 검사 함수
   const validatePhoneNumber = (value) => {
     const phoneNumberRegex = /^\d{2,3}-\d{3,4}-\d{4}$/;
     return phoneNumberRegex.test(value);
-  }
+  };
 
   return (
     <div className={"register start " + fade2}>
-      <form onSubmit={handleSubmit}>
-        <FloatingLabel
-          controlId="floatingInput"
-          label="이메일"
-          className="mb-3"
-        >
-          <Form.Control
-            type="email"
-            placeholder="name@example.com"
-            onChange={handleEmailChange}
-          />
-        </FloatingLabel>
+      <Row>
+        <Col xs={1} md={3}></Col>
+        <Col xs={10} md={6}>
+          <Card body style={{ marginTop: "1rem", borderRadius: "10px" }}>
+            <form onSubmit={handleSubmit}>
+              <FloatingLabel
+                controlId="floatingInput"
+                label="이메일"
+                className="mb-3"
+              >
+                <Form.Control
+                  type="email"
+                  placeholder="name@example.com"
+                  onChange={handleEmailChange}
+                />
+              </FloatingLabel>
 
-        <FloatingLabel controlId="floatingPassword" label="비밀번호">
-          <Form.Control
-            type="password"
-            placeholder="Password"
-            onChange={handlePasswordChange}
-          />
-        </FloatingLabel>
+              <FloatingLabel controlId="floatingPassword" label="비밀번호">
+                <Form.Control
+                  type="password"
+                  placeholder="Password"
+                  onChange={handlePasswordChange}
+                />
+              </FloatingLabel>
 
-        <FloatingLabel controlId="floatingInput" label="이름" className="mb-4">
-          <Form.Control
-            type="name"
-            placeholder="name@example.com"
-            onChange={handleNameChange}
-          />
-        </FloatingLabel>
+              <FloatingLabel
+                controlId="floatingInput"
+                label="이름"
+                className="mb-4"
+              >
+                <Form.Control
+                  type="name"
+                  placeholder="name@example.com"
+                  onChange={handleNameChange}
+                />
+              </FloatingLabel>
 
-        <Form>
-          {["radio"].map((type) => (
-            <div key={`inline-${type}`} className="mb-3">
-              <Form.Check
-                inline
-                label="남자"
-                name="group1"
-                type={type}
-                id={`inline-${type}-1`}
-                value="0"
-                onChange={handleGenderChange}
-              />
-              <Form.Check
-                inline
-                label="여자"
-                name="group1"
-                type={type}
-                id={`inline-${type}-2`}
-                value="1"
-                onChange={handleGenderChange}
-              />
-            </div>
-          ))}
-        </Form>
-        <FloatingLabel
-          controlId="floatingInput"
-          label="전화번호"
-          className="mb-3"
-        >
-          <Form.Control
-            placeholder="name@example.com"
-            onChange={handlePhoneNumberChange}
-            value={phoneNumber}
-          />
-        </FloatingLabel>
+              <Form>
+                {["radio"].map((type) => (
+                  <div key={`inline-${type}`} className="mb-3">
+                    <Form.Check
+                      inline
+                      label="남자"
+                      name="group1"
+                      type={type}
+                      id={`inline-${type}-1`}
+                      value="0"
+                      onChange={handleGenderChange}
+                    />
+                    <Form.Check
+                      inline
+                      label="여자"
+                      name="group1"
+                      type={type}
+                      id={`inline-${type}-2`}
+                      value="1"
+                      onChange={handleGenderChange}
+                    />
+                  </div>
+                ))}
+              </Form>
+              <FloatingLabel
+                controlId="floatingInput"
+                label="전화번호"
+                className="mb-3"
+              >
+                <Form.Control
+                  placeholder="name@example.com"
+                  onChange={handlePhoneNumberChange}
+                  value={phoneNumber}
+                />
+              </FloatingLabel>
 
-        <FloatingLabel controlId="floatingInput" label="학번" className="mb-3">
-          <Form.Control
-            placeholder="name@example.com"
-            onChange={handleStudentIdChange}
-          />
-        </FloatingLabel>
+              <FloatingLabel
+                controlId="floatingInput"
+                label="학번"
+                className="mb-3"
+              >
+                <Form.Control
+                  placeholder="name@example.com"
+                  onChange={handleStudentIdChange}
+                />
+              </FloatingLabel>
 
-        <Button variant="primary" type="submit">
-          {" "}
-          회원가입{" "}
-        </Button>
-      </form>
+              <Button variant="outline-warning" type="submit">
+                {" "}
+                회원가입{" "}
+              </Button>
+            </form>
+          </Card>
+        </Col>
+        <Col xs={1} md={3}></Col>
+      </Row>
     </div>
   );
 }
 
 export default Sign_up;
-
