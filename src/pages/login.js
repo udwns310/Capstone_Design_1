@@ -26,14 +26,14 @@ const Login = () => {
   const handlePwd = (e) => {
     setPassword(e.target.value);
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await axios.post("http://localhost:3001/text", {
-      data: [email, password],
-    });
 
-    console.log("Email:", email);
-    console.log("Password:", password);
+    const response = await axios.post("http://localhost:3001/login", {
+      email: email,
+      password: password,
+    });
   };
 
   return (

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
@@ -29,23 +29,49 @@ function Sign_up() {
   const handlePasswordChange = (e) => setPassword(e.target.value);
   const handleNameChange = (e) => setName(e.target.value);
   const handleGenderChange = (e) => setGender(e.target.value);
-  const handlePhoneNumberChange = (e) => setPhoneNumber(e.target.value);
+  const handlePhoneNumberChange = (e) => {
+    // 최대 길이를 11로 설정
+    const maxLength = 13;
+    const formattedPhoneNumber = autoHyphen(e.target.value.slice(0, maxLength));
+    setPhoneNumber(formattedPhoneNumber);
+  };
   const handleStudentIdChange = (e) => setStudentId(e.target.value);
 
   // 폼 제출 시 실행될 함수
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await axios.post("http://localhost:3001/text", {
-      data: [email, password, name, gender, phoneNumber, studentId],
-    });
 
-    console.log("Email:", email);
-    console.log("Password:", password);
-    console.log("Name:", name);
-    console.log("Gender:", gender);
-    console.log("Phone Number:", phoneNumber);
-    console.log("Student ID:", studentId);
-  };
+    // 전화번호 유효성 검사
+    if (!validatePhoneNumber(phoneNumber)) {
+      console.log("전화번호 형식이 올바르지 않습니다.");
+      return;
+    }
+
+    else {
+      const response = await axios.post("http://localhost:3001/register", {
+        email: email,
+        password: password,
+        name: name,
+        gender: gender,
+        phoneNum: phoneNumber,
+        stdid: studentId,
+      });
+    };
+  }
+
+  // 전화번호 자동 하이픈 추가 함수
+  const autoHyphen = (value) => {
+    return value
+      .replace(/[^0-9]/g, '')
+      .replace(/^(\d{0,3})(\d{0,4})(\d{0,4})$/g, "$1-$2-$3")
+      .replace(/(\-{1,2})$/g, "");
+  }
+
+  // 전화번호 유효성 검사 함수
+  const validatePhoneNumber = (value) => {
+    const phoneNumberRegex = /^\d{2,3}-\d{3,4}-\d{4}$/;
+    return phoneNumberRegex.test(value);
+  }
 
   return (
     <div className={"register start " + fade2}>
@@ -110,6 +136,7 @@ function Sign_up() {
           <Form.Control
             placeholder="name@example.com"
             onChange={handlePhoneNumberChange}
+            value={phoneNumber}
           />
         </FloatingLabel>
 
@@ -130,3 +157,4 @@ function Sign_up() {
 }
 
 export default Sign_up;
+

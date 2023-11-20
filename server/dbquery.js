@@ -1,14 +1,28 @@
 const db = require("../lib/db");
 
-exports.register = function(req, res) {
-    const post = req.body.data;
+exports.register = function (req, res) {
+    const post = req.body;
     db.query(`INSERT INTO profile VALUES (?, ?, ?, ?, ?, ?)`,
-            [post[0], post[1], post[2], post[3], post[4], post[5]],
-            function(error, result) {
-                if(error)
-                    throw error;
-                console.log("good!");
+        [post.email, post.password, post.name, post.gender, post.phoneNum, post.stdId],
+        function (error, result) {
+            if (error)
+                throw error;
+            console.log("good!");
+        }
+    )
+}
+
+exports.login = function (req, res) {
+    const post = req.body;
+    db.query('SELECT * FROM profile where email = ? AND password = ?',
+        [post.email, post.password],
+        function(error, result){
+            if(error) throw error;
+            if(result.length > 0){
+                console.log("nice");
             }
+            else console.log('bad');
+        }
     )
 }
 

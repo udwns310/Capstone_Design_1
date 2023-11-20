@@ -5,7 +5,6 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const dbquery = require('./dbquery.js');
 
-
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors());
 app.use(bodyParser.json());
@@ -14,24 +13,15 @@ app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
-app.post('/text', (req, res) => {
-    const userData = req.body.data[0];
-    console.log(userData);
-    dbquery.register(req, res);
-  });
+app.post('/register', (req, res) => {
+  dbquery.register(req, res);
+});
+
+app.post('/login', (req, res) => {
+  dbquery.login(req, res);
+});
+
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
 });
-
-const autoHyphen = (target) => {
-  target.value = target.value
-    .replace(/[^0-9]/g, '')
-    .replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, `$1-$2-$3`);
- }
- 
- const autoHyphen2 = (target) => {
-  target.value = target.value
-    .replace(/[^0-9]/g, '')
-   .replace(/^(\d{0,3})(\d{0,4})(\d{0,4})$/g, "$1-$2-$3").replace(/(\-{1,2})$/g, "");
- }
