@@ -8,7 +8,7 @@ import MyModal from '../components/modal';
 
 const Login = () => {
   const [showModal, setShowModal] = useState(false);
-  
+
   const handleShowModal = () => setShowModal(true);
   const handleCloseModal = () => setShowModal(false);
 
@@ -35,20 +35,20 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    try{
+
+    try {
       const response = await axios.post("http://localhost:3001/login", {
         email: email,
         password: password,
       });
-  
-      if(response.data.status === "success"){
+
+      if (response.data.status === "success") {
         console.log("로그인 성공");
       }
       else {
         handleShowModal();
       }
-    } catch(error){
+    } catch (error) {
       console.error("에러 발생", error);
     }
   };
@@ -72,7 +72,7 @@ const Login = () => {
         </Col>
         <Col xs={1} md={3}></Col>
       </Row>
-      <MyModal show = {showModal} handleClose={handleCloseModal}/>
+      <MyModal show={showModal} handleClose={handleCloseModal} title="로그인 실패" message = "이메일 또는 비밀번호를 확인해주세요"/>
     </div>
   );
 };
