@@ -17,30 +17,37 @@ function LoginForm(props) {
 
   return (
     <div className={"login start " + fade}>
-      <FloatingLabel controlId="floatingInput" label="이메일" className="mb-3">
-        <Form.Control
-          type="email"
-          placeholder="name@example.com"
-          value={props.email}
-          onChange={props.handleEmail}
-        />
-      </FloatingLabel>
-      <FloatingLabel controlId="floatingPassword" label="비밀번호">
-        <Form.Control
-          type="password"
-          placeholder="Password"
-          value={props.password}
-          onChange={props.handlePwd}
-        />
-      </FloatingLabel>
-      <Button
-        className="lgbtn"
-        variant="primary"
-        type="submit"
-        onClick={props.handleSubmit}
-      >
-        로그인
-      </Button>
+      <Form onSubmit={props.handleSubmit}>
+        <FloatingLabel
+          controlId="floatingInput"
+          label="이메일"
+          className="mb-3"
+        >
+          <Form.Control
+            type="email"
+            placeholder="name@example.com"
+            value={props.email}
+            onChange={props.handleEmail}
+          />
+        </FloatingLabel>
+        <FloatingLabel controlId="floatingPassword" label="비밀번호">
+          <Form.Control
+            type="password"
+            placeholder="Password"
+            value={props.password}
+            onChange={props.handlePwd}
+          />
+        </FloatingLabel>
+
+        <Button
+          className="lgbtn"
+          variant="primary"
+          type="submit"
+          // onClick={props.handleSubmit}
+        >
+          로그인
+        </Button>
+      </Form>
     </div>
   );
 }
