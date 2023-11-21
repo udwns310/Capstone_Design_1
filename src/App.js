@@ -4,7 +4,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Routes, Route, Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Login from "./pages/login.js";
-import Sign_up from "./components/register.js";
+import Sign_up from "./pages/register.js";
 import Nickname from "./pages/nickname.js";
 
 function App() {
@@ -37,7 +37,7 @@ function App() {
               <Link to="/signin" className="btn1">
                 <Button
                   className={"sign-in-btn btn1 start " + fade}
-                  variant="outline-warning"
+                  variant="warning"
                   size="lg"
                 >
                   {" "}
@@ -47,7 +47,7 @@ function App() {
               <Link to="/signup" className="btn1">
                 <Button
                   className={"sign-up-btn btn1 start " + fade}
-                  variant="outline-warning"
+                  variant="warning"
                   size="lg"
                 >
                   {" "}
@@ -58,7 +58,7 @@ function App() {
           </div>
         }
       ></Route>
-      <Route
+      <Route //로그인 페이지 Route
         path="/signin"
         element={
           <div>
@@ -66,7 +66,7 @@ function App() {
           </div>
         }
       ></Route>
-      <Route
+      <Route //회원가입 페이지 Route
         path="/signup"
         element={
           <div>
@@ -74,7 +74,7 @@ function App() {
           </div>
         }
       ></Route>
-      <Route
+      <Route //닉네임 페이지 Route
         path="/nickname"
         element={
           <div>

@@ -31,7 +31,9 @@ function Nickname(props) {
             >
               <Form.Control type="email" placeholder="Set your nickname" />
             </FloatingLabel>
-            <Button variant="outline-warning">다음</Button>{" "}
+            <Button className="lgbtn" variant="outline-warning">
+              다음
+            </Button>{" "}
           </Card>
         </Col>
         <Col xs={1} md={3}></Col>
