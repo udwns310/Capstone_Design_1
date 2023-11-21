@@ -11,9 +11,17 @@ import { useNavigate } from "react-router-dom";
 
 function Sign_up() {
   const [showModal, setShowModal] = useState(false);
-
+  const [isRegister, setIsRegister] = useState(false);
+  const [title_message, setTitleMsg] = useState("회원가입 실패");
+  const [error_message, setErrMsg] = useState("정확한 정보를 입력해 주세요");
   const handleShowModal = () => setShowModal(true);
-  const handleCloseModal = () => setShowModal(false);
+  const handleCloseModal = () => {
+    if(isRegister === true){
+      navigate("/nickname");
+    }
+    else setShowModal(false);
+  }
+
   let navigate = useNavigate();
 
   let [fade2, setFade2] = useState("");
@@ -47,13 +55,14 @@ function Sign_up() {
     setPhoneNumber(formattedPhoneNumber);
   };
   const handleStudentIdChange = (e) => setStudentId(e.target.value);
-
+  
   // 폼 제출 시 실행될 함수
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     // 전화번호 유효성 검사
     if (!validatePhoneNumber(phoneNumber)) {
+      setErrMsg("정확한 전화번호를 입력해 주세요.");
       handleShowModal();
       return;
     } else {
@@ -67,9 +76,17 @@ function Sign_up() {
       });
 
       if (response.data.status === "success") {
-        console.log("회원가입 성공");
-        navigate("/nickname");
-      } else {
+        setTitleMsg("회원가입 성공");
+        setErrMsg("가입이 완료되었습니다.");
+        handleShowModal();
+        setIsRegister(true);
+      } 
+      else if (response.data.status === "emailDuplicate"){
+        setErrMsg("중복된 이메일입니다.");
+        handleShowModal();
+      }
+      else if (response.data.status === "stdIdDuplicate"){
+        setErrMsg("이미 가입된 학번입니다.");
         handleShowModal();
       }
     }
@@ -186,8 +203,8 @@ function Sign_up() {
       <MyModal
         show={showModal}
         handleClose={handleCloseModal}
-        title="회원가입 실패"
-        message="정확한 정보를 입력해 주세요"
+        title = {title_message}
+        message = {error_message}
       />
     </div>
   );
