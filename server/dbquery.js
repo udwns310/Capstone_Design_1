@@ -1,9 +1,39 @@
 const db = require("../lib/db");
+const util = require('util');
+const crypto = require("crypto");
+
+const randomBytesPromise = util.promisify(crypto.randomBytes);
+const pbkdf2Promise = util.promisify(crypto.pbkdf2);
+
+const createSalt = () =>
+    new Promise((resolve, reject) => {
+        crypto.randomBytes(64, (err, buf) => {
+            if (err) reject(err);
+            resolve(buf.toString('base64'));
+        });
+    });
+
+const createHashedPassword = (plainPassword) =>
+  new Promise(async (resolve, reject) => {
+      const salt = await createSalt();
+      crypto.pbkdf2(plainPassword, salt, 10496, 64, 'sha512', (err, key) => {
+          if (err) reject(err);
+          resolve({ password: key.toString('base64'), salt });
+      });
+  });
+
+const verifyPassword = async (password, userSalt, userPassword) => { // password 검증
+  const key = await pbkdf2Promise(password, userSalt, 10496, 64, "sha512");
+  const hashedPassword = key.toString("base64");
+
+  if (hashedPassword === userPassword) return true;
+  return false;
+};
 
 exports.login = function (req, res) {
   const post = req.body;
-  db.query('SELECT * FROM profile where email = ? AND password = ?',
-    [post.email, post.password],
+  db.query(`SELECT password, salt FROM profile where email = ?`,
+    [post.email],
     function (error, result) {
       if (error) {
         res.status(500).json({ message: 'Internal Server Error' });
@@ -11,7 +41,12 @@ exports.login = function (req, res) {
       }
 
       if (result.length > 0) {
-        res.json({ status: 'success', message: 'Login successful' });
+        const verified = verifyPassword(post.password, result[0].salt, result[0].password); // password 검증
+        if(verified) {
+          res.json({ status: 'success', message: 'Login successful' });
+        } else {
+          res.json({ status: 'error', message: 'Login failed' });
+        }
       } else {
         res.json({ status: 'error', message: 'Login failed' });
       }
@@ -31,11 +66,12 @@ exports.register = function (req, res) {
         if (Eerr) throw Eerr;
         if (Erows.length == 0) { // email이 중복되지 않는다면
           db.query(`SELECT * FROM profile where stdId = ?`, // stdId가 중복되는지 검사
-            [post.stdId], function (Serr, Srows) {
+            [post.stdId], async function (Serr, Srows) {
               if (Serr) throw Serr;
               if (Srows.length == 0) { // stdId가 중복되지 않는다면
-                db.query(`INSERT INTO profile VALUES (?, ?, ?, ?, ?, ?, NULL)`, // DB에 데이터 삽입
-                  [post.email, post.password, post.name, post.gender, post.phoneNum, post.stdId],
+                const { password, salt } = await createHashedPassword(post.password); // password 암호화
+                db.query(`INSERT INTO profile VALUES (?, ?, ?, ?, ?, ?, NULL, ?)`, // DB에 데이터 삽입
+                  [post.email, password, post.name, post.gender, post.phoneNum, post.stdId, salt],
                   function (error, result) {
                     if (error) {
                       res.status(500).json({ message: 'Internal Server Error' });
