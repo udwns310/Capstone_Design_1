@@ -86,4 +86,55 @@ function App() {
   );
 }
 
+<<<<<<< Updated upstream
 export default App;
+=======
+function main(){
+  return (
+    <div className="App">
+      <div className="mainImg">
+        <img className="logo" src="https://udwns310.github.io/dongcar/DongCar.png" />
+      </div>
+      <div className="main">
+        <h4 className="ment">저렴하게 이동하세요</h4>
+      </div>
+      <div className="under-button-content">
+        <Link to = "/signin" className="btn1"><Button className="sign-in-btn btn1" variant="primary" size="lg"> 로그인 </Button></Link>
+        <Link to = "/signup" className="btn1"><Button className="sign-up-btn btn1" variant="primary" size="lg"> 회원가입 </Button></Link>
+      </div>
+    </div>
+  );
+}
+
+
+function sign_in(){
+  return (
+    <div className="main-login">
+      <div className="login-content">
+        <h4>로그인</h4>
+      </div>
+      <div className="login-form">
+        <div>
+          <label>ID</label>
+          <input type='email'/>
+        </div>
+        <div>
+          <label>Password</label>
+          <input type='password'/>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function sign_up(){
+  return (
+    <div className=" ">
+      <h4>상품명</h4>
+      <p>상품정보</p>
+    </div>
+  );
+}
+
+export default App;
+>>>>>>> Stashed changes
