@@ -1,6 +1,5 @@
 const db = require("../lib/db");
 
-<<<<<<< Updated upstream
 exports.register = function (req, res) {
   const post = req.body;
   const hasEmptyValue = Object.values(post).some(value => value.trim() === '');
@@ -28,8 +27,6 @@ exports.register = function (req, res) {
   }
 }
 
-=======
->>>>>>> Stashed changes
 exports.login = function (req, res) {
   const post = req.body;
   db.query('SELECT * FROM profile where email = ? AND password = ?',
