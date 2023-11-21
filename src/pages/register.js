@@ -7,13 +7,14 @@ import Card from "react-bootstrap/Card";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import MyModal from "../components/modal";
-import { Routes, Route, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function Sign_up() {
   const [showModal, setShowModal] = useState(false);
 
   const handleShowModal = () => setShowModal(true);
   const handleCloseModal = () => setShowModal(false);
+  let navigate = useNavigate();
 
   let [fade2, setFade2] = useState("");
 
@@ -67,6 +68,7 @@ function Sign_up() {
 
       if (response.data.status === "success") {
         console.log("회원가입 성공");
+        navigate("/nickname");
       } else {
         handleShowModal();
       }
@@ -172,16 +174,10 @@ function Sign_up() {
                   onChange={handleStudentIdChange}
                 />
               </FloatingLabel>
-              <Link to="/nickname" className="completeBtn">
-                <Button
-                  className="rgbtn"
-                  variant="outline-warning"
-                  type="submit"
-                >
-                  {" "}
-                  회원가입{" "}
-                </Button>
-              </Link>
+              <Button className="rgbtn" variant="outline-warning" type="submit">
+                {" "}
+                회원가입{" "}
+              </Button>
             </form>
           </Card>
         </Col>
