@@ -34,14 +34,14 @@ exports.login = function (req, res) {
   const post = req.body;
   db.query(`SELECT password, salt FROM profile where email = ?`,
     [post.email],
-    function (error, result) {
+    async function (error, result) {
       if (error) {
         res.status(500).json({ message: 'Internal Server Error' });
         return;
       }
 
       if (result.length > 0) {
-        const verified = verifyPassword(post.password, result[0].salt, result[0].password); // password 검증
+        const verified = await verifyPassword(post.password, result[0].salt, result[0].password); // password 검증
         if(verified) {
           res.json({ status: 'success', message: 'Login successful' });
         } else {
