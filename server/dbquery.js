@@ -64,17 +64,16 @@ exports.nickname = function (req, res) {
     res.json({ status: 'error', message: 'Nickname failed' })
   }
   else {
-    db.query(`SELECT * FROM profile where nickName = ?`,
-      [post.nickName], function (err, rows) {
+    db.query(`SELECT * FROM profile where nickname = ?`,
+      [post.nickame], function (err, rows) {
         if (err) throw err;
         if (rows.length == 0) {
-          db.query(`INSERT INTO profile (nickName) VALUES (?)`,
+          db.query(`UPDATE profile SET nickname = ?`,
             [post.nickName],
             function (error, result) {
-              if (error) {
-                res.status(500).json({ message: 'Internal Server Error' });
+              if (error) 
                 throw error;
-              }
+             
               console.log("Nick good!");
               res.json({ status: 'success', message: 'Nickname successful' })
             }

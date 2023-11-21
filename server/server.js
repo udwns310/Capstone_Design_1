@@ -22,6 +22,7 @@ app.post("/login", (req, res) => {
 });
 
 app.post("/setNick", (req, res) => {
+  console.log(req.body.nickname);
   dbquery.nickname(req, res);
 })
 
