@@ -41,7 +41,6 @@ const Login = () => {
         email: email,
         password: password,
       });
-
       if (response.data.status === "success") {
         console.log("로그인 성공");
       }
