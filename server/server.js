@@ -21,6 +21,10 @@ app.post("/login", (req, res) => {
   dbquery.login(req, res);
 });
 
+app.post("/setNick", (req, res) => {
+  dbquery.nickname(req, res);
+})
+
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
 });
