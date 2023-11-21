@@ -16,11 +16,10 @@ function Sign_up() {
   const [error_message, setErrMsg] = useState("정확한 정보를 입력해 주세요");
   const handleShowModal = () => setShowModal(true);
   const handleCloseModal = () => {
-    if(isRegister === true){
+    if (isRegister === true) {
       navigate("/nickname");
-    }
-    else setShowModal(false);
-  }
+    } else setShowModal(false);
+  };
 
   let navigate = useNavigate();
 
@@ -55,7 +54,7 @@ function Sign_up() {
     setPhoneNumber(formattedPhoneNumber);
   };
   const handleStudentIdChange = (e) => setStudentId(e.target.value);
-  
+
   // 폼 제출 시 실행될 함수
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -80,12 +79,10 @@ function Sign_up() {
         setErrMsg("가입이 완료되었습니다.");
         handleShowModal();
         setIsRegister(true);
-      } 
-      else if (response.data.status === "emailDuplicate"){
+      } else if (response.data.status === "emailDuplicate") {
         setErrMsg("중복된 이메일입니다.");
         handleShowModal();
-      }
-      else if (response.data.status === "stdIdDuplicate"){
+      } else if (response.data.status === "stdIdDuplicate") {
         setErrMsg("이미 가입된 학번입니다.");
         handleShowModal();
       }
@@ -140,7 +137,7 @@ function Sign_up() {
               >
                 <Form.Control
                   type="name"
-                  placeholder="name@example.com"
+                  placeholder="홍길동"
                   onChange={handleNameChange}
                 />
               </FloatingLabel>
@@ -175,7 +172,7 @@ function Sign_up() {
                 className="mb-3"
               >
                 <Form.Control
-                  placeholder="name@example.com"
+                  placeholder="010-0000-0000"
                   onChange={handlePhoneNumberChange}
                   value={phoneNumber}
                 />
@@ -187,7 +184,9 @@ function Sign_up() {
                 className="mb-3"
               >
                 <Form.Control
-                  placeholder="name@example.com"
+                  placeholder="20230000"
+                  minLength="8"
+                  maxLength="8"
                   onChange={handleStudentIdChange}
                 />
               </FloatingLabel>
@@ -203,8 +202,8 @@ function Sign_up() {
       <MyModal
         show={showModal}
         handleClose={handleCloseModal}
-        title = {title_message}
-        message = {error_message}
+        title={title_message}
+        message={error_message}
       />
     </div>
   );
