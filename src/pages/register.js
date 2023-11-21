@@ -49,7 +49,7 @@ function Sign_up() {
   const handleStudentIdChange = (e) => setStudentId(e.target.value);
 
   // 폼 제출 시 실행될 함수
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     // 전화번호 유효성 검사
@@ -57,7 +57,7 @@ function Sign_up() {
       handleShowModal();
       return;
     } else {
-      const response = axios.post("http://localhost:3002/register", {
+      const response = await axios.post("http://localhost:3002/register", {
         email: email,
         password: password,
         name: name,
@@ -65,7 +65,13 @@ function Sign_up() {
         phoneNum: phoneNumber,
         stdId: studentId,
       });
-      navigate("/nickname");
+
+      if (response.data.status === "success") {
+        console.log("회원가입 성공");
+        navigate("/nickname");
+      } else {
+        handleShowModal();
+      }
     }
   };
 
@@ -165,8 +171,6 @@ function Sign_up() {
               >
                 <Form.Control
                   placeholder="name@example.com"
-                  minLength="8"
-                  maxLength="8"
                   onChange={handleStudentIdChange}
                 />
               </FloatingLabel>
