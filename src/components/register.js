@@ -174,7 +174,7 @@ function Sign_up() {
                 />
               </FloatingLabel>
 
-              <Button variant="outline-warning" type="submit">
+              <Button className="rgbtn" variant="outline-warning" type="submit">
                 {" "}
                 회원가입{" "}
               </Button>
