@@ -30,7 +30,7 @@ const verifyPassword = async (password, userSalt, userPassword) => { // password
   return false;
 };
 
-exports.login = function (req, res, callback) {
+exports.login = function (req, res) {
   const post = req.body;
   db.query(`SELECT password, salt FROM profile where email = ?`,
     [post.email],
@@ -39,20 +39,20 @@ exports.login = function (req, res, callback) {
         res.status(500).json({ message: 'Internal Server Error' });
         return;
       }
+
       if (result.length > 0) {
-        const verified = await verifyPassword(post.password, result[0].salt, result[0].password);
-        if (verified) {
-          callback({ status: 'success', message: 'Login successful' });
+        const verified = await verifyPassword(post.password, result[0].salt, result[0].password); // password 검증
+        if(verified) {
+          res.json({ status: 'success', message: 'Login successful' });
         } else {
-          callback({ status: 'error', message: 'Login failed' });
+          res.json({ status: 'error', message: 'Login failed' });
         }
       } else {
-        callback({ status: 'error', message: 'Login failed' });
-        return;
+        res.json({ status: 'error', message: 'Login failed' });
       }
     }
   )
-};
+}
 
 exports.register = function (req, res) {
   const post = req.body;
@@ -107,9 +107,9 @@ exports.nickname = function (req, res) {
           db.query(`UPDATE profile SET nickname = ?`,
             [post.nickName],
             function (error, result) {
-              if (error)
+              if (error) 
                 throw error;
-
+             
               console.log("Nick good!");
               res.json({ status: 'success', message: 'Nickname successful' })
             }
@@ -122,3 +122,5 @@ exports.nickname = function (req, res) {
       })
   }
 }
+
+
