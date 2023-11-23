@@ -5,8 +5,8 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const dbquery = require("./dbquery.js");
 const session = require('express-session');
-
 const mySqlStore = require('express-mysql-session')(session);
+
 var options = {
   host: "dev-ssu.com",
   port: "323",
@@ -17,8 +17,9 @@ var options = {
 var sessionStore = new mySqlStore(options);
 
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cors());
+app.use(cors({ credentials: true, origin: "http://localhost:3000" }));
 app.use(bodyParser.json());
+
 
 app.use(session({
   secret: '12345',
@@ -28,29 +29,45 @@ app.use(session({
   store: sessionStore
 }))
 
-
-app.get("/", (req, res) => {
-  res.send("Hello World!");
-});
-
 app.post("/register", (req, res) => {
   dbquery.register(req, res);
 });
 
 app.post("/login", (req, res) => {
   dbquery.login(req, res, (result) => {
-    console.log(result.status)
     if (result.status === "success") {
-      console.log('adfs');
       req.session.user = { email: req.body.email };
-      console.log(result);
+      console.log("callback success");
       req.session.save(() => {
-        console.log("테스트 세션 저장 완료");
+        console.log("session save");
       });
     }
     res.json(result);
   });
 });
+
+app.get('/logout', (req, res) => {
+  if(req.session){
+      req.session.destroy(()=>{
+          console.log("삭제완료");
+      });
+  }
+  else {
+    console.log("제거할 세션 없음");
+    res.send('제거할 세션이 없습니다.');
+  }
+})
+
+app.get('/confirm', (req, res) => {
+  if(req.session.user){
+      console.log(req.session);
+      res.send('세션 o');
+  }
+  else {
+      console.log('no session');
+      res.send('세션 x');
+  }
+})
 
 app.post("/setNick", (req, res) => {
   dbquery.nickname(req, res);

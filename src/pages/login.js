@@ -5,6 +5,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import axios from "axios";
 import MyModal from '../components/modal';
+axios.defaults.withCredentials = true;
 
 const Login = () => {
   const [showModal, setShowModal] = useState(false);
@@ -35,24 +36,40 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
       const response = await axios.post("http://localhost:3002/login", {
         email: email,
         password: password,
       });
-      console.log(response.data.status)
       if (response.data.status === "success") {
         console.log("로그인 성공");
       }
       else {
-        console.log("로그인 실패");
         handleShowModal();
       }
     } catch (error) {
       console.error("에러 발생", error);
     }
   };
+
+  const handleLogout = async (e) => {
+    try {
+      const response = await axios.get("http://localhost:3002/logout");
+      console.log(response.data);
+    } catch (error) {
+      console.error("에러 발생", error);
+    }
+  };
+
+  const handleSessionConfirm = async (e) => {
+    try {
+      const response = await axios.get("http://localhost:3002/confirm")
+      console.log(response.data);
+    } catch (error) {
+      console.error("에러 발생", error);
+    }
+  };
+  
 
   return (
     <div className={"login start " + fade}>
@@ -74,6 +91,8 @@ const Login = () => {
         <Col xs={1} md={3}></Col>
       </Row>
       <MyModal show={showModal} handleClose={handleCloseModal} title="로그인 실패" message = "이메일 또는 비밀번호를 확인해주세요"/>
+      <button onClick={handleLogout}>로그아웃 버튼(세션 삭제)</button>
+      <button onClick={handleSessionConfirm}>세션 유무 버튼 </button>
     </div>
   );
 };
