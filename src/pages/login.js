@@ -41,10 +41,12 @@ const Login = () => {
         email: email,
         password: password,
       });
+      console.log(response.data.status)
       if (response.data.status === "success") {
         console.log("로그인 성공");
       }
       else {
+        console.log("로그인 실패");
         handleShowModal();
       }
     } catch (error) {

@@ -23,7 +23,7 @@ app.use(bodyParser.json());
 app.use(session({
   secret: '12345',
   resave: false,
-  saveUninitialized: true,
+  saveUninitialized: false,
   cookie: { secure: false },
   store: sessionStore
 }))
@@ -39,13 +39,14 @@ app.post("/register", (req, res) => {
 
 app.post("/login", (req, res) => {
   dbquery.login(req, res, (result) => {
+    console.log(result.status)
     if (result.status === "success") {
+      console.log('adfs');
       req.session.user = { email: req.body.email };
-      console.log("check");
+      console.log(result);
       req.session.save(() => {
         console.log("테스트 세션 저장 완료");
       });
-
     }
     res.json(result);
   });
