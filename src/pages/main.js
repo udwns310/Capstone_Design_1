@@ -13,25 +13,22 @@ const { kakao } = window;
 
 
 function Main(props) {
-    const [map, setMap] = useState(null);
+    
+    const [map,setMap] = useState(null);
 
-    useEffect(() => {
+    useEffect(()=>{
         const container = document.getElementById('map');
         const options = { center: new kakao.maps.LatLng(35.14431292867247, 129.03630623551933) };
         const kakaoMap = new kakao.maps.Map(container, options);
         setMap(kakaoMap); // 지도 그리기
 
-        var markerPosition = new kakao.maps.LatLng(35.14431292867247, 129.03630623551933);
+        var markerPosition  = new kakao.maps.LatLng(35.14431292867247, 129.03630623551933); 
         var marker = new kakao.maps.Marker({
-            position: markerPosition
+          position: markerPosition
         });
         marker.setMap(kakaoMap); // 지도에 마커 표시
-    }, [])
+    },[])
 
-    const navItemStyle = {
-        height: '100px', // 원하는 높이로 조정
-    };
-    // , paddingLeft: '5px', paddingRight: '5px', paddingTop: '10px'
     return (
         <div style={{ height: '100vh' }}>
             <div style={{ height: '25%'}}>

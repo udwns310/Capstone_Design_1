@@ -5,6 +5,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import axios from "axios";
 import MyModal from '../components/modal';
+import { useNavigate } from "react-router-dom";
 axios.defaults.withCredentials = true;
 
 const Login = () => {
@@ -13,6 +14,7 @@ const Login = () => {
   const handleShowModal = () => setShowModal(true);
   const handleCloseModal = () => setShowModal(false);
 
+  let navigate = useNavigate();
   let [fade, setFade] = useState("");
 
   useEffect(() => {
@@ -42,6 +44,7 @@ const Login = () => {
         password: password,
       });
       if (response.data.status === "success") {
+        navigate("/main");
         console.log("로그인 성공");
       }
       else {
@@ -70,7 +73,6 @@ const Login = () => {
     }
   };
   
-
   return (
     <div className={"login start " + fade}>
       <Row>
