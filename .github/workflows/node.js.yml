@@ -40,6 +40,7 @@ jobs:
 
     - name: Build
       run: |
+        cd ~/source
         npm run build
         
     - name: Run new server (in background)
