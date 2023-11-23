@@ -37,16 +37,10 @@ jobs:
       run: |
         mkdir -p ~/source
         cp -R ./ ~/source
-
-    - name: build
-      run: |
-        cd ~/source
-        sudo npm run build --if-present
-        qwer1234
         
     - name: Run new server (in background)
       env:
         RUNNER_TRACKING_ID: ""
       run: |
-        cd ~/source/build
-        nohup npm run start </dev/null >/dev/null 2>&1 &
+        cd ~/source/server
+        node server.js
