@@ -10,7 +10,10 @@
   font-family: "SeoulNamsanM";
   margin: 0px;
 }
-
+.select {
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
 .mb-4 {
   margin-top: 20px;
 }
@@ -20,7 +23,7 @@
   float: right;
 }
 
-.rgbtn{
+.rgbtn {
   float: right;
 }
 
