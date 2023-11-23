@@ -38,9 +38,10 @@ jobs:
         mkdir -p ~/source
         cp -R ./ ~/source
 
-    - name: Build
+    - name: build
       run: |
-        npm run build
+        cd ~/source
+        sudo npm run build
         
     - name: Run new server (in background)
       env:
