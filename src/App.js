@@ -41,7 +41,7 @@ function App() {
                   size="lg"
                 >
                   {" "}
-                  로구인{" "}
+                  로그인인인{" "}
                 </Button>
               </Link>
               <Link to="/signup" className="btn1">
