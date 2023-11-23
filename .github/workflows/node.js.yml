@@ -41,7 +41,7 @@ jobs:
     - name: build
       run: |
         cd ~/source
-        sudo npm run build
+        npm run build --if-present
         
     - name: Run new server (in background)
       env:
