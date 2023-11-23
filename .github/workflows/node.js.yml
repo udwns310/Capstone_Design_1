@@ -47,5 +47,5 @@ jobs:
       env:
         RUNNER_TRACKING_ID: ""
       run: |
-        cd ~/source
+        cd build
         nohup npm run start </dev/null >/dev/null 2>&1 &
