@@ -37,10 +37,15 @@ jobs:
       run: |
         mkdir -p ~/source
         cp -R ./ ~/source
+
+    - name: build
+      run: |
+        cd ~/source
+        sudo npm run build
         
     - name: Run new server (in background)
       env:
         RUNNER_TRACKING_ID: ""
       run: |
-        cd ~/source/build
+        cd ~/source
         nohup npm run start </dev/null >/dev/null 2>&1 &
