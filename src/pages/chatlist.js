@@ -8,15 +8,15 @@ function Chatlist(props) {
   useEffect(() => {
     setTimeout(() => {
       setFade("end");
-    }, 1000);
+    }, 500);
     return () => {
       setFade("");
     };
   }, []);
 
   return (
-    <div className={"Chatlist start " + fade}>
-      <ListGroup as="ol" className="list">
+    <div className={"Chatlist start " + fade} >
+      <ListGroup as="ol" className="list" style={{marginTop:'0px', paddingTop:'10px'}}>
         <ListGroup.Item
             as="li"
             className="d-flex justify-content-between align-items-start"
