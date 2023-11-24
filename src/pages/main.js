@@ -11,7 +11,6 @@ import { bottom } from "@popperjs/core";
 
 const { kakao } = window;
 
-
 function Main(props) {
 
     const [map, setMap] = useState(null);
