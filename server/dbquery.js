@@ -41,8 +41,8 @@ exports.login = function (req, res) {
 
       if (result.length > 0) {
         const verified = await verifyPassword(post.password, result[0].salt, result[0].password); // password 검증
-<<<<<<< HEAD
         if (verified) {
+          console.log("dbquery pass");
           callback({ status: 'success', message: 'Login successful' });
 =======
         if(verified) {
@@ -50,6 +50,8 @@ exports.login = function (req, res) {
 >>>>>>> be6419e3adb58eb75999a400dbe13408fb95d020
         } else {
           res.json({ status: 'error', message: 'Login failed' });
+          console.log("error");
+          callback({ status: 'error', message: 'Login failed' });
         }
       } else {
         res.json({ status: 'error', message: 'Login failed' });
