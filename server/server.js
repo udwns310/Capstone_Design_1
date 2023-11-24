@@ -24,7 +24,7 @@ app.post("/login", (req, res) => {
 app.post("/setNick", (req, res) => {
   console.log(req.body.nickname);
   dbquery.nickname(req, res);
-})
+});
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
