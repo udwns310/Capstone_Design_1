@@ -2,9 +2,10 @@ const db = require("../lib/db");
 const util = require('util');
 const crypto = require("crypto");
 
+const randomBytesPromise = util.promisify(crypto.randomBytes);
 const pbkdf2Promise = util.promisify(crypto.pbkdf2);
 
-const createSalt = () => //salt 생성
+const createSalt = () =>
     new Promise((resolve, reject) => {
         crypto.randomBytes(64, (err, buf) => {
             if (err) reject(err);
@@ -12,7 +13,7 @@ const createSalt = () => //salt 생성
         });
     });
 
-const createHashedPassword = (plainPassword) => // Crypto 암호화
+const createHashedPassword = (plainPassword) =>
   new Promise(async (resolve, reject) => {
       const salt = await createSalt();
       crypto.pbkdf2(plainPassword, salt, 10496, 64, 'sha512', (err, key) => {
@@ -29,7 +30,7 @@ const verifyPassword = async (password, userSalt, userPassword) => { // password
   return false;
 };
 
-exports.login = function (req, res) {
+exports.login = function (req, res, callback) {
   const post = req.body;
   db.query(`SELECT password, salt FROM profile where email = ?`,
     [post.email],
@@ -38,27 +39,22 @@ exports.login = function (req, res) {
         res.status(500).json({ message: 'Internal Server Error' });
         return;
       }
-
       if (result.length > 0) {
-        const verified = await verifyPassword(post.password, result[0].salt, result[0].password); // password 검증
+        const verified = await verifyPassword(post.password, result[0].salt, result[0].password);
         if (verified) {
           console.log("dbquery pass");
           callback({ status: 'success', message: 'Login successful' });
-=======
-        if(verified) {
-          res.json({ status: 'success', message: 'Login successful' });
->>>>>>> be6419e3adb58eb75999a400dbe13408fb95d020
         } else {
-          res.json({ status: 'error', message: 'Login failed' });
           console.log("error");
           callback({ status: 'error', message: 'Login failed' });
         }
       } else {
-        res.json({ status: 'error', message: 'Login failed' });
+        callback({ status: 'error', message: 'Login failed' });
+        return;
       }
     }
   )
-}
+};
 
 exports.register = function (req, res) {
   const post = req.body;
@@ -113,9 +109,9 @@ exports.nickname = function (req, res) {
           db.query(`UPDATE profile SET nickname = ?`,
             [post.nickName],
             function (error, result) {
-              if (error) 
+              if (error)
                 throw error;
-             
+
               console.log("Nick good!");
               res.json({ status: 'success', message: 'Nickname successful' })
             }
@@ -128,5 +124,3 @@ exports.nickname = function (req, res) {
       })
   }
 }
-
-
