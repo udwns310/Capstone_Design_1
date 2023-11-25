@@ -3,19 +3,9 @@ import Badge from 'react-bootstrap/Badge';
 import ListGroup from 'react-bootstrap/ListGroup';
 
 function Chatlist(props) {
-  let [fade, setFade] = useState("");
-
-  useEffect(() => {
-    setTimeout(() => {
-      setFade("end");
-    }, 500);
-    return () => {
-      setFade("");
-    };
-  }, []);
 
   return (
-    <div className={"Chatlist start " + fade} >
+    <div>
       <ListGroup as="ol" className="list" style={{marginTop:'0px', paddingTop:'10px'}}>
         <ListGroup.Item
             as="li"
