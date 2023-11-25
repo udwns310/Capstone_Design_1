@@ -86,12 +86,19 @@ div {
 }
 
 .list {
-  width: 95%;
-  margin: auto;
-  margin-top: 3%;
-  
+  overflow-y: scroll;
 }
 
-.d-flex {
-  height: 70px;
+.list_component {
+  border: 1px solid #FFC107;
+  border-radius: 20px;
+  padding: 20px;
+  margin: 10px;
+}
+
+.list_num {
+  float: right;
+  background-color: #FFC107;
+  border-radius: 15px;
+  padding-inline: 7px;
 }
