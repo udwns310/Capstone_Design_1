@@ -2,10 +2,9 @@ const db = require("../lib/db");
 const util = require('util');
 const crypto = require("crypto");
 
-const randomBytesPromise = util.promisify(crypto.randomBytes);
 const pbkdf2Promise = util.promisify(crypto.pbkdf2);
 
-const createSalt = () =>
+const createSalt = () => //salt 생성
     new Promise((resolve, reject) => {
         crypto.randomBytes(64, (err, buf) => {
             if (err) reject(err);
@@ -13,7 +12,7 @@ const createSalt = () =>
         });
     });
 
-const createHashedPassword = (plainPassword) =>
+const createHashedPassword = (plainPassword) => // Crypto 암호화
   new Promise(async (resolve, reject) => {
       const salt = await createSalt();
       crypto.pbkdf2(plainPassword, salt, 10496, 64, 'sha512', (err, key) => {
@@ -42,8 +41,10 @@ exports.login = function (req, res) {
 
       if (result.length > 0) {
         const verified = await verifyPassword(post.password, result[0].salt, result[0].password); // password 검증
-        if(verified) {
-          res.json({ status: 'success', message: 'Login successful' });
+
+        if (verified) {
+          callback({ status: 'success', message: 'Login successful' });
+
         } else {
           res.json({ status: 'error', message: 'Login failed' });
         }

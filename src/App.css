@@ -84,3 +84,36 @@ div {
     transform: rotate(360deg);
   }
 }
+
+.list {
+  overflow-y: scroll;
+}
+
+.list .title {
+  text-align: center;
+  padding: 15px;
+  background-color: #FFC107;
+}
+
+.list .component {
+  display: flex;
+  border: 1px solid #FFC107;
+  border-radius: 20px;
+  margin: 10px;
+  align-items: center;
+  padding: 20px;
+}
+
+.list .text {
+  width: 50%;
+
+}
+
+.list .count {
+  left: 34%;
+  height: 50%;
+  position: relative;
+  background-color: #FFC107;
+  border-radius: 15px;
+  padding: 10px;
+}

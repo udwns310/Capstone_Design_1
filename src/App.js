@@ -6,6 +6,8 @@ import { useState, useEffect } from "react";
 import Login from "./pages/login.js";
 import Sign_up from "./pages/register.js";
 import Nickname from "./pages/nickname.js";
+import Main from "./pages/main.js";
+import Chatlist from "./pages/chatlist.js"
 
 function App() {
   let [fade, setFade] = useState("");
@@ -79,6 +81,22 @@ function App() {
         element={
           <div>
             <Nickname />
+          </div>
+        }
+      ></Route>
+      <Route //메인 페이지 Route
+        path="/main"
+        element={
+          <div>
+            <Main />
+          </div>
+        }
+      ></Route>
+      <Route //채팅 목록 페이지 Route
+        path="/chatlist"
+        element={
+          <div>
+            <Chatlist />
           </div>
         }
       ></Route>
