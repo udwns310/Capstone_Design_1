@@ -41,10 +41,8 @@ exports.login = function (req, res, callback) {
       if (result.length > 0) {
         const verified = await verifyPassword(post.password, result[0].salt, result[0].password); // password 검증
         if (verified) {
-          console.log("dbquery pass");
           callback({ status: 'success', message: 'Login successful' });
         } else {
-          console.log("error");
           callback({ status: 'error', message: 'Login failed' });
         }
       } else {
