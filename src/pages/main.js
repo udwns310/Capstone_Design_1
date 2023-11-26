@@ -4,6 +4,7 @@ import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Map from '../components/map.js';
 import { Routes, Route, Link, useNavigate } from 'react-router-dom';
 import Chatlist from './chatlist.js';
+import Management from './management.js';
 
 function Main(props) {
     return (
@@ -22,6 +23,14 @@ function Main(props) {
                     element={
                         <div style={{ height: '94vh' }}>
                             <Chatlist />
+                        </div>
+                    }
+                ></Route>
+                <Route
+                    path="/management"
+                    element={
+                        <div style={{ height: '94vh' }}>
+                            <Management />
                         </div>
                     }
                 ></Route>
@@ -59,7 +68,11 @@ function ButtonGroupContainer() {
             <Button variant="warning" style={{ width: '25%', borderRadius: '0' }}>
                 MY채팅
             </Button>
-            <Button variant="warning" style={{ width: '25%', borderRadius: '0' }}>
+            <Button
+                variant="warning"
+                style={{ width: '25%', borderRadius: '0' }}
+                onClick={() => handleListButtonClick('/main/management')}
+            >
                 계정관리
             </Button>
         </ButtonGroup>
