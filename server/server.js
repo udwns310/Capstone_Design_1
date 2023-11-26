@@ -4,6 +4,10 @@ const port = 3002; // <- 3000에서 다른 숫자로 변경
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const dbquery = require("./dbquery.js");
+<<<<<<< HEAD
+=======
+
+>>>>>>> 78425980aaca158d75d386d80afecf522aef7976
 const session = require('express-session');
 const mySqlStore = require('express-mysql-session')(session);
 
@@ -20,7 +24,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors({ credentials: true, origin: "http://localhost:3000" }));
 app.use(bodyParser.json());
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 78425980aaca158d75d386d80afecf522aef7976
 app.use(session({
   secret: '12345',
   resave: false,
@@ -28,6 +35,14 @@ app.use(session({
   cookie: { secure: false },
   store: sessionStore
 }))
+<<<<<<< HEAD
+=======
+
+app.get("/", (req, res) => {
+  res.send("Hello World!");
+});
+
+>>>>>>> 78425980aaca158d75d386d80afecf522aef7976
 
 app.post("/register", (req, res) => {
   dbquery.register(req, res);
@@ -71,6 +86,12 @@ app.get('/confirm', (req, res) => {
 
 app.post("/setNick", (req, res) => {
   dbquery.nickname(req, res);
+})
+
+app.post("/chatlist", (req, res) => {
+  dbquery.chatlist(req, res, (result) => {
+    res.send(result.data);
+  });
 })
 
 app.listen(port, () => {
