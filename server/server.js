@@ -55,6 +55,13 @@ app.post("/setNick", (req, res) => {
   dbquery.nickname(req, res);
 })
 
+app.post("/chatlist", (req, res) => {
+  dbquery.chatlist(req, res, (result) => {
+    //console.log(result.data[0]);
+    res.send(result.data);
+  });
+})
+
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
 });

@@ -121,3 +121,11 @@ exports.nickname = function (req, res) {
       })
   }
 }
+
+exports.chatlist = function (req, res, callback) {
+  db.query(`SELECT * FROM chatlist`, function(err, result) {
+    //console.log(result);
+    callback({ data: result });
+
+  })
+}
