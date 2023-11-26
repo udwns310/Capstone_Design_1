@@ -102,12 +102,44 @@ div {
 }
 
 .list {
-  width: 95%;
-  margin: auto;
-  margin-top: 3%;
-  
+  overflow-y: scroll;
+}
+
+.list .title {
+  text-align: center;
+  padding: 15px;
+  background-color: #FFC107;
+}
+
+.list .component {
+  display: flex;
+  border: 1px solid #FFC107;
+  border-radius: 20px;
+  margin: 10px;
+  align-items: center;
+  padding: 20px;
+}
+
+.list .text {
+  width: 50%;
+}
+
+.list .count {
+  left: 34%;
+  height: 50%;
+  position: relative;
+  background-color: #FFC107;
+  border-radius: 15px;
+  padding: 10px;
 }
 
 .d-flex {
   height: 70px;
+}
+
+#mng-header{
+  text-align: center;
+  font-weight: bold;
+  font-size: x-large;
+  padding: 15px;
 }

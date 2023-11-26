@@ -43,6 +43,7 @@ const Login = () => {
         email: email,
         password: password,
       });
+
       if (response.data.status === "success") {
         navigate("/main");
         console.log("로그인 성공");
