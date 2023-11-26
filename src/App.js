@@ -8,6 +8,7 @@ import Sign_up from "./pages/register.js";
 import Nickname from "./pages/nickname.js";
 import Main from "./pages/main.js";
 import Chatlist from "./pages/chatlist.js"
+import Management from "./pages/management.js";
 
 function App() {
   let [fade, setFade] = useState("");
@@ -97,6 +98,14 @@ function App() {
         element={
           <div>
             <Chatlist />
+          </div>
+        }
+      ></Route>
+      <Route //사용자 정보 페이지 Route
+        path="/management"
+        element={
+          <div>
+            <Management />
           </div>
         }
       ></Route>

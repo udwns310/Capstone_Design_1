@@ -116,3 +116,14 @@ div {
   border-radius: 15px;
   padding: 10px;
 }
+
+.d-flex {
+  height: 70px;
+}
+
+#mng-header{
+  text-align: center;
+  font-weight: bold;
+  font-size: x-large;
+  padding: 15px;
+}
