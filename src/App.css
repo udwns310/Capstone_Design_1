@@ -69,6 +69,22 @@ div {
   height: 101vh;
 }
 
+.main-login{
+  width: 70%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 50%;
+  text-align: center;
+}
+
+.main-login{
+  width: 70%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 50%;
+  text-align: center;
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;

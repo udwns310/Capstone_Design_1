@@ -7,6 +7,7 @@ import Login from "./pages/login.js";
 import Sign_up from "./pages/register.js";
 import Nickname from "./pages/nickname.js";
 import Main from "./pages/main.js";
+
 import Chatlist from "./pages/chatlist.js"
 import Management from "./pages/management.js";
 
@@ -21,6 +22,7 @@ function App() {
       setFade("");
     };
   }, []);
+
   return (
     <Routes>
       <Route
@@ -61,6 +63,7 @@ function App() {
           </div>
         }
       ></Route>
+
       <Route //로그인 페이지 Route
         path="/signin"
         element={
@@ -86,7 +89,7 @@ function App() {
         }
       ></Route>
       <Route //메인 페이지 Route
-        path="/main"
+        path="/main/*"
         element={
           <div>
             <Main />
