@@ -18,6 +18,29 @@ CREATE TABLE `profile` (
 -- Dumping data for table `profile`
 --
 
-INSERT INTO `profile` VALUES ('test@test.com','Xsc+HAlHasoKQy/Ct5EdOU5gFnaOT3PUdPFc1Qn6g9pYby1emDhvp83oWSFlxr9I5x4YNNkVpMpX3FUJzeRYdA==','test',0,'010-1234-5678', '20231111', 'testNick', 'OlHm8Do1/0Oj8mrtpgVIyO6XTl0X0V6JQtUlzyONNx3SyY32B648B95t6UxS8ki+Tax7BkidTMp66tlpxbtGYA==');
+INSERT INTO `profile` VALUES ('test@test.com', 'Xsc+HAlHasoKQy/Ct5EdOU5gFnaOT3PUdPFc1Qn6g9pYby1emDhvp83oWSFlxr9I5x4YNNkVpMpX3FUJzeRYdA==', 'test', 0, '010-1234-5678', '20231111', 'testNick', 'OlHm8Do1/0Oj8mrtpgVIyO6XTl0X0V6JQtUlzyONNx3SyY32B648B95t6UxS8ki+Tax7BkidTMp66tlpxbtGYA==');
 
 --password = qwer
+
+
+--
+-- Table structure for table `chatlist`
+--
+
+CREATE TABLE `chatlist` (
+  `origin` varchar(30) NOT NULL,
+  `destination` varchar(30) NOT NULL,
+  `date` DATETIME NOT NULL,
+  `count` int NOT NULL,
+  `user` varchar(10) NOT NULL,
+  PRIMARY KEY (`user`)
+);
+
+--
+-- Dumping data for table `chatlist`
+--
+
+INSERT INTO `chatlist` VALUES ('동의대역', '자대로터리', '2023-11-26 13:00', 3, '20231111'),
+('가야1치안', '수덕전', '2023-11-26 13:10', 2, '20231234'),
+('가야1치안', '행복기숙사', '2023-11-26 12:55', 1, '22222222'),
+('동의대역', '본관', '2023-11-26 13:05', 1, '22222343');

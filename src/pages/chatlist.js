@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 
-function Chatlist(props) {
+function Chatlist() {
   let [fade, setFade] = useState("");
+  const [list, setList] = useState([]);
 
   useEffect(() => {
     setTimeout(() => {
@@ -12,19 +14,28 @@ function Chatlist(props) {
     };
   }, []);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await axios.post("http://localhost:3002/chatlist", {});
+      setList(response.data);
+    };
+    fetchData();
+  }, []);
   return (
     <div className={"Chatlist start " + fade}>
-      
       <div className="list">
         <h2 className="title">합승 목록</h2>
-        <div className="component"><div className="text">동의대역 - 자대로터리<br></br>2023/11/26 13:00</div><div className="count">3 / 4</div></div>
-        <div className="component"><div className="text">가야 1치안 - 수덕전<br></br>2023/11/26 13:00</div><div className="count">3 / 4</div></div>
-        <div className="component"><div className="text">가야 1치안 - 행복기숙사<br></br>2023/11/26 13:00</div><div className="count">3 / 4</div></div>
-        <div className="component"><div className="text">동의대역 - 본관<br></br>2023/11/26 13:00</div><div className="count">3 / 4</div></div>
-        <div className="component"><div className="text">동의대역 - 자대로터리<br></br>2023/11/26 13:00</div><div className="count">3 / 4</div></div>
-        <div className="component"><div className="text">가야 1치안 - 수덕전<br></br>2023/11/26 13:00</div><div className="count">3 / 4</div></div>
-        <div className="component"><div className="text">가야 1치안 - 행복기숙사<br></br>2023/11/26 13:00</div><div className="count">3 / 4</div></div>
-        <div className="component"><div className="text">동의대역 - 본관<br></br>2023/11/26 13:00</div><div className="count">3 / 4</div></div>
+        {list.map((el, index) => {
+          return (
+            <div className="component">
+              <div className="text">
+                {el.origin} - {el.destination}
+                <br></br>{el.formatDate}
+              </div>
+              <div className="count">{el.count} / 4</div>
+            </div>
+          );
+        })}
       </div>
     </div>
   );
