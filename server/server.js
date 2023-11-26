@@ -28,7 +28,6 @@ app.post("/setNick", (req, res) => {
 
 app.post("/chatlist", (req, res) => {
   dbquery.chatlist(req, res, (result) => {
-    //console.log(result.data[0]);
     res.send(result.data);
   });
 })

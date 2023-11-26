@@ -125,9 +125,7 @@ exports.nickname = function (req, res) {
 }
 
 exports.chatlist = function (req, res, callback) {
-  db.query(`SELECT * FROM chatlist`, function(err, result) {
-    //console.log(result);
+  db.query(`SELECT *, date_format(date, '%m/%d %H:%i') as formatDate FROM chatlist ORDER BY date`, function(err, result) {
     callback({ data: result });
-
   })
 }
