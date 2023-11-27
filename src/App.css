@@ -14,7 +14,7 @@
   margin-top: 20px;
 }
 
-.mfont{
+.mfont {
   font-weight: bold;
   padding-top: 5px;
 }
@@ -141,33 +141,33 @@ div {
   height: 70px;
 }
 
-.mainP{
-  padding: 10px;
+.mainP {
+  padding: 20px;
 }
 
-.subt{
+.subt {
   font-weight: bold;
 }
 
-.subP{
-  font-size:small;
+.subP {
+  font-size: small;
 }
 
-#mng-header{
+#mng-header {
   text-align: center;
   font-weight: bold;
   font-size: x-large;
   padding: 15px;
 }
 
-#terms{
+#terms {
   font-size: 12px;
   color: #9e9e9e;
   text-decoration: none;
   padding-top: 5px;
 }
 
-#titleP{
+#titleP {
   text-align: center;
   font-weight: bold;
   font-size: large;
