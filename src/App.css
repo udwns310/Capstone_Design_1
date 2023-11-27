@@ -1,118 +1,145 @@
 @font-face {
-  font-family: "SeoulNamsanM";
-  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_two@1.0/SeoulNamsanM.woff")
-    format("woff");
-  font-weight: normal;
-  font-style: normal;
+    font-family: 'SeoulNamsanM';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_two@1.0/SeoulNamsanM.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
 }
 
 * {
-  font-family: "SeoulNamsanM";
-  margin: 0px;
+    font-family: 'SeoulNamsanM';
+    margin: 0px;
+}
+
+.loginCard {
+    margin: 5%;
+}
+
+.select {
+    margin-bottom: 10px;
+    margin-top: 10px;
 }
 
 .mb-4 {
-  margin-top: 20px;
+    margin-top: 20px;
 }
 
 .lgbtn {
-  margin-top: 20px;
-  float: right;
+    margin-top: 20px;
+    float: right;
 }
 
-.rgbtn{
-  float: right;
+.rgbtn {
+    float: right;
 }
 
 .start {
-  opacity: 0;
+    opacity: 0;
 }
 
 .end {
-  opacity: 1;
-  transition: opacity 0.5s;
+    opacity: 1;
+    transition: opacity 0.5s;
 }
 
 div {
-  box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 .ment {
-  font-size: 30px;
-  color: black;
-  font-weight: bold;
+    font-size: 30px;
+    color: black;
+    font-weight: bold;
 }
 
 .under-button-content {
-  width: 100%;
-  position: absolute;
-  bottom: 100px;
-  display: flex;
-  justify-content: space-around;
+    width: 100%;
+    position: absolute;
+    bottom: 100px;
+    display: flex;
+    justify-content: space-around;
 }
 
 .btn1 {
-  width: 70%;
+    width: 70%;
 }
 
 .logo {
-  width: 60%;
-  padding-top: 30%;
+    width: 60%;
+    padding-top: 30%;
 }
 
 .App {
-  text-align: center;
-  /* background-image: url("/public/img/taxi_bg.jpg"); */
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: -300px;
-  height: 101vh;
+    text-align: center;
+    /* background-image: url("/public/img/taxi_bg.jpg"); */
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: -300px;
+    height: 100vh;
+}
+
+.main-login {
+    width: 70%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 50%;
+    text-align: center;
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+    .App-logo {
+        animation: App-logo-spin infinite 20s linear;
+    }
 }
 
 @keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
+    from {
+        transform: rotate(0deg);
+    }
 
-  to {
-    transform: rotate(360deg);
-  }
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 .list {
-  overflow-y: scroll;
+    overflow-y: scroll;
 }
 
 .list .title {
-  text-align: center;
-  padding: 15px;
-  background-color: #FFC107;
+    text-align: center;
+    padding: 15px;
+    background-color: #ffc107;
 }
 
 .list .component {
-  display: flex;
-  border: 1px solid #FFC107;
-  border-radius: 20px;
-  margin: 10px;
-  align-items: center;
-  padding: 20px;
+    display: flex;
+    border: 1px solid #ffc107;
+    border-radius: 20px;
+    margin: 10px;
+    align-items: center;
+    padding: 20px;
 }
 
 .list .text {
-  width: 50%;
+    width: 50%;
 }
 
 .list .count {
-  left: 34%;
-  height: 50%;
-  position: relative;
-  background-color: #FFC107;
-  border-radius: 15px;
-  padding: 10px;
+    left: 34%;
+    height: 50%;
+    position: relative;
+    background-color: #ffc107;
+    border-radius: 15px;
+    padding: 10px;
+}
+
+.d-flex {
+    height: 70px;
+}
+
+#mng-header {
+    text-align: center;
+    font-weight: bold;
+    font-size: x-large;
+    padding: 15px;
 }
