@@ -1,9 +1,6 @@
 import { useState, useEffect } from 'react';
-import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
-import Row from 'react-bootstrap/Row';
 import Button from 'react-bootstrap/Button';
-import Card from 'react-bootstrap/Card';
 function Management(props) {
     let [fade, setFade] = useState('');
 
