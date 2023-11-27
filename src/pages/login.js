@@ -1,9 +1,16 @@
+<<<<<<< HEAD
 import React, { useState, useEffect } from "react";
 import LoginForm from "../components/loginform";
 import Card from "react-bootstrap/Card";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import axios from "axios";
+=======
+import React, { useState, useEffect } from 'react';
+import LoginForm from '../components/loginform';
+import Card from 'react-bootstrap/Card';
+import axios from 'axios';
+>>>>>>> 4441f4e695c343636eeeeddefaa9db24f470dd08
 import MyModal from '../components/modal';
 import { useNavigate } from "react-router-dom";
 axios.defaults.withCredentials = true;

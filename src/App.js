@@ -1,14 +1,13 @@
-import './App.css';
-import Button from 'react-bootstrap/Button';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import { Routes, Route, Link } from 'react-router-dom';
-import { useState, useEffect } from 'react';
-import Login from './pages/login.js';
-import Sign_up from './pages/register.js';
-import Nickname from './pages/nickname.js';
-import Main from './pages/main.js';
-
-import Chatlist from './pages/chatlist.js';
+import "./App.css";
+import Button from "react-bootstrap/Button";
+import "bootstrap/dist/css/bootstrap.min.css";
+import { Routes, Route, Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import Login from "./pages/login.js";
+import Sign_up from "./pages/register.js";
+import Nickname from "./pages/nickname.js";
+import Main from "./pages/main.js";
+import Chatlist from "./pages/chatlist.js";
 
 function App() {
     let [fade, setFade] = useState('');
