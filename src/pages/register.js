@@ -58,7 +58,6 @@ function Sign_up() {
   // 폼 제출 시 실행될 함수
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     // 전화번호 유효성 검사
     if (!validatePhoneNumber(phoneNumber)) {
       setErrMsg("정확한 전화번호를 입력해 주세요.");
