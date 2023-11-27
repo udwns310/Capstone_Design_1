@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Form from "react-bootstrap/Form";
-import MyModal from "./modal.js"
+import MyModal from "./modal.js";
 
 const { kakao } = window;
 
@@ -19,30 +19,33 @@ function Main(props) {
     { label: "출발지를 선택하세요", value: "null", center: { lat: 35.14431292867247, lng: 129.03630623551933 } },
     { label: "동의대역 5번 출구 앞", value: "1", center: { lat: 35.153379, lng: 129.032096 } },
     { label: "가야1치안센터 버스정류장 앞", value: "2", center: { lat: 35.154067, lng: 129.037094 } }
-  ]
+  ];
   const arriveData = [
     { label: "목적지를 선택하세요", value: "null", center: { lat: 35.14431292867247, lng: 129.03630623551933 } },
     { label: "자대로타리", value: "1", center: { lat: 35.143690, lng: 129.034482 } },
     { label: "수덕전", value: "2", center: { lat: 35.141445, lng: 129.034092 } }
-  ]
-  
+  ];
+
   const handleShowModal = () => setShowModal(true);
+
   const handleCloseModal = () => {
     setShowModal(false);
     setDepartSelcted();
     setArriveSelcted();
-  }
+  };
 
   const [departOptions, setDepartOptions] = useState(departData);
   const [arriveOptions, setArriveOptions] = useState(arriveData);
 
   const handlePosition = (value, optionsSetter, markerSetter, dir) => {
-
     const container = document.getElementById("map");
 
     if (value.value !== "null") {
-      if (dir === "arrive") setArriveSelcted(true);
-      else if (dir === "depart") setDepartSelcted(true);
+      if (dir === "arrive") {
+        setArriveSelcted(true);
+      } else if (dir === "depart") {
+        setDepartSelcted(true);
+      }
     }
 
     // 이전에 추가된 마커가 있다면 모두 제거
@@ -56,14 +59,13 @@ function Main(props) {
     }
     if (dir === "arrive") {
       var imageSrc = process.env.PUBLIC_URL + '/img/arrive.png',
-        imageSize = new kakao.maps.Size(35, 35)
-    }
-    else if (dir === "depart") {
+        imageSize = new kakao.maps.Size(35, 35);
+    } else if (dir === "depart") {
       var imageSrc = process.env.PUBLIC_URL + '/img/depart.png',
-        imageSize = new kakao.maps.Size(35, 35)
+        imageSize = new kakao.maps.Size(35, 35);
     }
     // 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
-    var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize)
+    var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
 
     // 새로운 마커 추가
     const newMarkerPosition = new kakao.maps.LatLng(value.center.lat, value.center.lng);
@@ -118,7 +120,12 @@ function Main(props) {
       <div style={{ height: '20%' }}>
         <div style={{ width: '90%', margin: 'auto', paddingTop: '5px', height: '45%' }}>
           <p style={{ margin: '0px', fontWeight: 'bold' }}>출발지</p>
-          <Form.Select aria-label="Default select example" className="select" onChange={(e) => handlePosition(departOptions.find(option => option.value === e.target.value), setDepartOptions, setDepartMarker, "depart")}>
+          <Form.Select
+            aria-label="Default select example"
+            className="select"
+            onChange={(e) => handlePosition(departOptions.find((option) => option.value === e.target.value), setDepartOptions, setDepartMarker, "depart")}
+            value={departSelected ? departSelected.value : "null"}
+          >
             {departOptions.map((option) => (
               <option key={option.value} value={option.value}>
                 {option.label}
@@ -128,7 +135,12 @@ function Main(props) {
         </div>
         <div style={{ width: '90%', margin: 'auto', paddingTop: '5px', height: '50%' }}>
           <p style={{ margin: '0px', fontWeight: 'bold' }}>목적지</p>
-          <Form.Select aria-label="Default select example" className="select" onChange={(e) => handlePosition(arriveOptions.find(option => option.value === e.target.value), setArriveOptions, setArriveMarker, "arrive")}>
+          <Form.Select
+            aria-label="Default select example"
+            className="select"
+            onChange={(e) => handlePosition(arriveOptions.find((option) => option.value === e.target.value), setArriveOptions, setArriveMarker, "arrive")}
+            value={arriveSelected ? arriveSelected.value : "null"}
+          >
             {arriveOptions.map((option) => (
               <option key={option.value} value={option.value}>
                 {option.label}
