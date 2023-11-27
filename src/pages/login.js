@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import LoginForm from '../components/loginform';
 import Card from 'react-bootstrap/Card';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
 import axios from 'axios';
 import MyModal from '../components/modal';
 import { useNavigate } from 'react-router-dom';

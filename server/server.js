@@ -33,7 +33,6 @@ app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
-
 app.post("/register", (req, res) => {
   dbquery.register(req, res);
 });
