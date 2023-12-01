@@ -1,11 +1,12 @@
 import React from 'react';
 import Button from 'react-bootstrap/Button';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
-import Map from "../components/map.js";
-import { Routes, Route, Link, useNavigate } from "react-router-dom";
-import Chatlist from "./chatlist.js";
-import Management from "./management.js"; //계정관리 추가
+import Map from '../components/map.js';
+import { Routes, Route, Link, useNavigate } from 'react-router-dom';
+import Chatlist from './chatlist.js';
+import Management from './management.js'; //계정관리 추가
 import PrivateInfor from './privinfor.js';
+import ChatContainer from '../components/ChatContainer/ChatContainer.js';
 
 function Main(props) {
     return (
@@ -40,6 +41,14 @@ function Main(props) {
                     element={
                         <div style={{ height: '94vh' }}>
                             <PrivateInfor />
+                        </div>
+                    }
+                ></Route>
+                <Route
+                    path="/chatting"
+                    element={
+                        <div style={{ height: '94vh' }}>
+                            <ChatContainer />
                         </div>
                     }
                 ></Route>
