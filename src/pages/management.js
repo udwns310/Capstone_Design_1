@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+import axios from "axios";
+
 function Management(props) {
     let [fade, setFade] = useState('');
 
@@ -12,6 +14,13 @@ function Management(props) {
             setFade('');
         };
     }, []);
+
+    /*
+    useEffect(() => {
+        const response = axios.post("http://localhost:3002/main/management", {}); // 세션 받아오기
+        console.log(response.session);
+    }, []);
+*/
 
     return (
         <div className={'management start ' + fade}>

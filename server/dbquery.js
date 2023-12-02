@@ -41,7 +41,18 @@ exports.login = function (req, res, callback) {
             if (result.length > 0) {
                 const verified = await verifyPassword(post.password, result[0].salt, result[0].password); // password 검증
                 if (verified) {
-                    callback({ status: 'success', message: 'Login successful' });
+                    db.query(`SELECT nickname FROM profile where email = ?`,
+                    [post.email], function(err, isNull) {
+                        if (err) {
+                            res.status(500).json({ message: 'Internal Server Error' });
+                            return;
+                        }
+                        if(isNull[0].nickname === null) { // nickname이 설정되지 않았다면
+                            callback({ status: 'nickNull', message: 'Login successful' });
+                        } else {
+                            callback({ status: 'success', message: 'Login successful' });
+                        }
+                    })
                 } else {
                     callback({ status: 'error', message: 'Login failed' });
                 }
@@ -91,23 +102,22 @@ exports.register = function (req, res) {
 }
 
 exports.nickname = function (req, res) {
+    const email = req.session.user.email;
     const post = req.body;
     const hasEmptyValue = Object.values(post).some((value) => value.trim() === '');
     if (hasEmptyValue) {
         res.json({ status: 'error', message: 'Nickname failed' });
     } else {
-        db.query(`SELECT * FROM profile where nickname = ?`, [post.nickame], function (err, rows) {
+        db.query(`SELECT * FROM profile WHERE nickname = ?`, [post.nickname], function (err, rows) { // nickname이  중복되는지 검사
             if (err) throw err;
             if (rows.length == 0) {
-                db.query(`UPDATE profile SET nickname = ?`, [post.nickName], function (error, result) {
+                db.query(`UPDATE profile SET nickname = ? WHERE email = ?`, [post.nickname, email], function (error, result) {
                     if (error) throw error;
 
-                    console.log('Nick good!');
                     res.json({ status: 'success', message: 'Nickname successful' });
                 });
             } else {
-                res.json({ status: 'error', message: 'Duplicated Nickname' });
-                console.log('Nick not good');
+                res.json({ status: 'nickDuplicate', message: 'Duplicated Nickname' }); // nickname 중복
             }
         });
     }

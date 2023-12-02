@@ -45,6 +45,8 @@ const Login = () => {
             if (response.data.status === 'success') {
                 navigate('/main');
                 console.log('로그인 성공');
+            } else if (response.data.status === 'nickNull') {
+                navigate('/nickname');
             } else {
                 handleShowModal();
             }

@@ -17,7 +17,7 @@ function Sign_up() {
   const handleShowModal = () => setShowModal(true);
   const handleCloseModal = () => {
     if (isRegister === true) {
-      navigate("/nickname");
+      navigate("/signin");
     } else setShowModal(false);
   };
 
