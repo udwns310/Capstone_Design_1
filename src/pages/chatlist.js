@@ -29,20 +29,20 @@ function Chatlist() {
         {list.map((el, index) => {
           return (
             <div className="component">
-                {
-                  el.emergency === 1
-                  ? <img src="img/siren_icon.png" alt="My Image" className="siren"></img>
-                  : null
-                }
-                <div className="text">
-                  {el.origin} - {el.destination}
-                  <br></br>{el.formatDate}
-                </div>
-                {
-                  el.emergency === 1
-                  ? <div className="count2">{el.count} / 4</div>
-                  : <div className="count">{el.count} / 4</div>
-                }
+              {
+                el.emergency === 1
+                ? <img src="img/siren_icon.png" alt="My Image" className="siren"></img>
+                : null
+              }
+              <div className="text">
+                {el.origin} - {el.destination}
+                <br></br>{el.formatDate}
+              </div>
+              {
+                el.emergency === 1
+                ? <div className="count2">{el.count} / 4</div>
+                : <div className="count">{el.count} / 4</div>
+              }
             </div>
           );
         })}

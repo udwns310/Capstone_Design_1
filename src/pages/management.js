@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 
 function Management(props) {
     let [fade, setFade] = useState("");
+    const [info, setInfo] = useState([]);
 
     useEffect(() => {
     setTimeout(() => {
@@ -17,31 +18,32 @@ function Management(props) {
         };
     }, []);
 
-    /*
     useEffect(() => {
-        const response = axios.post("http://localhost:3002/main/management", {}); // 세션 받아오기
-        console.log(response.session);
+        const fetchData = async () => {
+          const response = await axios.post("http://localhost:3002/main/management", {}); // 사용자 데이터 받아오기
+          setInfo(response.data[0]);
+        };
+        fetchData();
     }, []);
-*/
 
     return (
         <div className={"management start " + fade}>
             <div id="mng-header">계정 관리</div>
             <Form style={{padding: '20px'}}>
                 <div className="mfont">이메일</div>
-                <div>test@test.com</div>
+                <div>{info.email}</div>
                 
                 <div className="mfont">학번</div>
-                <div>20231234</div>
+                <div>{info.stdId}</div>
             
                 <div className="mfont">이름</div>
-                <div>tester</div>
+                <div>{info.name}</div>
                 
                 <div className="mfont">닉네임</div>
-                <div>testnick</div>
+                <div>{info.nickname}</div>
                 
                 <div className="mfont">전화번호</div>
-                <div>010-1234-1234</div>
+                <div>{info.phoneNum}</div>
                 
                 <div className="mfont"> 비밀번호 변경 </div>
                 <div style={{paddingTop:'10px'}}>
