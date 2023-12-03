@@ -83,13 +83,11 @@ app.post("/chatlist", (req, res) => {
   });
 })
 
-/*
-app.post("/management", (req, res) => {
-  console.log(req.session);
-  res.json({data: "test"});
-  //res.send(req.session);
+app.post("/main/management", (req, res) => {
+  dbquery.management(req, res, (result) => {
+    res.send(result.data);
+  });
 })
-*/
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
