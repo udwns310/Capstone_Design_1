@@ -6,7 +6,7 @@ import axios from "axios";
 import Card from "react-bootstrap/Card";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import MyModal from "../components/modal";
+import { MyModal } from "../components/modal";
 import { useNavigate } from "react-router-dom";
 
 function Sign_up() {

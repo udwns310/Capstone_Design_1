@@ -75,7 +75,7 @@ function App() {
                     </div>
                 }
             ></Route>
-            <Route //메인 페이지 Route
+            <Route //메인 페이지 Route 
                 path="/main/*"
                 element={
                     <div>
