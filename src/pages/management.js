@@ -4,7 +4,6 @@ import Button from 'react-bootstrap/Button';
 import axios from "axios";
 import { Link } from "react-router-dom";
 
-
 function Management(props) {
     let [fade, setFade] = useState("");
     const [info, setInfo] = useState([]);
@@ -20,7 +19,7 @@ function Management(props) {
 
     useEffect(() => {
         const fetchData = async () => {
-          const response = await axios.post("http://localhost:3002/main/management", {}); // 사용자 데이터 받아오기
+          const response = await axios.post("http://localhost:3002/management", {}); // 사용자 데이터 받아오기
           setInfo(response.data[0]);
         };
         fetchData();

@@ -83,7 +83,7 @@ app.post("/chatlist", (req, res) => {
   });
 })
 
-app.post("/main/management", (req, res) => {
+app.post("/management", (req, res) => {
   dbquery.management(req, res, (result) => {
     res.send(result.data);
   });
