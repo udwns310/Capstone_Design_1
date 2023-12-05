@@ -39,7 +39,7 @@ app.post("/register", (req, res) => {
 
 app.post("/login", (req, res) => {
   dbquery.login(req, res, (result) => {
-    if (result.status === "success") {
+    if (result.status === "success" || result.status === "nickNull") {
       req.session.user = { email: req.body.email };
       console.log("callback success");
       req.session.save(() => {
@@ -74,12 +74,17 @@ app.get('/confirm', (req, res) => {
 })
 
 app.post("/setNick", (req, res) => {
-  console.log(req.body.nickname);
   dbquery.nickname(req, res);
 })
 
 app.post("/chatlist", (req, res) => {
   dbquery.chatlist(req, res, (result) => {
+    res.send(result.data);
+  });
+})
+
+app.post("/main/management", (req, res) => {
+  dbquery.management(req, res, (result) => {
     res.send(result.data);
   });
 })
