@@ -4,9 +4,17 @@ const port = 3002; // <- 3000에서 다른 숫자로 변경
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const dbquery = require("./dbquery.js");
-
 const session = require('express-session');
 const mySqlStore = require('express-mysql-session')(session);
+const http = require('http');
+const socketIO = require('socket.io');
+const server = http.createServer(app);
+const io = socketIO(server, {
+  cors: {
+    origin: "http://localhost:3000",
+    methods: ["GET", "POST"]
+  }
+});
 
 var options = {
   host: "dev-ssu.com",
@@ -83,12 +91,32 @@ app.post("/chatlist", (req, res) => {
   });
 })
 
+app.post("/chat", (req, res) => {
+  console.log("접속확인");
+  if(req.session.user){
+    console.log(req.session);
+    res.send('세션 o');
+  }
+})
+
+io.on('connection', (socket) => {
+  console.log('User connected');
+
+  socket.on('disconnect', () => {
+    console.log('User disconnected');
+  });
+
+  socket.on('chat message', (msg) => {
+    io.emit('chat message', msg);
+  });
+});
+
 app.post("/management", (req, res) => {
   dbquery.management(req, res, (result) => {
     res.send(result.data);
   });
 })
 
-app.listen(port, () => {
+server.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
 });
