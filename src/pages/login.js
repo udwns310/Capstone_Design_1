@@ -56,7 +56,6 @@ const Login = () => {
   const handleLogout = async (e) => {
     try {
       const response = await axios.get('http://localhost:3002/logout');
-      console.log(response.data);
     } catch (error) {
       console.error('에러 발생', error);
     }
@@ -65,7 +64,6 @@ const Login = () => {
   const handleSessionConfirm = async (e) => {
     try {
       const response = await axios.get('http://localhost:3002/confirm');
-      console.log(response.data);
     } catch (error) {
       console.error('에러 발생', error);
     }

@@ -19,6 +19,7 @@
     "mysql2": "^3.6.3",
     "react": "^18.2.0",
     "react-bootstrap": "^2.9.1",
+    "react-datepicker": "^4.24.0",
     "react-dom": "^18.2.0",
     "react-kakao-maps-sdk": "^1.1.24",
     "react-responsive": "^9.0.2",
