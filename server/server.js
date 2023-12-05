@@ -89,6 +89,10 @@ app.post("/management", (req, res) => {
   });
 })
 
+app.post("/createchat", (req, res) => {
+  dbquery.createchat(req, res);
+})
+
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
 });
