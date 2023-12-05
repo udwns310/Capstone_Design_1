@@ -42,16 +42,18 @@ const Login = () => {
         password: password,
       });
 
-      if (response.data.status === 'success') {
-        navigate('/main');
-        console.log('로그인 성공');
-      } else {
-        handleShowModal();
-      }
-    } catch (error) {
-      console.error('에러 발생', error);
-    }
-  };
+            if (response.data.status === 'success') {
+                navigate('/main');
+                console.log('로그인 성공');
+            } else if (response.data.status === 'nickNull') {
+                navigate('/nickname');
+            } else {
+                handleShowModal();
+            }
+        } catch (error) {
+            console.error('에러 발생', error);
+        }
+    };
 
   const handleLogout = async (e) => {
     try {

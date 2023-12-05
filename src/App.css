@@ -125,16 +125,32 @@ div {
 }
 
 .list .text {
-  width: 50%;
+    width: 70%;
 }
 
 .list .count {
-  left: 34%;
-  height: 50%;
-  position: relative;
-  background-color: #FFC107;
-  border-radius: 15px;
-  padding: 10px;
+    left: 14%;
+    height: 50%;
+    position: relative;
+    background-color: #ffc107;
+    border-radius: 15px;
+    padding: 10px;
+}
+
+.list .count2 {
+    left: 5%;
+    height: 50%;
+    position: relative;
+    background-color: #ffc107;
+    border-radius: 15px;
+    padding: 10px;
+}
+
+.siren {
+    width: 30px;
+    height: 30px;
+    margin-left: -7px;
+    margin-right: 7px;
 }
 
 .d-flex {

@@ -47,7 +47,7 @@ app.post("/register", (req, res) => {
 
 app.post("/login", (req, res) => {
   dbquery.login(req, res, (result) => {
-    if (result.status === "success") {
+    if (result.status === "success" || result.status === "nickNull") {
       req.session.user = { email: req.body.email };
       console.log("callback success");
       req.session.save(() => {
@@ -82,7 +82,6 @@ app.get('/confirm', (req, res) => {
 })
 
 app.post("/setNick", (req, res) => {
-  console.log(req.body.nickname);
   dbquery.nickname(req, res);
 })
 
@@ -97,7 +96,7 @@ app.post("/chat", (req, res) => {
   if(req.session.user){
     console.log(req.session);
     res.send('세션 o');
-}
+  }
 })
 
 io.on('connection', (socket) => {
@@ -110,7 +109,13 @@ io.on('connection', (socket) => {
   socket.on('chat message', (msg) => {
     io.emit('chat message', msg);
   });
-});  
+});
+
+app.post("/management", (req, res) => {
+  dbquery.management(req, res, (result) => {
+    res.send(result.data);
+  });
+})
 
 server.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);

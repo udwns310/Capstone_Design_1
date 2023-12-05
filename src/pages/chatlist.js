@@ -16,11 +16,12 @@ function Chatlist() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await axios.post("http://localhost:3002/chatlist", {});
+      const response = await axios.post("http://localhost:3002/chatlist", {}); // 목록 데이터 받아오기
       setList(response.data);
     };
     fetchData();
   }, []);
+
   return (
     <div className={"Chatlist start " + fade}>
       <div className="list">
@@ -28,11 +29,20 @@ function Chatlist() {
         {list.map((el, index) => {
           return (
             <div className="component">
+              {
+                el.emergency === 1
+                ? <img src="../../img/siren_icon.png" alt="My Image" className="siren"></img>
+                : null
+              }
               <div className="text">
                 {el.origin} - {el.destination}
                 <br></br>{el.formatDate}
               </div>
-              <div className="count">{el.count} / 4</div>
+              {
+                el.emergency === 1
+                ? <div className="count2">{el.count} / 4</div>
+                : <div className="count">{el.count} / 4</div>
+              }
             </div>
           );
         })}
@@ -40,4 +50,5 @@ function Chatlist() {
     </div>
   );
 }
+
 export default Chatlist;
