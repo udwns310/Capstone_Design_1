@@ -111,6 +111,10 @@ io.on('connection', (socket) => {
   });
 });
 
+app.post("/createchat", (req, res) => {
+  dbquery.createchat(req, res);
+})
+
 app.post("/management", (req, res) => {
   dbquery.management(req, res, (result) => {
     res.send(result.data);
