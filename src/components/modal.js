@@ -101,7 +101,7 @@ const ModalChat = ({ show, handleClose, title, origin, destination }) => {
           dateFormat="h:mm aa"
           placeholderText="시간을 선택하세요"
         />
-        <Form.Check // prettier-ignore
+        <Form.Check 
           style={{ marginTop: '15px' }}
           type="switch"
           id="custom-switch"

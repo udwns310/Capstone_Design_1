@@ -43,6 +43,7 @@ function Chatlist() {
                 ? <div className="count2">{el.count} / 4</div>
                 : <div className="count">{el.count} / 4</div>
               }
+              {console.log(el._id)};
             </div>
           );
         })}

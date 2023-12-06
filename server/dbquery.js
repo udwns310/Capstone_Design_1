@@ -139,11 +139,12 @@ exports.management = function (req, res, callback) {
 exports.createchat = function (req, res) {
     const email = req.session.user.email;
     const post = req.body;
-    console.log(req.body);
     db.query(`SELECT stdId FROM profile WHERE email = ?`,
         [email], function(err, result) {
-            db.query(`INSERT INTO chatlist VALUES (?, ?, ?, 1, ?, ?)`,
-                [post.origin, post.destination, post.time, result[0].stdId, post.isUrgent], function(error, Inres) {
+            db.query(`INSERT INTO chatlist VALUES (?, ?, ?, 1, ?, ?, ?)`,
+                [post.origin, post.destination, post.time, result[0].stdId, post.isUrgent, 0], function(error, Inres) {
                 })
+                
         })
+    console.log(res);
 }
