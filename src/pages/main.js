@@ -1,21 +1,21 @@
-import React from 'react';
-import Button from 'react-bootstrap/Button';
-import ButtonGroup from 'react-bootstrap/ButtonGroup';
+import React from "react";
+import Button from "react-bootstrap/Button";
+import ButtonGroup from "react-bootstrap/ButtonGroup";
 import Map from "../components/map.js";
 import { Routes, Route, Link, useNavigate } from "react-router-dom";
 import Chatlist from "./chatlist.js";
-import Management from "./management.js"; //계정관리 추가
-import PrivateInfor from './privinfor.js';
-import Chat from './chat.js';
+import Management from "./manage/management.js"; //계정관리 추가
+import PrivateInfor from "./privinfor.js";
+import Chat from "./chat.js";
 
 function Main(props) {
   return (
-    <div style={{ height: '100vh' }}>
+    <div style={{ height: "100vh" }}>
       <Routes>
         <Route
           path="/"
           element={
-            <div style={{ height: '94vh' }}>
+            <div style={{ height: "94vh" }}>
               <Map />
             </div>
           }
@@ -23,15 +23,15 @@ function Main(props) {
         <Route
           path="/chatlist"
           element={
-            <div style={{ height: '94vh' }}>
+            <div style={{ height: "94vh" }}>
               <Chatlist />
             </div>
           }
         ></Route>
         <Route
-          path="/management"
+          path="/management/*"
           element={
-            <div style={{ height: '94vh' }}>
+            <div style={{ height: "94vh" }}>
               <Management />
             </div>
           }
@@ -39,7 +39,7 @@ function Main(props) {
         <Route
           path="/privinfor"
           element={
-            <div style={{ height: '94vh' }}>
+            <div style={{ height: "94vh" }}>
               <PrivateInfor />
             </div>
           }
@@ -47,13 +47,13 @@ function Main(props) {
         <Route
           path="/chat"
           element={
-            <div style={{ height: '94vh' }}>
+            <div style={{ height: "94vh" }}>
               <Chat />
             </div>
           }
         ></Route>
       </Routes>
-      <div style={{ height: '6vh' }}>
+      <div style={{ height: "6vh" }}>
         <ButtonGroupContainer />
       </div>
     </div>
@@ -68,32 +68,35 @@ function ButtonGroupContainer() {
   };
 
   return (
-    <ButtonGroup aria-label="Basic example" style={{ width: '100%', height: '100%' }}>
+    <ButtonGroup
+      aria-label="Basic example"
+      style={{ width: "100%", height: "100%" }}
+    >
       <Button
         variant="warning"
-        style={{ width: '25%', borderRadius: '0' }}
-        onClick={() => handleListButtonClick('/main')}
+        style={{ width: "25%", borderRadius: "0" }}
+        onClick={() => handleListButtonClick("/main")}
       >
         홈
       </Button>
       <Button
         variant="warning"
-        style={{ width: '25%', borderRadius: '0' }}
-        onClick={() => handleListButtonClick('/main/chatlist')}
+        style={{ width: "25%", borderRadius: "0" }}
+        onClick={() => handleListButtonClick("/main/chatlist")}
       >
         목록
       </Button>
       <Button
         variant="warning"
-        style={{ width: '25%', borderRadius: '0' }}
-        onClick={() => handleListButtonClick('/main/chat')}
+        style={{ width: "25%", borderRadius: "0" }}
+        onClick={() => handleListButtonClick("/main/chat")}
       >
         MY채팅
       </Button>
       <Button
         variant="warning"
-        style={{ width: '25%', borderRadius: '0' }}
-        onClick={() => handleListButtonClick('/main/management')}
+        style={{ width: "25%", borderRadius: "0" }}
+        onClick={() => handleListButtonClick("/main/management")}
       >
         계정관리
       </Button>
