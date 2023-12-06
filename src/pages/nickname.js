@@ -6,7 +6,7 @@ import FloatingLabel from "react-bootstrap/FloatingLabel";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import axios from "axios";
-import MyModal from "../components/modal";
+import { MyModal } from "../components/modal";
 import { useNavigate } from 'react-router-dom';
 
 function Nickname() {

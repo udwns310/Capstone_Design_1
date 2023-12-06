@@ -113,6 +113,8 @@ io.on('connection', (socket) => {
 
 app.post("/createchat", (req, res) => {
   dbquery.createchat(req, res);
+  console.log(req.body);
+  console.log(req.session.user.email);
 })
 
 app.post("/management", (req, res) => {

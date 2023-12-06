@@ -61,6 +61,17 @@ const ModalChat = ({ show, handleClose, title, origin, destination }) => {
   };
 
   const handleOpenedChatRoom = async (e) => {
+    try{
+      const response = await axios.post('http://localhost:3002/createchat',{
+        origin : origin,
+        destination : destination,
+        time : selectedTime.toLocaleTimeString('ko-KR', { hour: 'numeric', minute: 'numeric' }),
+        isUrgent : isUrgent
+      })
+    }
+    catch (error){
+      console.log(error);
+    }
     console.log("출발지 : " + origin);
     console.log("목적지 : " + destination);
     console.log("선택된 시간 : " + selectedTime.toLocaleTimeString('ko-KR', { hour: 'numeric', minute: 'numeric' }));
