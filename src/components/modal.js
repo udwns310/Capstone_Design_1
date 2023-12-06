@@ -6,6 +6,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import Form from 'react-bootstrap/Form';
 import axios from 'axios';
+import dayjs from "dayjs";
 
 const MyModal = ({ show, handleClose, title, message }) => {
   return (
@@ -50,14 +51,15 @@ const Modal2 = ({ show, handleClose, handleoOpenChat, title, origin, destination
 
 const ModalChat = ({ show, handleClose, title, origin, destination }) => {
   const [selectedTime, setSelectedTime] = useState(null);
-  const [isUrgent, setIsUrgent] = useState(false);
+  const [isUrgent, setIsUrgent] = useState(0);
+  const TIME_ZONE = 9 * 60 * 60 * 1000; // 9시간
 
   const handleTimeChange = (time) => {
     setSelectedTime(time);
   };
 
   const handleSwitchChange = () => {
-    setIsUrgent((isUrgent) => !isUrgent);
+    setIsUrgent((isUrgent) => (isUrgent + 1) % 2);
   };
 
   const handleOpenedChatRoom = async (e) => {
@@ -65,7 +67,7 @@ const ModalChat = ({ show, handleClose, title, origin, destination }) => {
       const response = await axios.post('http://localhost:3002/createchat',{
         origin : origin,
         destination : destination,
-        time : selectedTime.toLocaleTimeString('ko-KR', { hour: 'numeric', minute: 'numeric' }),
+        time : dayjs(selectedTime).format("YYYY-MM-DD HH:mm:ss"),
         isUrgent : isUrgent
       })
     }
@@ -74,7 +76,7 @@ const ModalChat = ({ show, handleClose, title, origin, destination }) => {
     }
     console.log("출발지 : " + origin);
     console.log("목적지 : " + destination);
-    console.log("선택된 시간 : " + selectedTime.toLocaleTimeString('ko-KR', { hour: 'numeric', minute: 'numeric' }));
+    console.log("time : " + dayjs(selectedTime).format("YYYY-MM-DD HH:mm:ss"));
     console.log("긴급 설정 유무 : " + isUrgent);
   };
 
