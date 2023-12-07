@@ -7,6 +7,7 @@ import Chatlist from "./chatlist.js";
 import Management from "./manage/management.js"; //계정관리 추가
 import PrivateInfor from "./privinfor.js";
 import Chat from "./chat.js";
+import ChatContainer from "../components/ChatContainer/ChatContainer.js"
 
 function Main(props) {
   return (
@@ -48,7 +49,8 @@ function Main(props) {
           path="/chat"
           element={
             <div style={{ height: "94vh" }}>
-              <Chat />
+              <ChatContainer />
+              {/* <Chat /> */}
             </div>
           }
         ></Route>
