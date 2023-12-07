@@ -8,6 +8,7 @@ import Management from "./manage/management.js"; //계정관리 추가
 import PrivateInfor from "./privinfor.js";
 import Chat from "./chat.js";
 import ChatContainer from "../components/ChatContainer/ChatContainer.js"
+import Mychat from "./mychat.js";
 
 function Main(props) {
   return (
@@ -24,7 +25,7 @@ function Main(props) {
         <Route
           path="/chatlist"
           element={
-            <div style={{ height: "94vh" }}>
+            <div style={{ height: "94vh", overflow: "scroll" }}>
               <Chatlist />
             </div>
           }
@@ -48,14 +49,14 @@ function Main(props) {
         <Route
           path="/chat"
           element={
-            <div style={{ height: "94vh" }}>
-              <ChatContainer />
+            <div style={{ height: "94vh", overflow: "scroll" }}>
+              <Mychat />
               {/* <Chat /> */}
             </div>
           }
         ></Route>
       </Routes>
-      <div style={{ height: "6vh" }}>
+      <div style={{ height: "6vh"}}>
         <ButtonGroupContainer />
       </div>
     </div>
