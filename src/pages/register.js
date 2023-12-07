@@ -8,7 +8,6 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { MyModal } from "../components/modal";
 import { Route, useNavigate } from "react-router-dom";
-import PrivateInfor from "./privinfor";
 import { Link } from "react-router-dom";
 
 function Sign_up() {
@@ -194,11 +193,11 @@ function Sign_up() {
               <Form>
                {['checkbox'].map((type) => (
                  <div key={`default-${type}`} className="mb-3">
-                   <Form.Check style={{ display: "inline", marginRight: "8px"}}
+                   <Form.Check style={{ display: "inline", marginRight: "10px"}}
                      type={type}
                      id={`default-${type}`}
                     />
-                  <Link to="/main/privinfor" style={{textDecorationLine:"none", color:"#0B3D91"}}>개인정보 이용 동의</Link>
+                  <Link to="/privinfor" style={{textDecorationLine:"none", color:"#0B3D91"}}>개인정보 이용 동의</Link>
                  </div>
                  ))}
               </Form>
