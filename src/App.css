@@ -193,3 +193,8 @@ div {
   font-weight: bold;
   font-size: large;
 }
+
+#spreadc{
+  font-size: 12px;
+  white-space: nowrap;
+}
