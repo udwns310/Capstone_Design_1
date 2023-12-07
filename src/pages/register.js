@@ -6,7 +6,7 @@ import axios from "axios";
 import Card from "react-bootstrap/Card";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import MyModal from "../components/modal";
+import { MyModal } from "../components/modal";
 import { useNavigate } from "react-router-dom";
 import PrivateInfor from "./privinfor";
 import { Link } from "react-router-dom";
@@ -50,7 +50,7 @@ function Sign_up() {
   const handleNameChange = (e) => setName(e.target.value);
   const handleGenderChange = (e) => setGender(e.target.value);
   const handlePhoneNumberChange = (e) => {
-    // 최대 길이를 11로 설정
+    // 최대 길이를 13으로 설정
     const maxLength = 13;
     const formattedPhoneNumber = autoHyphen(e.target.value.slice(0, maxLength));
     setPhoneNumber(formattedPhoneNumber);

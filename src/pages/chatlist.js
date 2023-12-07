@@ -31,7 +31,7 @@ function Chatlist() {
             <div className="component">
               {
                 el.emergency === 1
-                ? <img src="img/siren_icon.png" alt="My Image" className="siren"></img>
+                ? <img src="../../img/siren_icon.png" alt="My Image" className="siren"></img>
                 : null
               }
               <div className="text">
