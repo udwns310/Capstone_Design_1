@@ -40,7 +40,7 @@ function Help(props) {
         </Nav.Item>
       </Nav>
 
-      <div className="mfont">
+      <div className="mfont" style={{margin:"20px"}}>
         <h4>무엇을 도와드릴까요?</h4>
       </div>
     </div>
