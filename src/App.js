@@ -7,6 +7,7 @@ import Login from "./pages/login.js";
 import Sign_up from "./pages/register.js";
 import Nickname from "./pages/nickname.js";
 import Main from "./pages/main.js";
+import PrivateInfor from "./pages/privinfor.js";
 
 function App() {
     let [fade, setFade] = useState('');
@@ -79,6 +80,14 @@ function App() {
                 element={
                     <div>
                         <Main />
+                    </div>
+                }
+            ></Route>
+            <Route //
+                path="/privinfor*"
+                element={
+                    <div>
+                        <PrivateInfor />
                     </div>
                 }
             ></Route>

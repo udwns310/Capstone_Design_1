@@ -4,10 +4,8 @@ import ButtonGroup from "react-bootstrap/ButtonGroup";
 import Map from "../components/map.js";
 import { Routes, Route, Link, useNavigate } from "react-router-dom";
 import Chatlist from "./chatlist.js";
-import Management from "./manage/management.js"; //계정관리 추가
+import Management from "./manage/management.js";
 import PrivateInfor from "./privinfor.js";
-import Chat from "./chat.js";
-import ChatContainer from "../components/ChatContainer/ChatContainer.js"
 import Mychat from "./mychat.js";
 
 function Main(props) {
