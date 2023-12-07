@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-function Chatlist() {
+function Mychat() {
   let [fade, setFade] = useState("");
   const [list, setList] = useState([]);
 
@@ -16,7 +16,7 @@ function Chatlist() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await axios.post("http://localhost:3002/chatlist", {}); // 목록 데이터 받아오기
+      const response = await axios.post("http://localhost:3002/mychat", {}); // 목록 데이터 받아오기
       setList(response.data);
     };
     fetchData();
@@ -51,4 +51,4 @@ function Chatlist() {
   );
 }
 
-export default Chatlist;
+export default Mychat;

@@ -105,14 +105,19 @@ div {
   }
 }
 
-.list {
-  overflow-y: scroll;
-}
-
-.list .title {
+.title {
+  position: fixed;
+  top: 0;
+  font-size: 24px;
+  z-index: 999;
+  width: 100%;
   text-align: center;
   padding: 15px;
   background-color: #FFC107;
+}
+
+.list {
+  padding-top: 65px;
 }
 
 .list .component {

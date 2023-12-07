@@ -121,6 +121,12 @@ app.post("/management", (req, res) => {
   });
 })
 
+app.post("/mychat", (req, res) => {
+  dbquery.mychat(req, res, (result) => {
+    res.send(result.data);
+  });
+})
+
 server.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
 });
