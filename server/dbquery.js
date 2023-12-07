@@ -143,8 +143,9 @@ exports.createchat = function (req, res) {
         [email], function(err, result) {
             db.query(`INSERT INTO chatlist VALUES (?, ?, ?, 1, ?, ?, ?)`,
                 [post.origin, post.destination, post.time, result[0].stdId, post.isUrgent, 0], function(error, Inres) {
-                })
-                
+                })   
+            db.query('SELECT _id FROM chatlist WHERE user = ? ORDER BY _id desc', [result[0].stdId], function(err, _idRes){
+                    res.json({id : _idRes[0]._id});
+                })   
         })
-    console.log(res);
 }

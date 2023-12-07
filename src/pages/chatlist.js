@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import io from 'socket.io-client';
+import { useNavigate } from 'react-router-dom';
 
 function Chatlist() {
   let [fade, setFade] = useState("");
   const [list, setList] = useState([]);
+  let navigate = useNavigate();
 
   useEffect(() => {
     setTimeout(() => {
@@ -22,13 +25,22 @@ function Chatlist() {
     fetchData();
   }, []);
 
+  const handleComponentClick = (event, el) => {
+    // 클릭 이벤트 핸들러 함수
+    const socket = io.connect('http://localhost:3002/chat');
+    
+    socket.emit('sendId', el._id);
+    socket.emit('join'); // 서버로 test 라는 이벤트와  roomId 데이터 전송
+    navigate('/chatRoom');
+  };
+
   return (
     <div className={"Chatlist start " + fade}>
       <div className="list">
         <h2 className="title">합승 목록</h2>
         {list.map((el, index) => {
           return (
-            <div className="component">
+            <div className="component" onClick={(event) => handleComponentClick(event, el)}>
               {
                 el.emergency === 1
                 ? <img src="../../img/siren_icon.png" alt="My Image" className="siren"></img>
@@ -43,7 +55,6 @@ function Chatlist() {
                 ? <div className="count2">{el.count} / 4</div>
                 : <div className="count">{el.count} / 4</div>
               }
-              {console.log(el._id)};
             </div>
           );
         })}

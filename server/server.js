@@ -8,12 +8,20 @@ const session = require('express-session');
 const mySqlStore = require('express-mysql-session')(session);
 const http = require('http');
 const socketIO = require('socket.io');
+const { Socket } = require("socket.io-client");
 const server = http.createServer(app);
+const { instrument } = require("@socket.io/admin-ui");
 const io = socketIO(server, {
   cors: {
-    origin: "http://localhost:3000",
-    methods: ["GET", "POST"]
+    origin: ["http://localhost:3000", "https://admin.socket.io"],
+    methods: ["GET", "POST"],
+    credentials : true,
   }
+});
+
+instrument(io, {
+  auth: false,
+  mode: "development",
 });
 
 var options = {
@@ -26,7 +34,7 @@ var options = {
 var sessionStore = new mySqlStore(options);
 
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cors({ credentials: true, origin: "http://localhost:3000" }));
+app.use(cors({ credentials: true, origin: ["http://localhost:3000", "https://admin.socket.io"] }));
 app.use(bodyParser.json());
 
 app.use(session({
@@ -59,10 +67,10 @@ app.post("/login", (req, res) => {
 });
 
 app.get('/logout', (req, res) => {
-  if(req.session){
-      req.session.destroy(()=>{
-          console.log("삭제완료");
-      });
+  if (req.session) {
+    req.session.destroy(() => {
+      console.log("삭제완료");
+    });
   }
   else {
     console.log("제거할 세션 없음");
@@ -71,13 +79,13 @@ app.get('/logout', (req, res) => {
 })
 
 app.get('/confirm', (req, res) => {
-  if(req.session.user){
-      console.log(req.session);
-      res.send('세션 o');
+  if (req.session.user) {
+    console.log(req.session);
+    res.send('세션 o');
   }
   else {
-      console.log('no session');
-      res.send('세션 x');
+    console.log('no session');
+    res.send('세션 x');
   }
 })
 
@@ -93,26 +101,16 @@ app.post("/chatlist", (req, res) => {
 
 app.post("/chat", (req, res) => {
   console.log("접속확인");
-  if(req.session.user){
+  if (req.session.user) {
     console.log(req.session);
     res.send('세션 o');
   }
 })
 
-io.on('connection', (socket) => {
-  console.log('User connected');
-
-  socket.on('disconnect', () => {
-    console.log('User disconnected');
-  });
-
-  socket.on('chat message', (msg) => {
-    io.emit('chat message', msg);
-  });
-});
-
 app.post("/createchat", (req, res) => {
-  dbquery.createchat(req, res);
+  dbquery.createchat(req, res, () => {
+    res.send(res);
+  });
   console.log(req.body);
   console.log(req.session.user.email);
 })
@@ -122,6 +120,45 @@ app.post("/management", (req, res) => {
     res.send(result.data);
   });
 })
+
+
+io.on("connection", (socket) => {
+  socket.on('test', () => {
+    console.log('user Connected');
+  })
+  socket.on('disconnect', function () {
+    console.log("dissconnect");
+    // 클라이언트의 연결이 끊어졌을 경우 실행됨
+  });
+})
+
+const chat = io.of('/chat');
+
+chat.on('connection', (socket) => {
+
+  // const req = socket.request;
+  // const {
+  //   headers:{referer},
+  // } = req;
+  // const roomId = referer.split('/')[referer.split('/').length-1].replace(/\?,+/, '');
+
+  var chatRoomId;
+  socket.on('sendId', (data) => {
+    chatRoomId = data;
+  })
+  
+  socket.on('join', () => { // 클라이언트에 test라는 이벤트 받으면
+    socket.join(chatRoomId); // data를 id로 하는 룸을 만들었어
+    console.log(chatRoomId + " 접속");
+  })
+  
+  socket.to(chatRoomId).emit('join')
+
+  socket.on('disconnect', () => {
+    console.log('chat 네임스페이스 접속 해제');
+  });
+})
+
 
 server.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);

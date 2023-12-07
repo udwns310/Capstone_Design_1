@@ -7,6 +7,8 @@ import 'react-datepicker/dist/react-datepicker.css';
 import Form from 'react-bootstrap/Form';
 import axios from 'axios';
 import dayjs from "dayjs";
+import io from 'socket.io-client';
+import { useNavigate } from 'react-router-dom';
 
 const MyModal = ({ show, handleClose, title, message }) => {
   return (
@@ -53,6 +55,8 @@ const ModalChat = ({ show, handleClose, title, origin, destination }) => {
   const [selectedTime, setSelectedTime] = useState(null);
   const [isUrgent, setIsUrgent] = useState(0);
   const TIME_ZONE = 9 * 60 * 60 * 1000; // 9시간
+  let navigate = useNavigate();
+
 
   const handleTimeChange = (time) => {
     setSelectedTime(time);
@@ -63,21 +67,27 @@ const ModalChat = ({ show, handleClose, title, origin, destination }) => {
   };
 
   const handleOpenedChatRoom = async (e) => {
-    try{
-      const response = await axios.post('http://localhost:3002/createchat',{
-        origin : origin,
-        destination : destination,
-        time : dayjs(selectedTime).format("YYYY-MM-DD HH:mm:ss"),
-        isUrgent : isUrgent
+    try {
+      const response = await axios.post('http://localhost:3002/createchat', {
+        origin: origin,
+        destination: destination,
+        time: dayjs(selectedTime).format("YYYY-MM-DD HH:mm:ss"),
+        isUrgent: isUrgent
       })
+      const roomId = response.data.id;
+
+      const socket = io.connect('http://localhost:3002/chat');
+      socket.emit('sendId',roomId )
+      socket.emit('join'); // 서버로 test 라는 이벤트와  roomId 데이터 전송
+      navigate('/chatRoom');
+
+      // socket.on('event_name', () => { // 서버에서 event_name 이벤트를 받음
+      //   console.log('message from client'); // 안에 내용 실행됨
+      // })
     }
-    catch (error){
+    catch (error) {
       console.log(error);
     }
-    console.log("출발지 : " + origin);
-    console.log("목적지 : " + destination);
-    console.log("time : " + dayjs(selectedTime).format("YYYY-MM-DD HH:mm:ss"));
-    console.log("긴급 설정 유무 : " + isUrgent);
   };
 
   return (
@@ -101,12 +111,12 @@ const ModalChat = ({ show, handleClose, title, origin, destination }) => {
           dateFormat="h:mm aa"
           placeholderText="시간을 선택하세요"
         />
-        <Form.Check 
+        <Form.Check
           style={{ marginTop: '15px' }}
           type="switch"
           id="custom-switch"
           label="긴급으로 설정"
-          checked = {isUrgent}
+          checked={isUrgent}
           onChange={handleSwitchChange}
         />
       </Modal.Body>
