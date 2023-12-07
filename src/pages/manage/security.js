@@ -36,7 +36,7 @@ function Security(props) {
           </Nav.Link>
         </Nav.Item>
       </Nav>
-      <div style={{margin:"10px 20px"}}>
+      <div style={{margin:"20px 20px"}}>
         <div className="mfont"> 비밀번호 변경 </div>
         <div style={{ paddingTop: "10px" }}>
           <Form.Control type="password" placeholder="기존 비밀번호 입력" />

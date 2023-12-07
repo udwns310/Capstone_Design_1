@@ -61,14 +61,14 @@ function Security(props) {
 
         <div className="mfont">전화번호</div>
         <div>{info.phoneNum}</div>
-        <div style={{ textAlign: "center" }}>
+        <div style={{textAlign: "center", marginTop:"25px" }}>
           <Link to="/main/privinfor" id="terms">
             개인정보이용 약관 전체보기
           </Link>
         </div>
-        <Button className="lgbtn" variant="outline-warning" type="submit">
+        {/* <Button className="lgbtn" variant="outline-warning" type="submit">
           저장
-        </Button>
+        </Button> */}
       </Form>
     </div>
   );
