@@ -13,24 +13,23 @@ const ChatRoom = () => {
   useEffect(() => {
     const socket = io('http://localhost:3002/chat');
 
-    if(!isConnect){
-      socket.on('connect', () => {
-        console.log("connect room " + roomId);
-        socket.emit('join', roomId);
-        setSocketId(socket.id);
-        setIsConnect(true);
-      });
-    }
+    socket.on('connect', () => {
+      console.log("connect room " + roomId);
+      socket.emit('join', roomId);
+      setSocketId(socket.id);
+      setIsConnect(true);
+    });
+
     socket.on('serverSendMessage', (message) => {
-      // 서버에서 받은 메시지와 현재 입력한 메시지를 비교하여 같지 않으면 추가
       if (message !== newMessage) {
         setMessages((prevMessages) => [...prevMessages, message]);
         console.log("다른 놈이 보낸 채팅임");
       }
     });
-    // return () => {
-    //   socket.disconnect();
-    // };
+
+    return () => {
+      socket.disconnect();
+    };
   }, [roomId, newMessage]);
 
   const sendMessage = () => {
