@@ -77,13 +77,11 @@ const ModalChat = ({ show, handleClose, title, origin, destination }) => {
       const roomId = response.data.id;
 
       const socket = io.connect('http://localhost:3002/chat');
+      
       socket.emit('sendId',roomId )
       socket.emit('join'); // 서버로 test 라는 이벤트와  roomId 데이터 전송
+      
       navigate('/chatRoom');
-
-      // socket.on('event_name', () => { // 서버에서 event_name 이벤트를 받음
-      //   console.log('message from client'); // 안에 내용 실행됨
-      // })
     }
     catch (error) {
       console.log(error);

@@ -47,6 +47,9 @@ function Main(props) {
   const [destinationOptions, setDestinationOptions] = useState(destinationData);
 
   const handlePosition = (value, optionsSetter, markerSetter, dir) => {
+
+    const container = document.getElementById("map");
+
     if (value.value !== "null") {
       if (dir === "destination") {setDestinationSelcted(true); setSaveDestinationValue(value.label); }
       else if (dir === "origin") {setOriginSelcted(true); setSaveOriginValue(value.label); }

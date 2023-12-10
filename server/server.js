@@ -11,6 +11,7 @@ const socketIO = require('socket.io');
 const { Socket } = require("socket.io-client");
 const server = http.createServer(app);
 const { instrument } = require("@socket.io/admin-ui");
+const { chownSync } = require("fs");
 const io = socketIO(server, {
   cors: {
     origin: ["http://localhost:3000", "https://admin.socket.io"],
@@ -136,29 +137,15 @@ const chat = io.of('/chat');
 
 chat.on('connection', (socket) => {
 
-  // const req = socket.request;
-  // const {
-  //   headers:{referer},
-  // } = req;
-  // const roomId = referer.split('/')[referer.split('/').length-1].replace(/\?,+/, '');
-
-  var chatRoomId;
-  socket.on('sendId', (data) => {
-    chatRoomId = data;
-  })
-  
-  socket.on('join', () => { // 클라이언트에 test라는 이벤트 받으면
-    socket.join(chatRoomId); // data를 id로 하는 룸을 만들었어
-    console.log(chatRoomId + " 접속");
-  })
-  
-  socket.to(chatRoomId).emit('join')
-
-  socket.on('disconnect', () => {
-    console.log('chat 네임스페이스 접속 해제');
+  socket.on('join', (chatRoomId) => {
+    socket.join(chatRoomId);
   });
-})
 
+  socket.on('clientSendMessage', (data) => {
+    socket.to(data.roomId).emit('serverSendMessage', data.message);
+  });
+
+});
 
 server.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
