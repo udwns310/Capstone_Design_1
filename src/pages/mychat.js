@@ -1,12 +1,9 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { io } from 'socket.io-client';
-import { useNavigate } from 'react-router-dom';
 
-function Chatlist() {
+function Mychat() {
   let [fade, setFade] = useState("");
   const [list, setList] = useState([]);
-  let navigate = useNavigate();
 
   useEffect(() => {
     setTimeout(() => {
@@ -19,21 +16,11 @@ function Chatlist() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await axios.post("http://localhost:3002/chatlist", {}); // 목록 데이터 받아오기
+      const response = await axios.post("http://localhost:3002/mychat", {}); // 목록 데이터 받아오기
       setList(response.data);
     };
     fetchData();
   }, []);
-
-  const handleComponentClick = (event, el) => {
-    // 클릭 이벤트 핸들러 함수
-    // const socket = io.connect('http://localhost:3002/chat');
-    
-    // socket.emit('sendId', el._id);
-    // socket.emit('join'); // 서버로 test 라는 이벤트와  roomId 데이터 전송
-    
-    navigate('/chatRoom', {state: { roomId: el._id }});
-  };
 
   return (
     <div className={"Chatlist start " + fade}>
@@ -41,7 +28,7 @@ function Chatlist() {
       <div className="list">
         {list.map((el, index) => {
           return (
-            <div className="component" onClick={(event) => handleComponentClick(event, el)}>
+            <div className="component">
               {
                 el.emergency === 1
                 ? <img src="../../img/siren_icon.png" alt="My Image" className="siren"></img>
@@ -64,4 +51,4 @@ function Chatlist() {
   );
 }
 
-export default Chatlist;
+export default Mychat;

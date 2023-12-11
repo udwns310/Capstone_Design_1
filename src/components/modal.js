@@ -28,7 +28,14 @@ const MyModal = ({ show, handleClose, title, message }) => {
   );
 };
 
-const Modal2 = ({ show, handleClose, handleoOpenChat, title, origin, destination }) => {
+const Modal2 = ({
+  show,
+  handleClose,
+  handleoOpenChat,
+  title,
+  origin,
+  destination,
+}) => {
   return (
     <Modal show={show} onHide={handleClose} centered>
       <Modal.Header closeButton>
@@ -97,7 +104,13 @@ const ModalChat = ({ show, handleClose, title, origin, destination }) => {
         <p>출발지 - {origin}</p>
         <p>목적지 - {destination}</p>
         {selectedTime && (
-          <p>선택된 시간: {selectedTime.toLocaleTimeString('ko-KR', { hour: 'numeric', minute: 'numeric' })}</p>
+          <p>
+            선택된 시간:{" "}
+            {selectedTime.toLocaleTimeString("ko-KR", {
+              hour: "numeric",
+              minute: "numeric",
+            })}
+          </p>
         )}
         <DatePicker
           selected={selectedTime}

@@ -149,3 +149,14 @@ exports.createchat = function (req, res) {
                 })   
         })
 }
+
+exports.mychat = function (req, res, callback) {
+    const email = req.session.user.email;
+    db.query(`SELECT stdId FROM profile WHERE email = ?`,
+        [email], function(err, result) {
+            db.query(`SELECT *, date_format(date, '%m/%d %H:%i') as formatDate FROM chatlist WHERE user = ? ORDER BY emergency DESC, date`,
+            [result[0].stdId], function(Myerr, Myres) {
+                callback({ data: Myres });
+        })
+    })
+}

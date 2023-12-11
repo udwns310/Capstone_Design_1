@@ -122,7 +122,6 @@ app.post("/management", (req, res) => {
   });
 })
 
-
 io.on("connection", (socket) => {
   socket.on('test', () => {
     console.log('user Connected');
@@ -146,6 +145,12 @@ chat.on('connection', (socket) => {
   });
 
 });
+
+app.post("/mychat", (req, res) => {
+  dbquery.mychat(req, res, (result) => {
+    res.send(result.data);
+  });
+})
 
 server.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);

@@ -9,6 +9,7 @@ import axios from "axios";
 import { MyModal } from "../components/modal";
 import { useNavigate } from 'react-router-dom';
 
+
 function Nickname() {
   let [fade, setFade] = useState("");
   const [nickname, setNickName] = useState("");
@@ -31,13 +32,13 @@ function Nickname() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const response = await axios.post("http://localhost:3002/setNick", {
-      nickname : nickname,
+      nickname: nickname,
     });
 
-    if (response.data.status === 'success') {
-      navigate('/main');
+    if (response.data.status === "success") {
+      navigate("/main");
     } else {
-        handleShowModal();
+      handleShowModal();
     }
   };
 

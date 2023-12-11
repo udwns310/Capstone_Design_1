@@ -7,7 +7,8 @@ import Card from "react-bootstrap/Card";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { MyModal } from "../components/modal";
-import { useNavigate } from "react-router-dom";
+import { Route, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 function Sign_up() {
   const [showModal, setShowModal] = useState(false);
@@ -189,6 +190,18 @@ function Sign_up() {
                   onChange={handleStudentIdChange}
                 />
               </FloatingLabel>
+              <Form>
+               {['checkbox'].map((type) => (
+                 <div key={`default-${type}`} className="mb-3">
+                   <Form.Check style={{ display: "inline", marginRight: "10px"}}
+                     type={type}
+                     id={`default-${type}`}
+                    />
+                  <Link to="/privinfor" style={{textDecorationLine:"none", color:"#0B3D91"}}>개인정보 이용 동의</Link>
+                 </div>
+                 ))}
+              </Form>
+
               <Button className="rgbtn" variant="outline-warning" type="submit">
                 {" "}
                 회원가입{" "}
