@@ -1,11 +1,14 @@
 // ModalComponent.jsx
-import React, { useState } from "react";
-import Modal from "react-bootstrap/Modal";
-import Button from "react-bootstrap/Button";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-import Form from "react-bootstrap/Form";
-import axios from "axios";
+import React, { useState } from 'react';
+import Modal from 'react-bootstrap/Modal';
+import Button from 'react-bootstrap/Button';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import Form from 'react-bootstrap/Form';
+import axios from 'axios';
+import dayjs from "dayjs";
+import io from 'socket.io-client';
+import { useNavigate } from 'react-router-dom';
 
 const MyModal = ({ show, handleClose, title, message }) => {
   return (
@@ -57,27 +60,39 @@ const Modal2 = ({
 
 const ModalChat = ({ show, handleClose, title, origin, destination }) => {
   const [selectedTime, setSelectedTime] = useState(null);
-  const [isUrgent, setIsUrgent] = useState(false);
+  const [isUrgent, setIsUrgent] = useState(0);
+  const TIME_ZONE = 9 * 60 * 60 * 1000; // 9시간
+  let navigate = useNavigate();
+
 
   const handleTimeChange = (time) => {
     setSelectedTime(time);
   };
 
   const handleSwitchChange = () => {
-    setIsUrgent((isUrgent) => !isUrgent);
+    setIsUrgent((isUrgent) => (isUrgent + 1) % 2);
   };
 
   const handleOpenedChatRoom = async (e) => {
-    console.log("출발지 : " + origin);
-    console.log("목적지 : " + destination);
-    console.log(
-      "선택된 시간 : " +
-        selectedTime.toLocaleTimeString("ko-KR", {
-          hour: "numeric",
-          minute: "numeric",
-        })
-    );
-    console.log("긴급 설정 유무 : " + isUrgent);
+    try {
+      const response = await axios.post('http://localhost:3002/createchat', {
+        origin: origin,
+        destination: destination,
+        time: dayjs(selectedTime).format("YYYY-MM-DD HH:mm:ss"),
+        isUrgent: isUrgent
+      })
+      const roomId = response.data.id;
+
+      const socket = io.connect('http://localhost:3002/chat');
+      
+      socket.emit('sendId',roomId )
+      socket.emit('join'); // 서버로 test 라는 이벤트와  roomId 데이터 전송
+      
+      navigate('/chatRoom');
+    }
+    catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -107,8 +122,8 @@ const ModalChat = ({ show, handleClose, title, origin, destination }) => {
           dateFormat="h:mm aa"
           placeholderText="시간을 선택하세요"
         />
-        <Form.Check // prettier-ignore
-          style={{ marginTop: "15px" }}
+        <Form.Check
+          style={{ marginTop: '15px' }}
           type="switch"
           id="custom-switch"
           label="긴급으로 설정"

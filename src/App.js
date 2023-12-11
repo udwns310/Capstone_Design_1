@@ -7,6 +7,7 @@ import Login from "./pages/login.js";
 import Sign_up from "./pages/register.js";
 import Nickname from "./pages/nickname.js";
 import Main from "./pages/main.js";
+import ChatRoom from "./pages/chatRoom.js"
 import PrivateInfor from "./pages/privinfor.js";
 
 function App() {
@@ -83,6 +84,11 @@ function App() {
                     </div>
                 }
             ></Route>
+            <Route //메인 페이지 Route 
+                path="/chatRoom"
+                element={
+                    <div>
+                        <ChatRoom />
             <Route //
                 path="/privinfor*"
                 element={

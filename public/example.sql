@@ -33,8 +33,7 @@ CREATE TABLE `chatlist` (
   `date` DATETIME NOT NULL,
   `count` int NOT NULL,
   `user` varchar(10) NOT NULL,
-  `emergency` int NOT NULL,
-  PRIMARY KEY (`user`)
+  `emergency` int NOT NULL
 );
 
 --
