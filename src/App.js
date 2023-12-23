@@ -84,7 +84,7 @@ function App() {
                     </div>
                 }
             ></Route>
-            <Route //메인 페이지 Route 
+            <Route //채팅 페이지 Route 
                 path="/chatRoom"
                 element={
                     <div>
@@ -92,7 +92,7 @@ function App() {
                     </div>
                 }
             ></Route>
-            <Route //
+            <Route //약관 페이지 Route
                 path="/privinfor*"
                 element={
                     <div>

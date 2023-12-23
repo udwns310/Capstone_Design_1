@@ -4,10 +4,12 @@ import Button from "react-bootstrap/Button";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import Nav from "react-bootstrap/Nav";
+import { useNavigate } from 'react-router-dom';
 
 function Security(props) {
   let [fade, setFade] = useState("");
   const [info, setInfo] = useState([]);
+  let navigate = useNavigate();
 
   useEffect(() => {
     setTimeout(() => {
@@ -25,6 +27,15 @@ function Security(props) {
     };
     fetchData();
   }, []);
+
+  const handleLogout = async (e) => {
+    try {
+      navigate('/');
+      const response = await axios.get('http://localhost:3002/logout');
+    } catch (error) {
+      console.error('에러 발생', error);
+    }
+  };
 
   return (
     <div className={"management start " + fade}>
@@ -66,9 +77,9 @@ function Security(props) {
             개인정보이용 약관 전체보기
           </Link>
         </div>
-        {/* <Button className="lgbtn" variant="outline-warning" type="submit">
-          저장
-        </Button> */}
+        <div >
+        <Button onClick={handleLogout} className="lgbtn" variant="outline-warning">로그아웃</Button>
+        </div>
       </Form>
     </div>
   );
