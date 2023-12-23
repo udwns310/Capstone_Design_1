@@ -155,6 +155,10 @@ app.post("/joinchat", (req, res) => {
   dbquery.joinchat(req, res);
 })
 
+app.post("/changepw", (req, res) => {
+  dbquery.changepw(req, res);
+})
+
 server.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
 });

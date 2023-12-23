@@ -196,3 +196,26 @@ exports.joinchat = function (req, res) {
         })
     })
 }
+
+exports.changepw = function (req, res) {
+    const post = req.body;
+    const email = req.session.user.email;
+    db.query(`SELECT password, salt FROM profile WHERE email = ?`,
+    [email], async function(error, result) {
+        const verified = await verifyPassword(post.currentPw, result[0].salt, result[0].password); // password 검증
+                if (verified) {
+                    if(post.currentPw == post.newPw) { // 기존, 새 비밀번호 일치여부
+                        res.json({ status: 'cnmatch' });
+                    } else {
+                        const { password, salt } = await createHashedPassword(post.newPw); // password 암호화
+                        db.query(`UPDATE profile SET password = ?, salt = ? WHERE email = ?`, // password 변경
+                        [password, salt, email], function(cherr, chres) {
+                            res.json({ status: 'success' });
+                        })
+                    }
+                } else {
+                    res.json({ status: 'mismatch' });
+                }
+    })
+
+}
