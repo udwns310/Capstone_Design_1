@@ -28,19 +28,24 @@ INSERT INTO `profile` VALUES ('test@test.com', 'Xsc+HAlHasoKQy/Ct5EdOU5gFnaOT3PU
 --
 
 CREATE TABLE `chatlist` (
+  `_id` int NOT NULL AUTO_INCREMENT,
   `origin` varchar(30) NOT NULL,
   `destination` varchar(30) NOT NULL,
   `date` DATETIME NOT NULL,
   `count` int NOT NULL,
-  `user` varchar(10) NOT NULL,
-  `emergency` int NOT NULL
+  `emergency` int NOT NULL,
+  `user1` varchar(10) NOT NULL,
+  `user2` varchar(10),
+  `user3` varchar(10),
+  `user4` varchar(10),
+  PRIMARY KEY (`_id`)
 );
 
 --
 -- Dumping data for table `chatlist`
 --
 
-INSERT INTO `chatlist` VALUES ('동의대역', '자대로터리', '2023-11-26 13:00', 3, '20231111', 1),
-('가야1치안', '수덕전', '2023-11-26 13:10', 2, '20231234', 0),
-('가야1치안', '행복기숙사', '2023-11-26 12:55', 1, '22222222', 0),
-('동의대역', '본관', '2023-11-26 13:05', 1, '22222343', 0);
+INSERT INTO `chatlist` VALUES (0, '동의대역', '자대로터리', '2023-11-26 13:00', 1, 1, '20231111'),
+(0, '가야1치안', '수덕전', '2023-11-26 13:10', 1, 0, '20231234'),
+(0, '가야1치안', '행복기숙사', '2023-11-26 12:55', 1, 0, '22222222'),
+(0, '동의대역', '본관', '2023-11-26 13:05', 1, 0, '22222343');
