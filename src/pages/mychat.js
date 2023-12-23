@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useNavigate } from 'react-router-dom';
 
 function Mychat() {
   let [fade, setFade] = useState("");
   const [list, setList] = useState([]);
+  let navigate = useNavigate();
 
   useEffect(() => {
     setTimeout(() => {
@@ -22,13 +24,18 @@ function Mychat() {
     fetchData();
   }, []);
 
+  const handleComponentClick = (event, el) => {
+    navigate('/chatRoom', {state: { roomId: el._id }});
+  };
+
   return (
     <div className={"Chatlist start " + fade}>
       <div className="title">합승 목록</div>
       <div className="list">
         {list.map((el, index) => {
           return (
-            <div className="component">
+            <div className="component" onClick={(event) => 
+            handleComponentClick(event, el)}>
               {
                 el.emergency === 1
                 ? <img src="../../img/siren_icon.png" alt="My Image" className="siren"></img>
