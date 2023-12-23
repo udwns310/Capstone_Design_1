@@ -103,7 +103,6 @@ app.post("/chatlist", (req, res) => {
 app.post("/chat", (req, res) => {
   console.log("접속확인");
   if (req.session.user) {
-    console.log(req.session);
     res.send('세션 o');
   }
 })
@@ -150,6 +149,10 @@ app.post("/mychat", (req, res) => {
   dbquery.mychat(req, res, (result) => {
     res.send(result.data);
   });
+})
+
+app.post("/joinchat", (req, res) => {
+  dbquery.joinchat(req, res);
 })
 
 server.listen(port, () => {

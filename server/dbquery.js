@@ -141,12 +141,12 @@ exports.createchat = function (req, res) {
     const post = req.body;
     db.query(`SELECT stdId FROM profile WHERE email = ?`,
         [email], function(err, result) {
-            db.query(`INSERT INTO chatlist VALUES (?, ?, ?, 1, ?, ?, ?)`,
-                [post.origin, post.destination, post.time, result[0].stdId, post.isUrgent, 0], function(error, Inres) {
+            db.query(`INSERT INTO chatlist VALUES (0, ?, ?, ?, 1, ?, ?, NULL, NULL, NULL)`,
+                [post.origin, post.destination, post.time, post.isUrgent, result[0].stdId], function(error, Inres) {
                 })   
-            db.query('SELECT _id FROM chatlist WHERE user = ? ORDER BY _id desc', [result[0].stdId], function(err, _idRes){
+            db.query('SELECT _id FROM chatlist WHERE user1 = ? ORDER BY _id desc', [result[0].stdId], function(err, _idRes){
                     res.json({id : _idRes[0]._id});
-                })   
+                })
         })
 }
 
@@ -154,9 +154,45 @@ exports.mychat = function (req, res, callback) {
     const email = req.session.user.email;
     db.query(`SELECT stdId FROM profile WHERE email = ?`,
         [email], function(err, result) {
-            db.query(`SELECT *, date_format(date, '%m/%d %H:%i') as formatDate FROM chatlist WHERE user = ? ORDER BY emergency DESC, date`,
-            [result[0].stdId], function(Myerr, Myres) {
+            db.query(`SELECT *, date_format(date, '%m/%d %H:%i') as formatDate FROM chatlist WHERE user1 = ? OR user2 = ? OR user3 = ? OR user4 = ? ORDER BY emergency DESC, date`,
+            [result[0].stdId, result[0].stdId, result[0].stdId, result[0].stdId], function(Myerr, Myres) {
                 callback({ data: Myres });
+        })
+    })
+}
+
+exports.joinchat = function (req, res) {
+    const email = req.session.user.email;
+    const id = req.body.id;
+    db.query(`SELECT stdId FROM profile WHERE email = ?`,
+    [email], function(err, result) {
+            db.query(`SELECT count FROM chatlist WHERE _id = ? AND (user1 = ? OR user2 = ? OR user3 = ? OR user4 = ?)`, // 이미 참여한 방인지 확인
+            [id, result[0].stdId, result[0].stdId, result[0].stdId, result[0].stdId], function(ckerr, ckres) {
+                if(ckres.length === 0) {
+                    db.query(`SELECT count FROM chatlist WHERE _id = ?`, [id], function(iderr, idres) { // 인원이 다 찼는지 확인
+                            if(idres[0].count === 4) {
+                                res.json({status: 'full'});
+                            } else {
+                                db.query(`UPDATE chatlist SET count = ? WHERE _id = ?`, [idres[0].count + 1, id]) // 참여 인원 갱신
+                                db.query(`UPDATE chatlist SET user2 = ? WHERE _id = ? AND user2 IS NULL`,
+                                    [result[0].stdId, id], function(Myerr, Myres) {
+                                    if(Myres.info[26] === '0') {
+                                        db.query(`UPDATE chatlist SET user3 = ? WHERE _id = ? AND user3 IS NULL`,
+                                        [result[0].stdId, id], function(Myerr2, Myres2) {
+                                            if(Myres2.info[26] === '0') {
+                                                db.query(`UPDATE chatlist SET user4 = ? WHERE _id = ? AND user4 IS NULL`,
+                                                [result[0].stdId, id], function(Myerr3, Myres3) {
+                                                })
+                                            }
+                                        })
+                                    }
+                                })
+                                res.json({status: 'join'});
+                            }
+                    })
+                } else {
+                    res.json({status: 'alrJoin'});
+                }
         })
     })
 }
