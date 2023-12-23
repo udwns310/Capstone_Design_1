@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import io from 'socket.io-client';
 import { useLocation } from 'react-router-dom';
+import '../components/ChatContainer/ChatContainer.css';
 
 const ChatRoom = () => {
   const [messages, setMessages] = useState([]);
@@ -42,17 +43,18 @@ const ChatRoom = () => {
 
 
   return (
-    <div>
-      <div>
-        <h2>Users in the room:</h2>
+    <div className="Container">
+      <div className="system-message-container">
+        <h2 className="system-message">Users in the room:</h2>
       </div>
-      <div>
-        <h2>Chat Room</h2>
-        <ul>
+      <div >
+        <h2 className="system-message">Chat Room</h2>
+        <ul >
           {messages.map((message, index) => (
-            <li key={index}>{message}</li>
+            <li className="your-message" key={index}>{message}</li>
           ))}
         </ul>
+        <div className="input-area">
         <input
           type="text"
           placeholder="Type your message..."
@@ -64,6 +66,10 @@ const ChatRoom = () => {
             }
           }}
         />
+        <button onClick={(e)=>{sendMessage(); setNewMessage('')}} type="submit" className="send-button">
+          전송
+        </button>
+        </div>
       </div>
     </div>
   );
