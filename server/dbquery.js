@@ -1,6 +1,7 @@
 const db = require('../lib/db');
 const util = require('util');
 const crypto = require('crypto');
+const { ftruncate } = require('fs');
 
 const pbkdf2Promise = util.promisify(crypto.pbkdf2);
 
@@ -159,4 +160,13 @@ exports.mychat = function (req, res, callback) {
                 callback({ data: Myres });
         })
     })
+}
+
+exports.getNickname = function (req, res, callback) {
+    const email = req.session.user.email;
+    db.query(`SELECT nickname FROM profile WHERE email = ?`, 
+        [email], function(err, result){
+            callback({nickname:result[0].nickname});
+        }
+    )
 }

@@ -1,48 +1,61 @@
 import React, { useState, useEffect } from 'react';
 import io from 'socket.io-client';
 import { useLocation } from 'react-router-dom';
+import axios from "axios";
 
 const ChatRoom = () => {
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
+  const [nickname, setNickname] = useState('');
   const location = useLocation();
   const roomId = location.state?.roomId;
-  const [clientSocketId, setSocketId] = useState('');
-  const [isConnect, setIsConnect] = useState(false);
+  const [socket, setSocket] = useState(() => io('http://localhost:3002/chat'));
 
+  // 룸 연결, 메세지 수신
   useEffect(() => {
-    const socket = io('http://localhost:3002/chat');
-
+    // 컴포넌트가 마운트될 때 소켓에 이벤트 리스너 등록
     socket.on('connect', () => {
-      console.log("connect room " + roomId);
       socket.emit('join', roomId);
-      setSocketId(socket.id);
-      setIsConnect(true);
     });
 
-    socket.on('serverSendMessage', (message) => {
-      if (message !== newMessage) {
-        setMessages((prevMessages) => [...prevMessages, message]);
-        console.log("다른 놈이 보낸 채팅임");
-      }
+    socket.on('serverSendMessage', (message, socketId, senderNickname) => {
+      const textAlign = socketId === socket.id ? 'right' : 'left';
+      setMessages((prevMessages) => [...prevMessages, { message, textAlign, senderNickname }]);
+      console.log("다른 놈이 보낸 채팅임" + socketId);
     });
 
     return () => {
-      socket.disconnect();
+      socket.off('connect');
+      socket.off('serverSendMessage');
     };
-  }, [roomId, newMessage]);
+  }, [socket, roomId, newMessage]);
+  // 룸 연결, 메세지 수신
+
+  // 닉네임 가져오기
+  useEffect(() => {
+    const getNickname = async (e) => {
+      try {
+        const response = await axios.get('http://localhost:3002/getNickname');
+        setNickname(response.data.nickname);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    getNickname();
+  }, []);
+  // 닉네임 가져오기
+
 
   const sendMessage = () => {
-    const socket = io('http://localhost:3002/chat');
-    // 클라이언트가 현재 속한 방에 메시지를 보냄
-    socket.on('connect', () => {
-      // console.log(socketId);
-      socket.emit('clientSendMessage', { clientSocketId, roomId, message: newMessage });
-    })
-    // 입력한 메시지를 현재 메시지 목록에 추가
-    setMessages((prevMessages) => [...prevMessages, newMessage]);
-    console.log("내가 보낸 채팅임");
-    setNewMessage(''); // 입력 필드 초기화
+    // 이미 생성한 소켓을 사용
+    if (socket.connected) {
+      socket.emit('clientSendMessage', { roomId, message: newMessage, senderNickname: nickname });
+    }
+
+    setMessages((prevMessages) => [...prevMessages, { message: newMessage, textAlign: 'right' }]);
+    console.log("내가 보낸 채팅임" + socket.id);
+    setNewMessage('');
   };
 
 
@@ -53,11 +66,36 @@ const ChatRoom = () => {
       </div>
       <div>
         <h2>Chat Room</h2>
-        <ul>
-          {messages.map((message, index) => (
-            <li key={index}>{message}</li>
+        <div>
+          {messages.map(({ message, textAlign, senderNickname }, index) => (
+            <div
+              key={index}
+              style={{
+                textAlign,
+                margin: '5px',
+                width: '80%',
+                height : '35px',
+                margin: 'auto',
+                marginTop: '3px',
+                marginBottom: '3px',
+                // border : '1px solid black',
+                position: 'relative', // 부모로부터 상대적으로 위치 지정
+              }}
+            >
+              <div
+                style={{
+                  position: 'absolute', // 상대적으로 위치 지정된 부모로부터 상대적으로 위치 지정
+                  top: '-15px', // 상단에서 15px 위로 이동
+                  fontSize: '12px', // 작은 글씨 크기
+                  color: '#666', // 회색 글자색
+                }}
+              >
+                {senderNickname}
+              </div>
+              {message}
+            </div>
           ))}
-        </ul>
+        </div>
         <input
           type="text"
           placeholder="Type your message..."

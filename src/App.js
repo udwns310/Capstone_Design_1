@@ -89,6 +89,9 @@ function App() {
                 element={
                     <div>
                         <ChatRoom />
+                    </div>
+                }
+            ></Route>
             <Route //
                 path="/privinfor*"
                 element={
