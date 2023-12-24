@@ -103,7 +103,6 @@ app.post("/chatlist", (req, res) => {
 app.post("/chat", (req, res) => {
   console.log("접속확인");
   if (req.session.user) {
-    console.log(req.session);
     res.send('세션 o');
   }
 })
@@ -156,7 +155,15 @@ app.get("/getNickname", (req, res) => {
   // console.log(req.session.user);
   dbquery.getNickname(req, res, (result) => {
     res.send(result);
-  })
+  });
+})
+
+app.post("/joinchat", (req, res) => {
+  dbquery.joinchat(req, res);
+})
+
+app.post("/changepw", (req, res) => {
+  dbquery.changepw(req, res);
 })
 
 server.listen(port, () => {

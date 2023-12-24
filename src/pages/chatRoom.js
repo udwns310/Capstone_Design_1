@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import io from 'socket.io-client';
 import { useLocation } from 'react-router-dom';
 import axios from "axios";
+import '../components/ChatContainer/ChatContainer.css';
 
 const ChatRoom = () => {
   const [messages, setMessages] = useState([]);
@@ -13,7 +14,6 @@ const ChatRoom = () => {
 
   // 룸 연결, 메세지 수신
   useEffect(() => {
-    // 컴포넌트가 마운트될 때 소켓에 이벤트 리스너 등록
     socket.on('connect', () => {
       socket.emit('join', roomId);
     });
@@ -48,7 +48,6 @@ const ChatRoom = () => {
 
 
   const sendMessage = () => {
-    // 이미 생성한 소켓을 사용
     if (socket.connected) {
       socket.emit('clientSendMessage', { roomId, message: newMessage, senderNickname: nickname });
     }
@@ -60,9 +59,9 @@ const ChatRoom = () => {
 
 
   return (
-    <div>
-      <div>
-        <h2>Users in the room:</h2>
+    <div className="Container">
+      <div className="system-message-container">
+        <h2 className="system-message">Users in the room:</h2>
       </div>
       <div>
         <h2>Chat Room</h2>
@@ -74,20 +73,20 @@ const ChatRoom = () => {
                 textAlign,
                 margin: '5px',
                 width: '80%',
-                height : '35px',
+                height: '35px',
                 margin: 'auto',
                 marginTop: '3px',
                 marginBottom: '3px',
                 // border : '1px solid black',
-                position: 'relative', // 부모로부터 상대적으로 위치 지정
+                position: 'relative', 
               }}
             >
               <div
                 style={{
-                  position: 'absolute', // 상대적으로 위치 지정된 부모로부터 상대적으로 위치 지정
-                  top: '-15px', // 상단에서 15px 위로 이동
-                  fontSize: '12px', // 작은 글씨 크기
-                  color: '#666', // 회색 글자색
+                  position: 'absolute', 
+                  top: '-15px', 
+                  fontSize: '12px', 
+                  color: '#666',
                 }}
               >
                 {senderNickname}
@@ -107,6 +106,9 @@ const ChatRoom = () => {
             }
           }}
         />
+        <button onClick={(e) => { sendMessage(); setNewMessage('') }} type="submit" className="send-button">
+          전송
+        </button>
       </div>
     </div>
   );
