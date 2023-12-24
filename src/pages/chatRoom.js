@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import io from 'socket.io-client';
 import { useLocation } from 'react-router-dom';
 import axios from "axios";
@@ -11,6 +11,7 @@ const ChatRoom = () => {
   const location = useLocation();
   const roomId = location.state?.roomId;
   const [socket, setSocket] = useState(() => io('http://localhost:3002/chat'));
+  const messageEndRef = useRef(null);
 
   // 룸 연결, 메세지 수신
   useEffect(() => {
@@ -19,9 +20,7 @@ const ChatRoom = () => {
     });
 
     socket.on('serverSendMessage', (message, socketId, senderNickname) => {
-      const textAlign = socketId === socket.id ? 'right' : 'left';
-      setMessages((prevMessages) => [...prevMessages, { message, textAlign, senderNickname }]);
-      console.log("다른 놈이 보낸 채팅임" + socketId);
+      setMessages((prevMessages) => [...prevMessages, { message, senderNickname, isMyMessage: false }]);
     });
 
     return () => {
@@ -46,14 +45,17 @@ const ChatRoom = () => {
   }, []);
   // 닉네임 가져오기
 
+  useEffect(() => {
+    messageEndRef.current.scrollIntoView({ behavior: 'smooth' });
+  }, [messages]);
+
 
   const sendMessage = () => {
     if (socket.connected) {
       socket.emit('clientSendMessage', { roomId, message: newMessage, senderNickname: nickname });
     }
 
-    setMessages((prevMessages) => [...prevMessages, { message: newMessage, textAlign: 'right' }]);
-    console.log("내가 보낸 채팅임" + socket.id);
+    setMessages((prevMessages) => [...prevMessages, { message: newMessage, isMyMessage: true }]);
     setNewMessage('');
   };
 
@@ -64,51 +66,52 @@ const ChatRoom = () => {
         <h2 className="system-message">Users in the room:</h2>
       </div>
       <div>
-        <h2>Chat Room</h2>
-        <div>
-          {messages.map(({ message, textAlign, senderNickname }, index) => (
-            <div
-              key={index}
-              style={{
-                textAlign,
-                margin: '5px',
-                width: '80%',
-                height: '35px',
-                margin: 'auto',
-                marginTop: '3px',
-                marginBottom: '3px',
-                // border : '1px solid black',
-                position: 'relative', 
-              }}
-            >
+        <h2 className="system-message">Chat Room</h2>
+        <div style={{ padding: '10px', height:'85vh', overflow:'scroll'}}>
+          {messages.map(({ message, senderNickname, isMyMessage }, index) => (
+            <div>
               <div
                 style={{
-                  position: 'absolute', 
-                  top: '-15px', 
-                  fontSize: '12px', 
+                  top: '-15px',
+                  fontSize: '12px',
                   color: '#666',
                 }}
               >
                 {senderNickname}
               </div>
-              {message}
+              <div
+                className="your-message"
+                key={index}
+                style={{
+                  marginLeft: isMyMessage ? 'auto' : '0',
+                  marginRight: isMyMessage ? '0' : 'auto',
+                  marginBottom: isMyMessage ? '5px' : '0',
+                  backgroundColor: isMyMessage ? '#f7e600' : 'white',
+                }}
+              >
+                {message}
+              </div>
             </div>
           ))}
+          <div ref={messageEndRef}></div>
         </div>
-        <input
-          type="text"
-          placeholder="Type your message..."
-          value={newMessage}
-          onChange={(e) => setNewMessage(e.target.value)}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter') {
-              sendMessage();
-            }
-          }}
-        />
-        <button onClick={(e) => { sendMessage(); setNewMessage('') }} type="submit" className="send-button">
-          전송
-        </button>
+
+        <div className="input-area" style={{height:'6vh'}}>
+          <input
+            type="text"
+            placeholder="Type your message..."
+            value={newMessage}
+            onChange={(e) => setNewMessage(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                sendMessage();
+              }
+            }}
+          />
+          <button onClick={(e) => { sendMessage(); setNewMessage('') }} type="submit" className="send-button">
+            전송
+          </button>
+        </div>
       </div>
     </div>
   );

@@ -38,12 +38,11 @@
     align-items: center;
 }
 .your-message {
-    background-color: white;
+    width: fit-content;
     border-radius: 8px;
     padding: 8px;
     max-width: 200px;
-    font-size: 12px;
-    margin: 10px;
+    font-size: 14px;
 }
 
 .profile-image {
@@ -53,14 +52,13 @@
     margin-right: 10px;
 }
 
-
 /*  */
 .input-area {
     /* background-color: red; */
     min-height: 50px;
     display: flex;
     position: absolute;
-    bottom: 6%;
+    bottom: -1px;
     width: 100%;
 }
 .plus-button {
