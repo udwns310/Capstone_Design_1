@@ -147,7 +147,7 @@ exports.createchat = function (req, res) {
                 })
             db.query('SELECT _id FROM chatlist WHERE user1 = ? ORDER BY _id desc', [result[0].stdId], function (err, _idRes) {
                 res.json({ id: _idRes[0]._id });
-                var name = "chat" + _idRes[0]._id;
+                const name = "chat" + _idRes[0]._id;
                 db.query(`CREATE TABLE \`${name}\` (nickname VARCHAR(20), message VARCHAR(200), date DATETIME)`)
             })
         })
