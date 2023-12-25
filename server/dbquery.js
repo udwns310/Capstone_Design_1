@@ -187,16 +187,17 @@ exports.joinchat = function (req, res) {
                             } else {
                                 db.query(`UPDATE chatlist SET count = count + 1, user2 = ? WHERE _id = ? AND user2 IS NULL`,
                                     [result[0].stdId, id], function (Myerr, Myres) {
-                                        if (Myres.info[26] === '0') {
-                                            db.query(`UPDATE chatlist SET count = count + 1, user3 = ? WHERE _id = ? AND user3 IS NULL`,
-                                                [result[0].stdId, id], function (Myerr2, Myres2) {
-                                                    if (Myres2.info[26] === '0') {
-                                                        db.query(`UPDATE chatlist SET count = count + 1, user4 = ? WHERE _id = ? AND user4 IS NULL`,
-                                                            [result[0].stdId, id], function (Myerr3, Myres3) {
-                                                            })
-                                                    }
-                                                })
-                                        }
+                                        console.log(Myres.info);
+                                        // if (Myres.info[26] === '0') {
+                                        //     db.query(`UPDATE chatlist SET count = count + 1, user3 = ? WHERE _id = ? AND user3 IS NULL`,
+                                        //         [result[0].stdId, id], function (Myerr2, Myres2) {
+                                        //             if (Myres2.info[26] === '0') {
+                                        //                 db.query(`UPDATE chatlist SET count = count + 1, user4 = ? WHERE _id = ? AND user4 IS NULL`,
+                                        //                     [result[0].stdId, id], function (Myerr3, Myres3) {
+                                        //                     })
+                                        //             }
+                                        //         })
+                                        // }
                                     })
                                 res.json({ status: 'join' });
                             }
