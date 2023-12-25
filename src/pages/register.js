@@ -6,21 +6,26 @@ import axios from "axios";
 import Card from "react-bootstrap/Card";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import { MyModal } from "../components/modal";
+import { MyModal, ModalPriv } from "../components/modal";
 import { Route, useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 
 function Sign_up() {
   const [showModal, setShowModal] = useState(false);
+  const [showPrivModal, setShowPrivModal] = useState(false);
   const [isRegister, setIsRegister] = useState(false);
   const [title_message, setTitleMsg] = useState("회원가입 실패");
   const [error_message, setErrMsg] = useState("정확한 정보를 입력해 주세요");
+
   const handleShowModal = () => setShowModal(true);
   const handleCloseModal = () => {
     if (isRegister === true) {
       navigate("/signin");
     } else setShowModal(false);
   };
+
+  const handleShowPrivModal = () => setShowPrivModal(true);
+  const handleClosePrivModal = () => setShowPrivModal(false);
 
   let navigate = useNavigate();
 
@@ -191,15 +196,17 @@ function Sign_up() {
                 />
               </FloatingLabel>
               <Form>
-               {['checkbox'].map((type) => (
-                 <div key={`default-${type}`} className="mb-3">
-                   <Form.Check style={{ display: "inline", marginRight: "10px"}}
-                     type={type}
-                     id={`default-${type}`}
+                {['checkbox'].map((type) => (
+                  <div key={`default-${type}`} className="mb-3">
+                    <Form.Check style={{ display: "inline", marginRight: "10px" }}
+                      type={type}
+                      id={`default-${type}`}
                     />
-                  <Link to="/privinfor" style={{textDecorationLine:"none", color:"#0B3D91"}}>개인정보 이용 동의</Link>
-                 </div>
-                 ))}
+                    <span onClick={handleShowPrivModal}>
+                      개인정보이용 약관 전체보기
+                    </span>
+                  </div>
+                ))}
               </Form>
 
               <Button className="rgbtn" variant="outline-warning" type="submit">
@@ -216,6 +223,10 @@ function Sign_up() {
         handleClose={handleCloseModal}
         title={title_message}
         message={error_message}
+      />
+      <ModalPriv
+        show={showPrivModal}
+        handleClose={handleClosePrivModal}
       />
     </div>
   );
