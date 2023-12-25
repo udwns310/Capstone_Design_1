@@ -3,6 +3,11 @@ import io from 'socket.io-client';
 import { useLocation } from 'react-router-dom';
 import axios from "axios";
 import '../components/ChatContainer/ChatContainer.css';
+// 
+import Modal from 'react-bootstrap/Modal';
+import Button from 'react-bootstrap/Button';
+import { useNavigate } from 'react-router-dom';
+// import { ModalRoomOut } from '../components/modal';
 
 const ChatRoom = () => {
   const [messages, setMessages] = useState([]);
@@ -12,6 +17,10 @@ const ChatRoom = () => {
   const roomId = location.state?.roomId;
   const [socket, setSocket] = useState(() => io('http://localhost:3002/chat'));
   const messageEndRef = useRef(null);
+
+  const [showModal, setShowModal] = useState(false);
+  const handleShowModal = () => setShowModal(true);
+  const handleCloseModal = () => setShowModal(false);
 
   // 룸 연결, 메세지 수신
   useEffect(() => {
@@ -59,10 +68,42 @@ const ChatRoom = () => {
     setNewMessage('');
   };
 
+  const ModalRoomOut = ({ show, handleClose, title, roomId }) => {
+    let navigate = useNavigate();
+  
+    const roomOut = () => {
+      socket.emit('exit', roomId);
+      navigate('/main');
+    }
+  
+    return (
+      <Modal show={show} onHide={handleClose} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>{title}</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <p>채팅방을 나가시면 MY채팅 목록에서 사라집니다.</p>
+          <p>정말 나가시겠습니까?</p>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={roomOut}>
+            나가기
+          </Button>
+          <Button variant="secondary" onClick={handleClose}>
+            취소
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    );
+  };
 
   return (
     <div className="Container">
       <div className="system-message-container">
+        <img src="../../img/icon-room-out.png" alt="My Image" 
+          style={{width : '25px', height: '25px', position:'absolute', left:'10px'}}
+          onClick={setShowModal}
+        ></img>
         <h2 className="system-message">Users in the room:</h2>
       </div>
       <div>
@@ -113,8 +154,15 @@ const ChatRoom = () => {
           </button>
         </div>
       </div>
+      <ModalRoomOut
+        show={showModal}
+        handleClose={handleCloseModal}
+        title="채팅방 나가기"
+        roomId={roomId}
+      />
     </div>
   );
 };
+
 
 export default ChatRoom;

@@ -143,6 +143,11 @@ chat.on('connection', (socket) => {
     socket.to(data.roomId).emit('serverSendMessage', data.message, socket.id, data.senderNickname);
   });
 
+  socket.on('exit', (data) => {
+      socket.leave(data);
+      console.log("leave room " + data);
+  })
+
 });
 
 app.post("/mychat", (req, res) => {
@@ -157,6 +162,7 @@ app.get("/getNickname", (req, res) => {
     res.send(result);
   });
 })
+
 
 app.post("/joinchat", (req, res) => {
   dbquery.joinchat(req, res);
