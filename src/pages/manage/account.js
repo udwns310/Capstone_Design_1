@@ -2,14 +2,11 @@ import { useState, useEffect } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import axios from "axios";
-import { Link } from "react-router-dom";
-import { useNavigate } from 'react-router-dom';
 import { ModalLogout, ModalPriv } from '../../components/modal'
 
 function Security(props) {
   let [fade, setFade] = useState("");
   const [info, setInfo] = useState([]);
-  let navigate = useNavigate();
 
   const [showModal, setShowModal] = useState(false);
   const [showPrivModal, setShowPrivModal] = useState(false);

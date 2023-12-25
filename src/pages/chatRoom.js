@@ -109,6 +109,7 @@ const ChatRoom = () => {
     );
   };
 
+  // 채팅 내용 가져오기
   useEffect(() => {
     const fetchData = async () => {
       const response = await axios.post("http://localhost:3002/loadchat", {
@@ -118,6 +119,7 @@ const ChatRoom = () => {
     };
     fetchData();
   }, []);
+  // 채팅 내용 가져오기
 
   return (
     <div className="Container">

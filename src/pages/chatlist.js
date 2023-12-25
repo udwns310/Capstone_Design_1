@@ -7,7 +7,6 @@ function Chatlist() {
   let [fade, setFade] = useState("");
   const [list, setList] = useState([]);
   let navigate = useNavigate();
-  const [id, setId] = useState('');
   const [showModal, setShowModal] = useState(false);
   const handleShowModal = () => setShowModal(true);
   const handleCloseModal = () => setShowModal(false);

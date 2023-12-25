@@ -7,8 +7,7 @@ import Card from "react-bootstrap/Card";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { MyModal, ModalPriv } from "../components/modal";
-import { Route, useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function Sign_up() {
   const [showModal, setShowModal] = useState(false);

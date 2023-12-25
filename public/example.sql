@@ -34,7 +34,7 @@ CREATE TABLE `chatlist` (
   `date` DATETIME NOT NULL,
   `count` int NOT NULL,
   `emergency` int NOT NULL,
-  `user1` varchar(10) NOT NULL,
+  `user1` varchar(10),
   `user2` varchar(10),
   `user3` varchar(10),
   `user4` varchar(10),
