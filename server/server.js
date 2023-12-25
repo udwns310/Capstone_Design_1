@@ -163,9 +163,12 @@ app.get("/getNickname", (req, res) => {
   });
 })
 
-
 app.post("/joinchat", (req, res) => {
   dbquery.joinchat(req, res);
+})
+
+app.post("/roomout", (req, res) => {
+  dbquery.roomout(req, res);
 })
 
 app.post("/changepw", (req, res) => {

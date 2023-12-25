@@ -72,6 +72,9 @@ const ChatRoom = () => {
     let navigate = useNavigate();
   
     const roomOut = () => {
+      const response = axios.post('http://localhost:3002/roomout', {
+        roomId
+      });
       socket.emit('exit', roomId);
       navigate('/main');
     }
