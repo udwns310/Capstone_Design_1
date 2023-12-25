@@ -1,78 +1,168 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import io from 'socket.io-client';
 import { useLocation } from 'react-router-dom';
+import axios from "axios";
 import '../components/ChatContainer/ChatContainer.css';
+// 
+import Modal from 'react-bootstrap/Modal';
+import Button from 'react-bootstrap/Button';
+import { useNavigate } from 'react-router-dom';
+// import { ModalRoomOut } from '../components/modal';
 
 const ChatRoom = () => {
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
+  const [nickname, setNickname] = useState('');
   const location = useLocation();
   const roomId = location.state?.roomId;
+  const [socket, setSocket] = useState(() => io('http://localhost:3002/chat'));
+  const messageEndRef = useRef(null);
 
+  const [showModal, setShowModal] = useState(false);
+  const handleShowModal = () => setShowModal(true);
+  const handleCloseModal = () => setShowModal(false);
+
+  // 룸 연결, 메세지 수신
   useEffect(() => {
-    const socket = io('http://localhost:3002/chat');
-
     socket.on('connect', () => {
       socket.emit('join', roomId);
     });
 
-    socket.on('serverSendMessage', (message) => {
-      if (message !== newMessage) {
-        setMessages((prevMessages) => [...prevMessages, message]);
-        console.log("다른 놈이 보낸 채팅임");
-      }
-      setNewMessage(''); // 입력 필드 초기화
+    socket.on('serverSendMessage', (message, socketId, senderNickname) => {
+      setMessages((prevMessages) => [...prevMessages, { message, senderNickname, isMyMessage: false }]);
     });
 
     return () => {
-      socket.disconnect();
+      socket.off('connect');
+      socket.off('serverSendMessage');
     };
-  }, [roomId, newMessage]);
+  }, [socket, roomId, newMessage]);
+  // 룸 연결, 메세지 수신
+
+  // 닉네임 가져오기
+  useEffect(() => {
+    const getNickname = async (e) => {
+      try {
+        const response = await axios.get('http://localhost:3002/getNickname');
+        setNickname(response.data.nickname);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    getNickname();
+  }, []);
+  // 닉네임 가져오기
+
+  useEffect(() => {
+    messageEndRef.current.scrollIntoView({ behavior: 'smooth' });
+  }, [messages]);
+
 
   const sendMessage = () => {
-    const socket = io('http://localhost:3002/chat');
-    // 클라이언트가 현재 속한 방에 메시지를 보냄
-    socket.on('connect', () => {
-      // console.log(socketId);
-      socket.emit('clientSendMessage', { roomId, message: newMessage });
-    })
-    // 입력한 메시지를 현재 메시지 목록에 추가
-    setMessages((prevMessages) => [...prevMessages, newMessage]);
-    console.log("내가 보낸 채팅임");
+    if (socket.connected) {
+      socket.emit('clientSendMessage', { roomId, message: newMessage, senderNickname: nickname });
+    }
+
+    setMessages((prevMessages) => [...prevMessages, { message: newMessage, isMyMessage: true }]);
+    setNewMessage('');
   };
 
+  const ModalRoomOut = ({ show, handleClose, title, roomId }) => {
+    let navigate = useNavigate();
+  
+    const roomOut = () => {
+      socket.emit('exit', roomId);
+      navigate('/main');
+    }
+  
+    return (
+      <Modal show={show} onHide={handleClose} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>{title}</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <p>채팅방을 나가시면 MY채팅 목록에서 사라집니다.</p>
+          <p>정말 나가시겠습니까?</p>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={roomOut}>
+            나가기
+          </Button>
+          <Button variant="secondary" onClick={handleClose}>
+            취소
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    );
+  };
 
   return (
     <div className="Container">
       <div className="system-message-container">
+        <img src="../../img/icon-room-out.png" alt="My Image" 
+          style={{width : '25px', height: '25px', position:'absolute', left:'10px'}}
+          onClick={setShowModal}
+        ></img>
         <h2 className="system-message">Users in the room:</h2>
       </div>
-      <div >
+      <div>
         <h2 className="system-message">Chat Room</h2>
-        <ul >
-          {messages.map((message, index) => (
-            <li className="your-message" key={index}>{message}</li>
+        <div style={{ padding: '10px', height:'85vh', overflow:'scroll'}}>
+          {messages.map(({ message, senderNickname, isMyMessage }, index) => (
+            <div>
+              <div
+                style={{
+                  top: '-15px',
+                  fontSize: '12px',
+                  color: '#666',
+                }}
+              >
+                {senderNickname}
+              </div>
+              <div
+                className="your-message"
+                key={index}
+                style={{
+                  marginLeft: isMyMessage ? 'auto' : '0',
+                  marginRight: isMyMessage ? '0' : 'auto',
+                  marginBottom: isMyMessage ? '5px' : '0',
+                  backgroundColor: isMyMessage ? '#f7e600' : 'white',
+                }}
+              >
+                {message}
+              </div>
+            </div>
           ))}
-        </ul>
-        <div className="input-area">
-        <input
-          type="text"
-          placeholder="Type your message..."
-          value={newMessage}
-          onChange={(e) => setNewMessage(e.target.value)}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter') {
-              sendMessage();
-            }
-          }}
-        />
-        <button onClick={(e)=>{sendMessage(); setNewMessage('')}} type="submit" className="send-button">
-          전송
-        </button>
+          <div ref={messageEndRef}></div>
+        </div>
+
+        <div className="input-area" style={{height:'6vh'}}>
+          <input
+            type="text"
+            placeholder="Type your message..."
+            value={newMessage}
+            onChange={(e) => setNewMessage(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                sendMessage();
+              }
+            }}
+          />
+          <button onClick={(e) => { sendMessage(); setNewMessage('') }} type="submit" className="send-button">
+            전송
+          </button>
         </div>
       </div>
+      <ModalRoomOut
+        show={showModal}
+        handleClose={handleCloseModal}
+        title="채팅방 나가기"
+        roomId={roomId}
+      />
     </div>
   );
 };
+
 
 export default ChatRoom;

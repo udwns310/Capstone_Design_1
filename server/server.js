@@ -16,7 +16,7 @@ const io = socketIO(server, {
   cors: {
     origin: ["http://localhost:3000", "https://admin.socket.io"],
     methods: ["GET", "POST"],
-    credentials : true,
+    credentials: true,
   }
 });
 
@@ -140,8 +140,13 @@ chat.on('connection', (socket) => {
   });
 
   socket.on('clientSendMessage', (data) => {
-    socket.to(data.roomId).emit('serverSendMessage', data.message);
+    socket.to(data.roomId).emit('serverSendMessage', data.message, socket.id, data.senderNickname);
   });
+
+  socket.on('exit', (data) => {
+      socket.leave(data);
+      console.log("leave room " + data);
+  })
 
 });
 
@@ -150,6 +155,14 @@ app.post("/mychat", (req, res) => {
     res.send(result.data);
   });
 })
+
+app.get("/getNickname", (req, res) => {
+  // console.log(req.session.user);
+  dbquery.getNickname(req, res, (result) => {
+    res.send(result);
+  });
+})
+
 
 app.post("/joinchat", (req, res) => {
   dbquery.joinchat(req, res);
