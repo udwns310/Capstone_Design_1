@@ -185,20 +185,24 @@ exports.joinchat = function (req, res) {
                             if (idres[0].count === 4) {
                                 res.json({ status: 'full' });
                             } else {
-                                db.query(`UPDATE chatlist SET count = count + 1, user2 = ? WHERE _id = ? AND user2 IS NULL`,
-                                    [result[0].stdId, id], function (Myerr, Myres) {
-                                        console.log(Myres.info);
-                                        // if (Myres.info[26] === '0') {
-                                        //     db.query(`UPDATE chatlist SET count = count + 1, user3 = ? WHERE _id = ? AND user3 IS NULL`,
-                                        //         [result[0].stdId, id], function (Myerr2, Myres2) {
-                                        //             if (Myres2.info[26] === '0') {
-                                        //                 db.query(`UPDATE chatlist SET count = count + 1, user4 = ? WHERE _id = ? AND user4 IS NULL`,
-                                        //                     [result[0].stdId, id], function (Myerr3, Myres3) {
-                                        //                     })
-                                        //             }
-                                        //         })
-                                        // }
-                                    })
+                                db.query(`UPDATE chatlist SET count = count + 1, user1 = ? WHERE _id = ? AND user2 IS NULL`,
+                                [result[0].stdId, id], function (Myerr1, Myres1) {
+                                    if (Myres1.info[26] === '0') {
+                                        db.query(`UPDATE chatlist SET count = count + 1, user2 = ? WHERE _id = ? AND user2 IS NULL`,
+                                            [result[0].stdId, id], function (Myerr2, Myres2) {
+                                                if (Myres2.info[26] === '0') {
+                                                    db.query(`UPDATE chatlist SET count = count + 1, user3 = ? WHERE _id = ? AND user3 IS NULL`,
+                                                        [result[0].stdId, id], function (Myerr3, Myres3) {
+                                                            if (Myres3.info[26] === '0') {
+                                                                db.query(`UPDATE chatlist SET count = count + 1, user4 = ? WHERE _id = ? AND user4 IS NULL`,
+                                                                    [result[0].stdId, id], function (Myerr4, Myres4) {
+                                                                    })
+                                                            }
+                                                        })
+                                                }
+                                            })
+                                    }
+                                })
                                 res.json({ status: 'join' });
                             }
                         })
@@ -214,20 +218,28 @@ exports.roomout = function (req, res) {
     const post = req.body;
     db.query(`SELECT stdId FROM profile WHERE email = ?`,
     [email], function (error, result) {
-        db.query(`UPDATE chatlist SET count = count - 1, user1 = NULL WHERE _id = ? AND user1 = ?`,
-        [post.roomId, result[0].stdId], function (Myerr1, Myres1) {
-            if (Myres1.info[26] === '0') {
-                db.query(`UPDATE chatlist SET count = count - 1, user2 = NULL WHERE _id = ? AND user2 = ?`,
-                [post.roomId, result[0].stdId], function (Myerr2, Myres2) {
-                    if (Myres2.info[26] === '0') {
-                        db.query(`UPDATE chatlist SET count = count - 1, user3 = NULL WHERE _id = ? AND user3 = ?`,
-                            [post.roomId, result[0].stdId], function (Myerr3, Myres3) {
-                                if (Myres3.info[26] === '0') {
-                                    db.query(`UPDATE chatlist SET count = count - 1, user4 = NULL WHERE _id = ? AND user4 = ?`,
-                                        [post.roomId, result[0].stdId], function (Myerr4, Myres4) {
-                                        })
-                                }
-                            })
+        db.query(`SELECT count FROM chatlist WHERE _id = ?`, [post.roomId], function (cerr, cres) {
+            if(cres[0].count === 1) {
+                const name = "chat" + post.roomId;
+                db.query(`DELETE FROM chatlist WHERE _id = ?`, [post.roomId])
+                db.query(`DROP TABLE \`${name}\``)
+            } else {
+                db.query(`UPDATE chatlist SET count = count - 1, user1 = NULL WHERE _id = ? AND user1 = ?`,
+                [post.roomId, result[0].stdId], function (Myerr1, Myres1) {
+                    if (Myres1.info[26] === '0') {
+                        db.query(`UPDATE chatlist SET count = count - 1, user2 = NULL WHERE _id = ? AND user2 = ?`,
+                        [post.roomId, result[0].stdId], function (Myerr2, Myres2) {
+                            if (Myres2.info[26] === '0') {
+                                db.query(`UPDATE chatlist SET count = count - 1, user3 = NULL WHERE _id = ? AND user3 = ?`,
+                                    [post.roomId, result[0].stdId], function (Myerr3, Myres3) {
+                                        if (Myres3.info[26] === '0') {
+                                            db.query(`UPDATE chatlist SET count = count - 1, user4 = NULL WHERE _id = ? AND user4 = ?`,
+                                                [post.roomId, result[0].stdId], function (Myerr4, Myres4) {
+                                                })
+                                        }
+                                    })
+                            }
+                        })
                     }
                 })
             }
