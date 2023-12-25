@@ -147,9 +147,8 @@ exports.createchat = function (req, res) {
                 })
             db.query('SELECT _id FROM chatlist WHERE user1 = ? ORDER BY _id desc', [result[0].stdId], function (err, _idRes) {
                 res.json({ id: _idRes[0]._id });
-                var name = "chat" + _idRes[0]._id;
-                console.log(name);
-                db.query(`CREATE TABLE \`${name}\` (nickname VARCHAR(20), message VARCHAR(200), data DATETIME)`)
+                const name = "chat" + _idRes[0]._id;
+                db.query(`CREATE TABLE \`${name}\` (nickname VARCHAR(20), message VARCHAR(200), date DATETIME)`)
             })
         })
 }
@@ -173,6 +172,7 @@ exports.getNickname = function (req, res, callback) {
         }
     )
 }
+
 exports.joinchat = function (req, res) {
     const email = req.session.user.email;
     const id = req.body.id;
@@ -185,14 +185,13 @@ exports.joinchat = function (req, res) {
                             if (idres[0].count === 4) {
                                 res.json({ status: 'full' });
                             } else {
-                                db.query(`UPDATE chatlist SET count = ? WHERE _id = ?`, [idres[0].count + 1, id]) // 참여 인원 갱신
-                                db.query(`UPDATE chatlist SET user2 = ? WHERE _id = ? AND user2 IS NULL`,
+                                db.query(`UPDATE chatlist SET count = count + 1, user2 = ? WHERE _id = ? AND user2 IS NULL`,
                                     [result[0].stdId, id], function (Myerr, Myres) {
                                         if (Myres.info[26] === '0') {
-                                            db.query(`UPDATE chatlist SET user3 = ? WHERE _id = ? AND user3 IS NULL`,
+                                            db.query(`UPDATE chatlist SET count = count + 1, user3 = ? WHERE _id = ? AND user3 IS NULL`,
                                                 [result[0].stdId, id], function (Myerr2, Myres2) {
                                                     if (Myres2.info[26] === '0') {
-                                                        db.query(`UPDATE chatlist SET user4 = ? WHERE _id = ? AND user4 IS NULL`,
+                                                        db.query(`UPDATE chatlist SET count = count + 1, user4 = ? WHERE _id = ? AND user4 IS NULL`,
                                                             [result[0].stdId, id], function (Myerr3, Myres3) {
                                                             })
                                                     }
@@ -209,9 +208,49 @@ exports.joinchat = function (req, res) {
         })
 }
 
-exports.changepw = function (req, res) {
-    const post = req.body;
+exports.roomout = function (req, res) {
     const email = req.session.user.email;
+    const post = req.body;
+    db.query(`SELECT stdId FROM profile WHERE email = ?`,
+    [email], function (error, result) {
+        db.query(`UPDATE chatlist SET count = count - 1, user1 = NULL WHERE _id = ? AND user1 = ?`,
+        [post.roomId, result[0].stdId], function (Myerr1, Myres1) {
+            if (Myres1.info[26] === '0') {
+                db.query(`UPDATE chatlist SET count = count - 1, user2 = NULL WHERE _id = ? AND user2 = ?`,
+                [post.roomId, result[0].stdId], function (Myerr2, Myres2) {
+                    if (Myres2.info[26] === '0') {
+                        db.query(`UPDATE chatlist SET count = count - 1, user3 = NULL WHERE _id = ? AND user3 = ?`,
+                            [post.roomId, result[0].stdId], function (Myerr3, Myres3) {
+                                if (Myres3.info[26] === '0') {
+                                    db.query(`UPDATE chatlist SET count = count - 1, user4 = NULL WHERE _id = ? AND user4 = ?`,
+                                        [post.roomId, result[0].stdId], function (Myerr4, Myres4) {
+                                        })
+                                }
+                            })
+                    }
+                })
+            }
+        })
+    })
+}
+
+exports.storechat = function (req, res) {
+    const post = req.body;
+    const name = "chat" + post.roomId;
+    db.query(`INSERT INTO \`${name}\` VALUES (?, ?, ?)`, [post.nickname, post.newMessage, post.date])
+}
+
+exports.loadchat = function(req, res, callback) {
+    const post = req.body;
+    const name = "chat" + post.roomId;
+    db.query(`SELECT * FROM \`${name}\` ORDER BY date`, function (err, result) {
+        callback({ data: result });
+    })
+}
+
+exports.changepw = function (req, res) {
+    const email = req.session.user.email;
+    const post = req.body;
     db.query(`SELECT password, salt FROM profile WHERE email = ?`,
         [email], async function (error, result) {
             const verified = await verifyPassword(post.currentPw, result[0].salt, result[0].password); // password 검증
@@ -229,5 +268,4 @@ exports.changepw = function (req, res) {
                 res.json({ status: 'mismatch' });
             }
         })
-
 }
