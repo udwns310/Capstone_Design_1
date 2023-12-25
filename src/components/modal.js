@@ -155,7 +155,6 @@ const ModalLogout = ({ show, handleClose}) => {
     }
   };
 
-
   return (
     <Modal show={show} onHide={handleClose} centered>
       <Modal.Header closeButton>

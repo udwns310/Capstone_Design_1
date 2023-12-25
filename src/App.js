@@ -93,7 +93,7 @@ function App() {
                 }
             ></Route>
             <Route //약관 페이지 Route
-                path="/privinfor*"
+                path="/privinfor"
                 element={
                     <div>
                         <PrivateInfor />

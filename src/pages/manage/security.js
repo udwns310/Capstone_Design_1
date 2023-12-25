@@ -1,13 +1,11 @@
 import { useState, useEffect } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-import Nav from "react-bootstrap/Nav";
 import axios from 'axios';
 import { MyModal } from '../../components/modal';
 
 function Security(props) {
   let [fade, setFade] = useState("");
-  const [info, setInfo] = useState([]);
   const [currentPw, setcurrentPw] = useState('');
   const [newPw, setnewPw] = useState('');
   const [showModal, setShowModal] = useState(false);

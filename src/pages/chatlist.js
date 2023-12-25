@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { io } from 'socket.io-client';
 import { useNavigate } from 'react-router-dom';
 import { MyModal } from '../components/modal';
 
@@ -32,11 +31,6 @@ function Chatlist() {
   }, []);
 
   const handleComponentClick = async (event, el) => {
-    // 클릭 이벤트 핸들러 함수
-    // const socket = io.connect('http://localhost:3002/chat');
-    
-    // socket.emit('sendId', el._id);
-    // socket.emit('join'); // 서버로 test 라는 이벤트와  roomId 데이터 전송
     const response = await axios.post('http://localhost:3002/joinchat', {
       id: el._id
     });

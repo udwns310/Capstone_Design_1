@@ -9,7 +9,6 @@ function Management(props) {
   const navigate = useNavigate();
   const [mngHeader, setMngHeader] = useState('계정관리');
   let [fade, setFade] = useState("");
-  const [info, setInfo] = useState([]);
 
   useEffect(() => {
     setTimeout(() => {

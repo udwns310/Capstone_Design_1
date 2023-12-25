@@ -3,7 +3,6 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import Nav from "react-bootstrap/Nav";
 import { useNavigate } from 'react-router-dom';
 import { ModalLogout } from '../../components/modal'
 
@@ -13,7 +12,6 @@ function Security(props) {
   let navigate = useNavigate();
 
   const [showModal, setShowModal] = useState(false);
-
   const handleShowModal = () => setShowModal(true);
   const handleCloseModal = () => setShowModal(false);
 
@@ -33,17 +31,6 @@ function Security(props) {
     };
     fetchData();
   }, []);
-
-
-
-  const handleLogout = async (e) => {
-    try {
-      navigate('/');
-      const response = await axios.get('http://localhost:3002/logout');
-    } catch (error) {
-      console.error('에러 발생', error);
-    }
-  };
 
   return (
     <div className={"management start " + fade}>
