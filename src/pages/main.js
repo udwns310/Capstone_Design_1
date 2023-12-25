@@ -5,7 +5,6 @@ import Map from "../components/map.js";
 import { Routes, Route, Link, useNavigate } from "react-router-dom";
 import Chatlist from "./chatlist.js";
 import Management from "./manage/management.js";
-import PrivateInfor from "./privinfor.js";
 import Mychat from "./mychat.js";
 
 function Main(props) {
@@ -37,19 +36,10 @@ function Main(props) {
           }
         ></Route>
         <Route
-          path="/privinfor"
-          element={
-            <div style={{ height: "94vh" }}>
-              <PrivateInfor />
-            </div>
-          }
-        ></Route>
-        <Route
           path="/chat"
           element={
             <div style={{ height: "94vh", overflow: "scroll" }}>
               <Mychat />
-              {/* <Chat /> */}
             </div>
           }
         ></Route>

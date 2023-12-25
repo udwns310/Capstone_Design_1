@@ -4,7 +4,7 @@ import Button from "react-bootstrap/Button";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
-import { ModalLogout } from '../../components/modal'
+import { ModalLogout, ModalPriv } from '../../components/modal'
 
 function Security(props) {
   let [fade, setFade] = useState("");
@@ -12,8 +12,12 @@ function Security(props) {
   let navigate = useNavigate();
 
   const [showModal, setShowModal] = useState(false);
+  const [showPrivModal, setShowPrivModal] = useState(false);
   const handleShowModal = () => setShowModal(true);
   const handleCloseModal = () => setShowModal(false);
+
+  const handleShowPrivModal = () => setShowPrivModal(true);
+  const handleClosePrivModal = () => setShowPrivModal(false);
 
   useEffect(() => {
     setTimeout(() => {
@@ -51,17 +55,21 @@ function Security(props) {
         <div className="mfont">전화번호</div>
         <div>{info.phoneNum}</div>
         <div style={{textAlign: "center", marginTop:"25px" }}>
-          <Link to="/main/privinfor" id="terms">
+          <span onClick={handleShowPrivModal}>
             개인정보이용 약관 전체보기
-          </Link>
+          </span>
         </div>
-        <div >
-        <Button onClick={handleShowModal} className="lgbtn" variant="outline-warning">로그아웃</Button>
+        <div>
+          <Button onClick={handleShowModal} className="lgbtn" variant="outline-warning">로그아웃</Button>
         </div>
       </Form>
       <ModalLogout
         show={showModal}
         handleClose={handleCloseModal}
+      />
+      <ModalPriv
+        show={showPrivModal}
+        handleClose={handleClosePrivModal}
       />
     </div>
   );
