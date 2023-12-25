@@ -75,4 +75,5 @@ function Nickname() {
     </div>
   );
 }
+
 export default Nickname;

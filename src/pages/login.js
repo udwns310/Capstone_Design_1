@@ -42,32 +42,15 @@ const Login = () => {
         password: password,
       });
 
-            if (response.data.status === 'success') {
-                navigate('/main');
-                console.log('로그인 성공');
-            } else if (response.data.status === 'nickNull') {
-                navigate('/nickname');
-            } else {
-                handleShowModal();
-            }
-        } catch (error) {
-            console.error('에러 발생', error);
-        }
-    };
-
-  const handleLogout = async (e) => {
-    try {
-      const response = await axios.get('http://localhost:3002/logout');
+      if (response.data.status === 'success') {
+          navigate('/main');
+      } else if (response.data.status === 'nickNull') {
+          navigate('/nickname');
+      } else {
+          handleShowModal();
+      }
     } catch (error) {
-      console.error('에러 발생', error);
-    }
-  };
-
-  const handleSessionConfirm = async (e) => {
-    try {
-      const response = await axios.get('http://localhost:3002/confirm');
-    } catch (error) {
-      console.error('에러 발생', error);
+        console.error('에러 발생', error);
     }
   };
 
@@ -90,9 +73,8 @@ const Login = () => {
         title="로그인 실패"
         message="이메일 또는 비밀번호를 확인해주세요"
       />
-      <button onClick={handleLogout}>로그아웃 버튼(세션 삭제)</button>
-      <button onClick={handleSessionConfirm}>세션 유무 버튼 </button>
     </div>
   );
 };
+
 export default Login;

@@ -3,11 +3,9 @@ import io from 'socket.io-client';
 import { useLocation } from 'react-router-dom';
 import axios from "axios";
 import '../components/ChatContainer/ChatContainer.css';
-// 
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import { useNavigate } from 'react-router-dom';
-// import { ModalRoomOut } from '../components/modal';
 import dayjs from "dayjs";
 
 const ChatRoom = () => {

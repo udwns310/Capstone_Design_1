@@ -3,7 +3,6 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import Nav from "react-bootstrap/Nav";
 import { useNavigate } from 'react-router-dom';
 import { ModalLogout, ModalPriv } from '../../components/modal'
 
@@ -14,7 +13,6 @@ function Security(props) {
 
   const [showModal, setShowModal] = useState(false);
   const [showPrivModal, setShowPrivModal] = useState(false);
-
   const handleShowModal = () => setShowModal(true);
   const handleCloseModal = () => setShowModal(false);
 
