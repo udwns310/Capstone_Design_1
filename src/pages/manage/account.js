@@ -13,7 +13,6 @@ function Security(props) {
 
   const [showModal, setShowModal] = useState(false);
   const [showPrivModal, setShowPrivModal] = useState(false);
-
   const handleShowModal = () => setShowModal(true);
   const handleCloseModal = () => setShowModal(false);
 
