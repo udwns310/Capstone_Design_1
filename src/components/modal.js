@@ -75,21 +75,28 @@ const ModalChat = ({ show, handleClose, title, origin, destination }) => {
 
   const handleOpenedChatRoom = async (e) => {
     try {
-      const response = await axios.post('http://localhost:3002/createchat', {
-        origin: origin,
-        destination: destination,
-        time: dayjs(selectedTime).format("YYYY-MM-DD HH:mm:ss"),
-        isUrgent: isUrgent
-      })
-      const roomId = response.data.id;
-      const isFirst = "First";
-      const socket = io.connect('http://localhost:3002/chat');
+      if (selectedTime === null) {
+        alert("시간을 선택해 주세요.");
+        return;
+      }
+      else {
+        const response = await axios.post('http://localhost:3002/createchat', {
+          origin: origin,
+          destination: destination,
+          time: dayjs(selectedTime).format("YYYY-MM-DD HH:mm:ss"),
+          isUrgent: isUrgent
+        })
+        const roomId = response.data.id;
+        const isFirst = "First";
+        const socket = io.connect('http://localhost:3002/chat');
 
-      socket.emit('sendId', roomId)
-      socket.emit('join'); // 서버로 test 라는 이벤트와  roomId 데이터 전송
+        socket.emit('sendId', roomId)
+        socket.emit('join'); // 서버로 test 라는 이벤트와  roomId 데이터 전송
 
-      navigate('/chatRoom', {state : {roomId, isFirst}});
+        navigate('/chatRoom', { state: { roomId, isFirst } });
+      }
     }
+
     catch (error) {
       console.log(error);
     }

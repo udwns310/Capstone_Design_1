@@ -21,6 +21,7 @@ const ChatRoom = () => {
   const messageEndRef = useRef(null);
   const [list, setList] = useState([]);
 
+
   const [showModal, setShowModal] = useState(false);
   const handleShowModal = () => setShowModal(true);
   const handleCloseModal = () => setShowModal(false);
@@ -30,11 +31,11 @@ const ChatRoom = () => {
     socket.on('connect', () => {
       socket.emit('join', roomId);
     });
-
+    
     socket.on('serverSendMessage', (message, socketId, senderNickname) => {
       setMessages((prevMessages) => [...prevMessages, { message, senderNickname, isMyMessage: false }]);
     });
-
+    
     return () => {
       socket.off('connect');
       socket.off('serverSendMessage');
@@ -52,7 +53,6 @@ const ChatRoom = () => {
         console.log(error);
       }
     }
-
     getNickname();
   }, []);
   // 닉네임 가져오기
