@@ -11,7 +11,6 @@ const socketIO = require('socket.io');
 const { Socket } = require("socket.io-client");
 const server = http.createServer(app);
 const { instrument } = require("@socket.io/admin-ui");
-const { chownSync } = require("fs");
 const io = socketIO(server, {
   cors: {
     origin: ["http://localhost:3000", "https://admin.socket.io"],
@@ -58,10 +57,7 @@ app.post("/login", (req, res) => {
   dbquery.login(req, res, (result) => {
     if (result.status === "success" || result.status === "nickNull") {
       req.session.user = { email: req.body.email };
-      console.log("callback success");
-      req.session.save(() => {
-        console.log("session save");
-      });
+      req.session.save(() => {});
     }
     res.json(result);
   });
@@ -69,24 +65,10 @@ app.post("/login", (req, res) => {
 
 app.get('/logout', (req, res) => {
   if (req.session) {
-    req.session.destroy(() => {
-      console.log("삭제완료");
-    });
+    req.session.destroy(() => {});
   }
   else {
-    console.log("제거할 세션 없음");
     res.send('제거할 세션이 없습니다.');
-  }
-})
-
-app.get('/confirm', (req, res) => {
-  if (req.session.user) {
-    console.log(req.session);
-    res.send('세션 o');
-  }
-  else {
-    console.log('no session');
-    res.send('세션 x');
   }
 })
 
@@ -100,34 +82,15 @@ app.post("/chatlist", (req, res) => {
   });
 })
 
-app.post("/chat", (req, res) => {
-  console.log("접속확인");
-  if (req.session.user) {
-    res.send('세션 o');
-  }
-})
-
 app.post("/createchat", (req, res) => {
   dbquery.createchat(req, res, () => {
     res.send(res);
   });
-  console.log(req.body);
-  console.log(req.session.user.email);
 })
 
 app.post("/management", (req, res) => {
   dbquery.management(req, res, (result) => {
     res.send(result.data);
-  });
-})
-
-io.on("connection", (socket) => {
-  socket.on('test', () => {
-    console.log('user Connected');
-  })
-  socket.on('disconnect', function () {
-    console.log("dissconnect");
-    // 클라이언트의 연결이 끊어졌을 경우 실행됨
   });
 })
 
@@ -145,7 +108,6 @@ chat.on('connection', (socket) => {
 
   socket.on('exit', (data) => {
       socket.leave(data);
-      console.log("leave room " + data);
   })
 
 });
@@ -157,7 +119,6 @@ app.post("/mychat", (req, res) => {
 })
 
 app.get("/getNickname", (req, res) => {
-  // console.log(req.session.user);
   dbquery.getNickname(req, res, (result) => {
     res.send(result);
   });
