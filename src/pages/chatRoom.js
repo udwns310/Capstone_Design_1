@@ -8,6 +8,7 @@ import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import { useNavigate } from 'react-router-dom';
 // import { ModalRoomOut } from '../components/modal';
+import dayjs from "dayjs";
 
 const ChatRoom = () => {
   const [messages, setMessages] = useState([]);
@@ -17,6 +18,7 @@ const ChatRoom = () => {
   const roomId = location.state?.roomId;
   const [socket, setSocket] = useState(() => io('http://localhost:3002/chat'));
   const messageEndRef = useRef(null);
+  const [list, setList] = useState([]);
 
   const [showModal, setShowModal] = useState(false);
   const handleShowModal = () => setShowModal(true);
@@ -58,7 +60,6 @@ const ChatRoom = () => {
     messageEndRef.current.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
-
   const sendMessage = () => {
     if (socket.connected) {
       socket.emit('clientSendMessage', { roomId, message: newMessage, senderNickname: nickname });
@@ -66,6 +67,13 @@ const ChatRoom = () => {
 
     setMessages((prevMessages) => [...prevMessages, { message: newMessage, isMyMessage: true }]);
     setNewMessage('');
+
+    const response = axios.post('http://localhost:3002/storechat', {
+      roomId,
+      nickname,
+      newMessage: newMessage,
+      date: dayjs(Date().toLocaleString()).format("YYYY-MM-DD HH:mm:ss")
+    });
   };
 
   const ModalRoomOut = ({ show, handleClose, title, roomId }) => {
@@ -100,6 +108,16 @@ const ChatRoom = () => {
     );
   };
 
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await axios.post("http://localhost:3002/loadchat", {
+        roomId
+      });
+      setList(response.data);
+    };
+    fetchData();
+  }, []);
+
   return (
     <div className="Container">
       <div className="system-message-container">
@@ -112,6 +130,36 @@ const ChatRoom = () => {
       <div>
         <h2 className="system-message">Chat Room</h2>
         <div style={{ padding: '10px', height:'85vh', overflow:'scroll'}}>
+          {list.map((el, index) => {
+            return (
+              <div>
+                {
+                  nickname === el.nickname ? ''
+                  : <div
+                    style={{
+                      top: '-15px',
+                      fontSize: '12px',
+                      color: '#666',
+                    }}
+                  >
+                    {el.nickname}
+                  </div>
+                }
+                <div
+                  className="your-message"
+                  key={index}
+                  style={{
+                    marginLeft: nickname === el.nickname ? 'auto' : '0',
+                    marginRight: nickname === el.nickname ? '0' : 'auto',
+                    marginBottom: nickname === el.nickname ? '5px' : '0',
+                    backgroundColor: nickname === el.nickname ? '#f7e600' : 'white',
+                  }}
+                >
+                  {el.message}
+                </div>
+              </div>
+            );
+          })}
           {messages.map(({ message, senderNickname, isMyMessage }, index) => (
             <div>
               <div
@@ -166,6 +214,5 @@ const ChatRoom = () => {
     </div>
   );
 };
-
 
 export default ChatRoom;

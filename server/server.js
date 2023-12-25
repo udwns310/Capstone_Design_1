@@ -171,6 +171,16 @@ app.post("/roomout", (req, res) => {
   dbquery.roomout(req, res);
 })
 
+app.post("/storechat", (req, res) => {
+  dbquery.storechat(req, res);
+})
+
+app.post("/loadchat", (req, res) => {
+  dbquery.loadchat(req, res, (result) => {
+    res.send(result.data);
+  })
+})
+
 app.post("/changepw", (req, res) => {
   dbquery.changepw(req, res);
 })
