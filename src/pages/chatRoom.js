@@ -13,7 +13,10 @@ const ChatRoom = () => {
   const [newMessage, setNewMessage] = useState('');
   const [nickname, setNickname] = useState('');
   const location = useLocation();
+
   const roomId = location.state?.roomId;
+  const isFirst = location.state?.isFirst;
+
   const [socket, setSocket] = useState(() => io('http://localhost:3002/chat'));
   const messageEndRef = useRef(null);
   const [list, setList] = useState([]);
@@ -76,7 +79,7 @@ const ChatRoom = () => {
 
   const ModalRoomOut = ({ show, handleClose, title, roomId }) => {
     let navigate = useNavigate();
-  
+
     const roomOut = () => {
       const response = axios.post('http://localhost:3002/roomout', {
         roomId
@@ -84,7 +87,7 @@ const ChatRoom = () => {
       socket.emit('exit', roomId);
       navigate('/main');
     }
-  
+
     return (
       <Modal show={show} onHide={handleClose} centered>
         <Modal.Header closeButton>
@@ -119,45 +122,42 @@ const ChatRoom = () => {
   return (
     <div className="Container">
       <div className="system-message-container">
-        <img src="../../img/icon-room-out.png" alt="My Image" 
-          style={{width : '25px', height: '25px', position:'absolute', left:'10px'}}
+        <img src="../../img/icon-room-out.png" alt="My Image"
+          style={{ width: '25px', height: '25px', position: 'absolute', left: '10px' }}
           onClick={setShowModal}
         ></img>
         <h2 className="system-message">Users in the room:</h2>
       </div>
       <div>
         <h2 className="system-message">Chat Room</h2>
-        <div style={{ padding: '10px', height:'85vh', overflow:'scroll'}}>
-          {list.map((el, index) => {
-            return (
-              <div>
-                {
-                  nickname === el.nickname ? ''
-                  : <div
-                    style={{
-                      top: '-15px',
-                      fontSize: '12px',
-                      color: '#666',
-                    }}
-                  >
-                    {el.nickname}
-                  </div>
-                }
+        <div style={{ padding: '10px', height: '85vh', overflow: 'scroll' }}>
+          {isFirst !== "First" && list.map((el, index) => (
+            <div key={index}>
+              {nickname !== el.nickname && (
                 <div
-                  className="your-message"
-                  key={index}
                   style={{
-                    marginLeft: nickname === el.nickname ? 'auto' : '0',
-                    marginRight: nickname === el.nickname ? '0' : 'auto',
-                    marginBottom: nickname === el.nickname ? '5px' : '0',
-                    backgroundColor: nickname === el.nickname ? '#f7e600' : 'white',
+                    top: '-15px',
+                    fontSize: '12px',
+                    color: '#666',
                   }}
                 >
-                  {el.message}
+                  {el.nickname}
                 </div>
+              )}
+              <div
+                className="your-message"
+                style={{
+                  marginLeft: nickname === el.nickname ? 'auto' : '0',
+                  marginRight: nickname === el.nickname ? '0' : 'auto',
+                  marginBottom: nickname === el.nickname ? '5px' : '0',
+                  backgroundColor: nickname === el.nickname ? '#f7e600' : 'white',
+                }}
+              >
+                {el.message}
               </div>
-            );
-          })}
+            </div>
+          ))}
+
           {messages.map(({ message, senderNickname, isMyMessage }, index) => (
             <div>
               <div
@@ -186,7 +186,7 @@ const ChatRoom = () => {
           <div ref={messageEndRef}></div>
         </div>
 
-        <div className="input-area" style={{height:'6vh'}}>
+        <div className="input-area" style={{ height: '6vh' }}>
           <input
             type="text"
             placeholder="Type your message..."

@@ -82,13 +82,13 @@ const ModalChat = ({ show, handleClose, title, origin, destination }) => {
         isUrgent: isUrgent
       })
       const roomId = response.data.id;
-
+      const isFirst = "First";
       const socket = io.connect('http://localhost:3002/chat');
 
       socket.emit('sendId', roomId)
       socket.emit('join'); // 서버로 test 라는 이벤트와  roomId 데이터 전송
 
-      navigate('/chatRoom');
+      navigate('/chatRoom', {state : {roomId, isFirst}});
     }
     catch (error) {
       console.log(error);
