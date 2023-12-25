@@ -21,25 +21,6 @@ function Help(props) {
 
   return (
     <div className={"management start " + fade}>
-      <div id="mng-header">고객센터</div>
-      <Nav variant="tabs" defaultActiveKey="link-2">
-        <Nav.Item>
-          <Nav.Link href="/main/management" eventKey="link-0">
-            계정 정보
-          </Nav.Link>
-        </Nav.Item>
-        <Nav.Item>
-          <Nav.Link href="/main/management/security" eventKey="link-1">
-            보안
-          </Nav.Link>
-        </Nav.Item>
-        <Nav.Item>
-          <Nav.Link href="/main/management/help" eventKey="link-2">
-            고객센터
-          </Nav.Link>
-        </Nav.Item>
-      </Nav>
-
       <div className="mfont" style={{margin:"20px"}}>
         <h4>무엇을 도와드릴까요?</h4>
       </div>

@@ -172,6 +172,10 @@ app.post("/changepw", (req, res) => {
   dbquery.changepw(req, res);
 })
 
+app.post("/storechat", (req, res) => {
+
+})
+
 server.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
 });

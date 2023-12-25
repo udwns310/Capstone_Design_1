@@ -143,29 +143,30 @@ const ModalChat = ({ show, handleClose, title, origin, destination }) => {
   );
 };
 
-const ModalRoomOut = ({ show, handleClose, title, roomId }) => {
+const ModalLogout = ({ show, handleClose}) => {
   let navigate = useNavigate();
+  
+  const handleLogout = async (e) => {
+    try {
+      navigate('/');
+      const response = await axios.get('http://localhost:3002/logout');
+    } catch (error) {
+      console.error('에러 발생', error);
+    }
+  };
 
-  const roomOut = () => {
-    const socket = io.connect('http://localhost:3002/chat');
-    socket.emit('exit', roomId);
-    socket.off('connect');
-    socket.off('serverSendMessage');
-    navigate('/main');
-  }
 
   return (
     <Modal show={show} onHide={handleClose} centered>
       <Modal.Header closeButton>
-        <Modal.Title>{title}</Modal.Title>
+        <Modal.Title>로그아웃</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <p>채팅방을 나가시면 MY채팅 목록에서 사라집니다.</p>
-        <p>정말 나가시겠습니까?</p>
+        <p>정말 로그아웃 하시겠습니까?</p>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={roomOut}>
-          나가기
+        <Button variant="secondary" onClick={handleLogout}>
+          확인
         </Button>
         <Button variant="secondary" onClick={handleClose}>
           취소
@@ -175,4 +176,4 @@ const ModalRoomOut = ({ show, handleClose, title, roomId }) => {
   );
 };
 
-export { MyModal, Modal2, ModalChat, ModalRoomOut};
+export { MyModal, Modal2, ModalChat, ModalLogout};

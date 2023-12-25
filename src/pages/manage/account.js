@@ -5,11 +5,17 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import Nav from "react-bootstrap/Nav";
 import { useNavigate } from 'react-router-dom';
+import { ModalLogout } from '../../components/modal'
 
 function Security(props) {
   let [fade, setFade] = useState("");
   const [info, setInfo] = useState([]);
   let navigate = useNavigate();
+
+  const [showModal, setShowModal] = useState(false);
+
+  const handleShowModal = () => setShowModal(true);
+  const handleCloseModal = () => setShowModal(false);
 
   useEffect(() => {
     setTimeout(() => {
@@ -28,6 +34,8 @@ function Security(props) {
     fetchData();
   }, []);
 
+
+
   const handleLogout = async (e) => {
     try {
       navigate('/');
@@ -39,24 +47,7 @@ function Security(props) {
 
   return (
     <div className={"management start " + fade}>
-      <div id="mng-header">계정 관리</div>
-      <Nav variant="tabs" defaultActiveKey="link-0">
-        <Nav.Item>
-          <Nav.Link href="/main/management" eventKey="link-0">
-            계정 정보
-          </Nav.Link>
-        </Nav.Item>
-        <Nav.Item>
-          <Nav.Link href="/main/management/security" eventKey="link-1">
-            보안
-          </Nav.Link>
-        </Nav.Item>
-        <Nav.Item>
-          <Nav.Link href="/main/management/help" eventKey="link-2">
-            고객센터
-          </Nav.Link>
-        </Nav.Item>
-      </Nav>
+
       <Form style={{ padding: "20px" }}>
         <div className="mfont">이메일</div>
         <div>{info.email}</div>
@@ -78,9 +69,13 @@ function Security(props) {
           </Link>
         </div>
         <div >
-        <Button onClick={handleLogout} className="lgbtn" variant="outline-warning">로그아웃</Button>
+        <Button onClick={handleShowModal} className="lgbtn" variant="outline-warning">로그아웃</Button>
         </div>
       </Form>
+      <ModalLogout
+        show={showModal}
+        handleClose={handleCloseModal}
+      />
     </div>
   );
 }

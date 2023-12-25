@@ -3,6 +3,7 @@ import io from 'socket.io-client';
 import { useLocation } from 'react-router-dom';
 import axios from "axios";
 import '../components/ChatContainer/ChatContainer.css';
+import dayjs from "dayjs";
 // 
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
@@ -66,6 +67,13 @@ const ChatRoom = () => {
 
     setMessages((prevMessages) => [...prevMessages, { message: newMessage, isMyMessage: true }]);
     setNewMessage('');
+
+    const response = axios.post('http://localhost:3002/storechat', {
+      roomId,
+      nickname,
+      newMessage: newMessage,
+      date: dayjs(Date().toLocaleString()).format("YYYY-MM-DD HH:mm:ss")
+    });
   };
 
   const ModalRoomOut = ({ show, handleClose, title, roomId }) => {
