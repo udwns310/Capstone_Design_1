@@ -61,9 +61,7 @@ const Modal2 = ({
 const ModalChat = ({ show, handleClose, title, origin, destination }) => {
   const [selectedTime, setSelectedTime] = useState(null);
   const [isUrgent, setIsUrgent] = useState(0);
-  const TIME_ZONE = 9 * 60 * 60 * 1000; // 9시간
   let navigate = useNavigate();
-
 
   const handleTimeChange = (time) => {
     setSelectedTime(time);

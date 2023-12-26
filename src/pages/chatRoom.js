@@ -21,7 +21,6 @@ const ChatRoom = () => {
   const messageEndRef = useRef(null);
   const [list, setList] = useState([]);
 
-
   const [showModal, setShowModal] = useState(false);
   const handleShowModal = () => setShowModal(true);
   const handleCloseModal = () => setShowModal(false);
@@ -59,7 +58,7 @@ const ChatRoom = () => {
 
   useEffect(() => {
     messageEndRef.current.scrollIntoView({ behavior: 'smooth' });
-  }, [messages]);
+  }, [messages, list]);
 
   const sendMessage = () => {
     if (socket.connected) {
@@ -124,14 +123,14 @@ const ChatRoom = () => {
   return (
     <div className="Container">
       <div className="system-message-container">
-        <img src="../../img/icon-room-out.png" alt="My Image"
-          style={{ width: '25px', height: '25px', position: 'absolute', left: '10px' }}
+        <img src="../../img/out_icon.png" alt="My Image"
+          style={{ width: '25px', height: '25px', position: 'absolute', left: '9px', top: '1.3%' }}
           onClick={setShowModal}
         ></img>
-        <h2 className="system-message">Users in the room:</h2>
+        <h2 className="system-message">DongCar</h2>
       </div>
       <div>
-        <h2 className="system-message">Chat Room</h2>
+        <h2 className="system-message">채팅방</h2>
         <div style={{ padding: '10px', height: '85vh', overflow: 'scroll' }}>
           {isFirst !== "First" && list.map((el, index) => (
             <div key={index}>
@@ -152,7 +151,7 @@ const ChatRoom = () => {
                   marginLeft: nickname === el.nickname ? 'auto' : '0',
                   marginRight: nickname === el.nickname ? '0' : 'auto',
                   marginBottom: nickname === el.nickname ? '5px' : '0',
-                  backgroundColor: nickname === el.nickname ? '#f7e600' : 'white',
+                  backgroundColor: nickname === el.nickname ? '#ffd761' : 'white',
                 }}
               >
                 {el.message}
@@ -178,7 +177,7 @@ const ChatRoom = () => {
                   marginLeft: isMyMessage ? 'auto' : '0',
                   marginRight: isMyMessage ? '0' : 'auto',
                   marginBottom: isMyMessage ? '5px' : '0',
-                  backgroundColor: isMyMessage ? '#f7e600' : 'white',
+                  backgroundColor: isMyMessage ? '#ffd761' : 'white',
                 }}
               >
                 {message}
@@ -191,7 +190,7 @@ const ChatRoom = () => {
         <div className="input-area" style={{ height: '6vh' }}>
           <input
             type="text"
-            placeholder="Type your message..."
+            placeholder="채팅을 입력하세요..."
             value={newMessage}
             onChange={(e) => setNewMessage(e.target.value)}
             onKeyDown={(e) => {
